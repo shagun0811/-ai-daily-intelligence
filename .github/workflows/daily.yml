@@ -1,0 +1,86 @@
+name: Daily pipeline
+
+on:
+  schedule:
+    # 17:00 Asia/Kolkata = 11:30 UTC
+    - cron: "30 11 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    env:
+      LLM_PROVIDER: mock
+      LLM_MODEL: qwen3:4b
+      EMBEDDING_PROVIDER: mock
+      EXTRACT_FULL_TEXT: "false"
+      SCHEDULER_ENABLED: "false"
+      CLOUDFLARE_AUTO_DEPLOY: "false"
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore pipeline state
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/aggregator.db
+            data/aggregator.db-wal
+            data/aggregator.db-shm
+            data/reports
+            site/data
+            site/files
+          key: adi-state-${{ github.run_id }}
+          restore-keys: |
+            adi-state-
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements-ci.txt
+
+      - name: Run daily pipeline
+        run: python scripts/run_pipeline.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Publish to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Add the GitHub secret CLOUDFLARE_API_TOKEN so this job can update the live site."
+            exit 0
+          fi
+          npx --yes wrangler pages deploy site --project-name ai-daily-intelligence --commit-dirty=true
+
+      - name: Save pipeline state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            data/aggregator.db
+            data/aggregator.db-wal
+            data/aggregator.db-shm
+            data/reports
+            site/data
+            site/files
+          key: adi-state-${{ github.run_id }}
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-report
+          path: |
+            data/reports/
+            site/data/
+            site/files/
+          if-no-files-found: warn

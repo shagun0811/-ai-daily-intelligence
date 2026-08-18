@@ -1,0 +1,32 @@
+# Phase 1 — foundation
+pydantic>=2.7.0
+pydantic-settings>=2.3.0
+SQLAlchemy>=2.0.30
+python-dotenv>=1.0.1
+PyYAML>=6.0.1
+python-dateutil>=2.9.0
+pytest>=8.2.0
+
+# Phase 2 — collection (declared now, unused until Phase 2)
+requests>=2.32.0
+feedparser>=6.0.11
+beautifulsoup4>=4.12.3
+lxml>=5.2.0
+trafilatura>=1.12.0
+
+# Phase 3/4 — embeddings / similarity (unused until Phase 3)
+numpy>=1.26.0
+sentence-transformers>=3.0.0
+faiss-cpu>=1.8.0
+
+# Phase 6 — reports (unused until Phase 6)
+Jinja2>=3.1.4
+reportlab>=4.2.0
+pillow>=10.4.0
+
+# Phase 7 — dashboard (unused until Phase 7)
+streamlit>=1.36.0
+pandas>=2.2.0
+
+# Phase 8 — scheduling (unused until Phase 8)
+APScheduler>=3.10.4

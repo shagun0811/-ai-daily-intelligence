@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ doc.title }} — {{ doc.report_date.isoformat() }}</title>
+  <style>
+    body { font-family: Georgia, serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; color: #111; line-height: 1.45; }
+    h1, h2, h3 { font-family: "Segoe UI", sans-serif; }
+    a { color: #0b57d0; }
+    .meta { color: #444; font-style: italic; }
+    .item { margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid #ddd; }
+    .flag { color: #8a5a00; font-size: 0.9rem; }
+    ul.exec li { margin-bottom: 0.4rem; }
+  </style>
+</head>
+<body>
+  <h1>{{ doc.title }}</h1>
+    <p class="meta">Date: {{ doc.report_date.isoformat() }}
+    · Scored items considered: {{ doc.stats.get("candidates", 0) }}
+    · In this report: {{ doc.stats.get("selected", 0) }}
+    · {% set flagged = doc.stats.get("flagged", 0) %}{% if flagged %}{{ flagged }} source-check warning{% if flagged != 1 %}s{% endif %} (a number or quote in the summary was not found in the original article){% else %}no source-check warnings{% endif %}</p>
+
+  <h2>Executive Summary</h2>
+  {% if not doc.executive %}
+  <p>No ranked items were available for this cycle.</p>
+  {% else %}
+  <ul class="exec">
+    {% for item in doc.executive %}
+    <li><strong>{{ item.title }}</strong> — {{ item.why_it_matters or item.summary }}
+      <br>Source: <a href="{{ item.source_url }}">{{ item.source_name }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <h2>Top AI Developments</h2>
+  {% if not doc.developments %}<p>No items in this section.</p>{% endif %}
+  {% for item in doc.developments %}
+  <div class="item">
+    <h3>{{ item.title }}</h3>
+    <p>{{ item.summary }}</p>
+    {% if item.why_it_matters %}<p><strong>Why it matters:</strong> {{ item.why_it_matters }}</p>{% endif %}
+    <p><strong>Source:</strong> <a href="{{ item.source_url }}">{{ item.source_name }}</a>
+      {% if item.published_at %} — {{ item.published_at[:10] }}{% endif %}</p>
+    {% if item.supporting_sources %}<p><strong>Supporting sources:</strong> {{ item.supporting_sources | join("; ") }}</p>{% endif %}
+    {% if item.validation_flags %}<p class="flag">Validation notes: {{ item.validation_flags | join(", ") }}</p>{% endif %}
+  </div>
+  {% endfor %}
+
+  <h2>Research Advancements</h2>
+  {% if not doc.research %}<p>No items in this section.</p>{% endif %}
+  {% for item in doc.research %}
+  <div class="item">
+    <h3>{{ item.title }}</h3>
+    {% if item.problem %}<p><strong>Problem:</strong> {{ item.problem }}</p>{% endif %}
+    {% if item.key_contribution %}<p><strong>Key contribution:</strong> {{ item.key_contribution }}</p>{% endif %}
+    {% if item.why_it_matters %}<p><strong>Why it matters:</strong> {{ item.why_it_matters }}</p>{% endif %}
+    <p><strong>Source:</strong> <a href="{{ item.source_url }}">{{ item.source_name }}</a></p>
+    {% if item.validation_flags %}<p class="flag">Validation notes: {{ item.validation_flags | join(", ") }}</p>{% endif %}
+  </div>
+  {% endfor %}
+
+  <h2>Industry &amp; Product Updates</h2>
+  {% if not doc.industry %}<p>No items in this section.</p>{% endif %}
+  {% for item in doc.industry %}
+  <div class="item">
+    <h3>{{ item.title }}</h3>
+    <p>{{ item.summary }}</p>
+    {% if item.why_it_matters %}<p><strong>Why it matters:</strong> {{ item.why_it_matters }}</p>{% endif %}
+    <p><strong>Source:</strong> <a href="{{ item.source_url }}">{{ item.source_name }}</a></p>
+    {% if item.validation_flags %}<p class="flag">Validation notes: {{ item.validation_flags | join(", ") }}</p>{% endif %}
+  </div>
+  {% endfor %}
+
+  <h2>What to Watch</h2>
+  <ul>
+    {% for trend in doc.watch %}
+    <li>{{ trend }}</li>
+    {% else %}
+    <li>Nothing flagged beyond the items above.</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Sources</h2>
+  <ul>
+    {% for name, url in doc.sources %}
+    <li><a href="{{ url }}">{{ name }}</a> — {{ url }}</li>
+    {% else %}
+    <li>No sources.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

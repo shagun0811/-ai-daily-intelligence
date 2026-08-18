@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Daily Intelligence</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="kicker">Daily briefing desk</div>
+          <h1>AI Daily Intelligence</h1>
+          <p>Ranked AI news, research, and product moves — static site for Cloudflare Pages.</p>
+        </div>
+        <button id="theme-toggle" type="button">Light</button>
+      </div>
+    </header>
+
+    <section id="metrics" class="metrics"></section>
+    <p id="updated" class="muted"></p>
+
+    <nav class="tabs">
+      <button type="button" class="tab active" data-tab="items">Browse items</button>
+      <button type="button" class="tab" data-tab="reports">Report archive</button>
+    </nav>
+
+    <section id="items" class="panel">
+      <div class="filters">
+        <input id="search" type="search" placeholder="Search title, source, or brief…">
+        <select id="source"><option value="">All sources</option></select>
+        <select id="category"><option value="">All categories</option></select>
+      </div>
+      <p id="item-count" class="muted"></p>
+      <div id="item-list"></div>
+    </section>
+
+    <section id="reports" class="panel hidden">
+      <div class="filters archive-bar">
+        <select id="report-date"><option value="">All dates</option></select>
+      </div>
+      <p id="report-count" class="muted"></p>
+      <div id="report-list"></div>
+    </section>
+    <p id="error" class="error hidden"></p>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>

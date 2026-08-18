@@ -1,0 +1,9 @@
+/data/*
+  Cache-Control: no-cache
+
+/files/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment

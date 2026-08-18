@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:arxiv="http://arxiv.org/schemas/atom">
+  <title>arXiv Query: mock</title>
+  <entry>
+    <id>http://arxiv.org/abs/2608.01234v1</id>
+    <title>Efficient Retrieval for Agentic RAG Systems</title>
+    <published>2026-08-14T12:00:00Z</published>
+    <updated>2026-08-14T12:00:00Z</updated>
+    <summary>We propose a retrieval method that reduces latency for agentic RAG without inventing extra results.</summary>
+    <author>
+      <name>Grace Hopper</name>
+    </author>
+    <author>
+      <name>Alan Turing</name>
+    </author>
+    <link href="https://arxiv.org/abs/2608.01234v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.01234v1" rel="related" type="application/pdf" title="pdf"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <arxiv:primary_category term="cs.AI"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.05678v2</id>
+    <title>A Small Language Model for On-Device Inference</title>
+    <published>2026-08-13T08:30:00Z</published>
+    <summary>A 1.5B parameter SLM evaluated on standard benchmarks.</summary>
+    <author>
+      <name>Test Author</name>
+    </author>
+    <link href="https://arxiv.org/abs/2608.05678v2" rel="alternate" type="text/html"/>
+    <category term="cs.CL"/>
+  </entry>
+</feed>

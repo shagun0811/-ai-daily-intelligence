@@ -1,0 +1,209 @@
+# Keyword taxonomy for relevance, classification, and topics.
+# Used by Python rules in Phase 4. Phase 5 summarizes items that pass this filter.
+
+relevance:
+  min_score: 4.0
+  strong_terms:
+    - large language model
+    - small language model
+    - foundation model
+    - open weights
+    - open-source model
+    - model release
+    - multimodal
+    - retrieval-augmented
+    - reinforcement learning
+    - computer vision
+    - ai agent
+    - ai safety
+    - benchmark
+    - inference
+    - gpu cluster
+  weak_terms:
+    - llm
+    - slm
+    - gpt
+    - claude
+    - gemini
+    - llama
+    - qwen
+    - mistral
+    - deepmind
+    - openai
+    - anthropic
+    - huggingface
+    - hugging face
+    - arxiv
+    - neural
+    - transformer
+    - machine learning
+    - artificial intelligence
+    - generative ai
+    - chatbot
+  noise_terms:
+    - dinner party
+    - cookie banner
+    - subscribe to our newsletter
+    - seating chart
+    - sports score
+
+categories:
+  ACQUISITION:
+    - acqui
+    - merger
+    - acquire
+    - acquisition
+  FUNDING:
+    - funding
+    - series a
+    - series b
+    - raised $
+    - valuation
+    - venture
+  MODEL_RELEASE:
+    - model release
+    - releasing
+    - open weights
+    - checkpoint
+    - weights available
+    - new model
+    - unveils
+  OPEN_SOURCE:
+    - open source
+    - open-source
+    - apache-2
+    - mit license
+    - github.com
+    - hugging face hub
+  BENCHMARK:
+    - benchmark
+    - leaderboard
+    - sota
+    - state of the art
+    - eval
+    - mmlu
+    - humaneval
+  POLICY:
+    - regulation
+    - regulator
+    - legislation
+    - executive order
+    - copyright
+    - eu ai act
+  SAFETY:
+    - ai safety
+    - alignment
+    - jailbreak
+    - red team
+    - responsible ai
+    - watermark
+  INFRASTRUCTURE:
+    - datacenter
+    - data center
+    - gpu
+    - nvidia
+    - tpu
+    - inference chip
+    - cluster
+  PRODUCT:
+    - product launch
+    - generally available
+    - ga launch
+    - api access
+    - workspace
+  COMPANY:
+    - announces
+    - partnership
+    - hired
+    - appoints
+  NEWS:
+    - report
+    - according to
+    - sources say
+
+topics:
+  LLM:
+    - llm
+    - large language model
+    - gpt
+    - claude
+    - gemini
+    - llama
+  SLM:
+    - slm
+    - small language model
+    - on-device
+    - 1b
+    - 3b
+    - 7b
+  AGENTS:
+    - agent
+    - agentic
+    - tool use
+    - multi-agent
+  RAG:
+    - rag
+    - retrieval-augmented
+    - retriever
+  MULTIMODAL:
+    - multimodal
+    - vision-language
+    - text and images
+    - audio model
+  COMPUTER_VISION:
+    - computer vision
+    - image recognition
+    - object detection
+    - segmentation
+  ROBOTICS:
+    - robot
+    - robotics
+    - humanoid
+  REINFORCEMENT_LEARNING:
+    - reinforcement learning
+    - rlhf
+    - ppo
+    - grpo
+  GENERATIVE_AI:
+    - generative
+    - diffusion
+    - image generation
+    - text-to-image
+  AI_SAFETY:
+    - safety
+    - alignment
+    - watermark
+    - responsible ai
+  AI_INFRASTRUCTURE:
+    - gpu
+    - tpu
+    - datacenter
+    - inference
+    - cuda
+  TRAINING:
+    - training
+    - pretrain
+    - fine-tune
+    - finetune
+    - lora
+  INFERENCE:
+    - inference
+    - latency
+    - decoding
+    - serving
+  EVALUATION:
+    - benchmark
+    - evaluation
+    - leaderboard
+    - eval
+  DATA:
+    - dataset
+    - training data
+    - corpus
+    - synthetic data
+  AI_FOR_SCIENCE:
+    - biology
+    - protein
+    - climate
+    - scientific
+    - medical ai

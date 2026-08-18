@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Mock AI Blog</title>
+    <item>
+      <title>New open-source LLM released</title>
+      <link>https://blog.example.com/llm-release</link>
+      <dc:creator>Ada Researcher</dc:creator>
+      <pubDate>Thu, 13 Aug 2026 16:45:00 +0000</pubDate>
+      <description><![CDATA[<p>A <b>new</b> 8B parameter model is available.</p>]]></description>
+      <content:encoded><![CDATA[<p>A new 8B parameter model is available with Apache-2.0 weights.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Item with no date</title>
+      <link>https://blog.example.com/no-date</link>
+      <description>This item has no pubDate.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://blog.example.com/empty-title</link>
+      <description>Should be skipped.</description>
+    </item>
+    <item>
+      <title>Missing link item</title>
+      <description>Should be skipped because there is no URL.</description>
+    </item>
+  </channel>
+</rss>

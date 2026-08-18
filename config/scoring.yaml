@@ -1,0 +1,22 @@
+# Explainable importance scoring. Weights must sum to 1.0.
+# Do not hard-code these values in processors.
+
+weights:
+  recency: 0.10
+  credibility: 0.15
+  relevance: 0.15
+  novelty: 0.15
+  technical_significance: 0.20
+  industry_impact: 0.15
+  research_significance: 0.10
+
+# Mapped to a 0–10 credibility component. Tier is not importance by itself.
+credibility_tier_scores:
+  tier_1: 8.0
+  tier_2: 6.0
+  tier_3: 4.0
+
+# Recency: full score within this many hours, then linear decay to 0.
+recency:
+  full_score_hours: 24
+  zero_score_hours: 168

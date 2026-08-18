@@ -1,0 +1,17 @@
+# Pipeline limits. Environment variables override these when set.
+
+max_articles_per_source: 40
+max_llm_items: 30
+report_max_items: 15
+semantic_duplicate_threshold: 0.88
+title_similarity_threshold: 0.92
+http_timeout_seconds: 20
+arxiv_lookback_days: 2
+extract_full_text: true
+min_cleaned_text_chars: 400
+max_full_text_extracts: 25
+
+# Approximate report funnel. Not hard caps except max_* above.
+target_relevant_items: 60
+target_classified_items: 30
+target_final_items: 12

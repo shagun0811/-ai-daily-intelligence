@@ -1,0 +1,48 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local data artifacts (keep directory placeholders)
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/embeddings/*
+!data/embeddings/.gitkeep
+data/reports/*
+!data/reports/.gitkeep
+data/*.lock
+site/data/
+site/files/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/*
+!.vscode/tasks.json
+
+# Cloudflare Wrangler cache (do not commit login state)
+.wrangler/

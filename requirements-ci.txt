@@ -1,0 +1,18 @@
+# Lightweight CI/runtime deps. Avoids torch / sentence-transformers / faiss.
+pydantic>=2.7.0
+pydantic-settings>=2.3.0
+SQLAlchemy>=2.0.30
+python-dotenv>=1.0.1
+PyYAML>=6.0.1
+python-dateutil>=2.9.0
+pytest>=8.2.0
+requests>=2.32.0
+feedparser>=6.0.11
+beautifulsoup4>=4.12.3
+lxml>=5.2.0
+trafilatura>=1.12.0
+numpy>=1.26.0
+Jinja2>=3.1.4
+reportlab>=4.2.0
+pillow>=10.4.0
+APScheduler>=3.10.4

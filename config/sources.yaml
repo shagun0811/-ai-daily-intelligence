@@ -1,0 +1,105 @@
+# Source catalog. Collectors (Phase 2) read this file.
+# Do not hard-code URLs in Python.
+#
+# type: rss | api | arxiv | webpage
+# credibility: tier_1 | tier_2 | tier_3
+# enabled: only enabled sources are collected
+#
+# Probe status as of 2026-08-16 is noted in comments.
+# Failed sources stay disabled until re-verified.
+
+sources:
+  - name: Google AI Blog
+    url: https://blog.google/technology/ai/rss/
+    type: rss
+    category: company
+    credibility: tier_1
+    enabled: true
+    collection_method: rss
+    extra:
+      notes: Official Google AI RSS. Mixes research with product marketing; filter later.
+
+  - name: TechCrunch AI
+    url: https://techcrunch.com/category/artificial-intelligence/feed/
+    type: rss
+    category: news
+    credibility: tier_2
+    enabled: true
+    collection_method: rss
+    extra: {}
+
+  - name: arXiv cs.AI / cs.LG / cs.CL
+    url: https://export.arxiv.org/api/query
+    type: arxiv
+    category: research
+    credibility: tier_1
+    enabled: true
+    collection_method: arxiv_api
+    extra:
+      categories:
+        - cs.AI
+        - cs.LG
+        - cs.CL
+      max_results: 40
+      sort_by: submittedDate
+      sort_order: descending
+
+  - name: Hugging Face Blog
+    url: https://huggingface.co/blog/feed.xml
+    type: rss
+    category: open_source
+    credibility: tier_3
+    enabled: false
+    collection_method: rss
+    extra:
+      notes: Returned HTTP 503 on 2026-08-16. Re-enable after a successful probe.
+
+  - name: OpenAI News
+    url: https://openai.com/news/rss.xml
+    type: rss
+    category: company
+    credibility: tier_1
+    enabled: false
+    collection_method: rss
+    extra:
+      notes: RSS request timed out on 2026-08-16. Re-enable after a successful probe.
+
+  - name: Google DeepMind Blog
+    url: https://deepmind.google/blog/rss.xml
+    type: rss
+    category: company
+    credibility: tier_1
+    enabled: false
+    collection_method: rss
+    extra:
+      notes: Returned HTTP 500 on 2026-08-16. Re-enable after a successful probe.
+
+  - name: The Verge AI
+    url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
+    type: rss
+    category: news
+    credibility: tier_2
+    enabled: false
+    collection_method: rss
+    extra:
+      notes: Returned HTTP 500 on 2026-08-16. Re-enable after a successful probe.
+
+  - name: NVIDIA Generative AI Blog
+    url: https://blogs.nvidia.com/blog/category/generative-ai/feed/
+    type: rss
+    category: company
+    credibility: tier_1
+    enabled: false
+    collection_method: rss
+    extra:
+      notes: Not probed in Phase 1. Enable in Phase 2 only after a successful fetch.
+
+  - name: Example Webpage Article
+    url: https://example.com/ai-announcement
+    type: webpage
+    category: company
+    credibility: tier_2
+    enabled: false
+    collection_method: webpage
+    extra:
+      notes: Template webpage source. Disabled. Use only when a site has no RSS/API.
