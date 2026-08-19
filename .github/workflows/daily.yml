@@ -57,7 +57,7 @@ jobs:
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
             echo "Add the GitHub secret CLOUDFLARE_API_TOKEN so this job can update the live site."
-            exit 0
+            exit 1
           fi
           npx --yes wrangler pages deploy site --project-name ai-daily-intelligence --commit-dirty=true
 
