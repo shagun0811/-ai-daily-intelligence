@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI Daily Intelligence</title>
-  <meta name="description" content="A daily briefing of what moved in AI, ranked by why it matters.">
+  <meta name="description" content="Today’s ranked AI briefing: the stories that actually moved, and why they matter.">
   <script>
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
-  <link rel="stylesheet" href="./briefing-20260826.css">
+  <link rel="stylesheet" href="./briefing-20260827.css">
 </head>
 <body>
   <a class="skip" href="#briefing">Skip to briefing</a>
@@ -27,9 +27,11 @@
 
   <main class="page">
     <section class="issue-head">
-      <p class="kicker" id="issue-kicker">Today in AI</p>
+      <p class="kicker" id="issue-kicker">Today’s briefing</p>
       <h1 id="issue-date">Loading the briefing…</h1>
+      <p class="lead-headline" id="lead-headline" hidden></p>
       <p class="dek" id="issue-dek"></p>
+      <ol class="rank-strip" id="rank-strip" hidden></ol>
       <div class="day-nav">
         <button type="button" id="prev-day" aria-label="Previous day">‹</button>
         <div id="date-strip" class="date-strip" role="listbox" aria-label="Days with a briefing"></div>
@@ -53,6 +55,6 @@
     <p id="error" class="error hidden"></p>
   </main>
 
-  <script src="./briefing-20260826.js"></script>
+  <script src="./briefing-20260827.js"></script>
 </body>
 </html>

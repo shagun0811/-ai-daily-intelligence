@@ -25,6 +25,8 @@ def _article(db_session, *, source_name: str, title: str, url: str, text: str, *
     repo = Repository(db_session)
     source = repo.get_source_by_name(source_name)
     assert source is not None
+    fields = dict(fields)
+    published_at = fields.pop("published_at", datetime(2026, 8, 16, tzinfo=timezone.utc))
     article = repo.create_article(
         source=source,
         title=title,
@@ -32,7 +34,7 @@ def _article(db_session, *, source_name: str, title: str, url: str, text: str, *
         cleaned_text=text,
         description=text,
         content_hash=content_hash(text, url),
-        published_at=datetime(2026, 8, 16, tzinfo=timezone.utc),
+        published_at=published_at,
         **fields,
     )
     article.processing_status = ProcessingStatus.DEDUPLICATED.value
@@ -41,7 +43,7 @@ def _article(db_session, *, source_name: str, title: str, url: str, text: str, *
     return article
 
 
-def _item(*, article_id: int, title: str, schema_name: str, score: float) -> ReportItem:
+def _item(*, article_id: int, title: str, schema_name: str, score: float, published_at: str | None = None) -> ReportItem:
     return ReportItem(
         article_id=article_id,
         title=title,
@@ -49,6 +51,7 @@ def _item(*, article_id: int, title: str, schema_name: str, score: float) -> Rep
         why_it_matters="why",
         source_name="Example",
         source_url=f"https://example.com/{article_id}",
+        published_at=published_at,
         score=score,
         schema_name=schema_name,
     )
@@ -64,18 +67,92 @@ def test_mix_for_report_prefers_news_over_papers() -> None:
         _item(article_id=101, title="Google model release", schema_name="company", score=6.8),
         _item(article_id=102, title="Startup funding round", schema_name="company", score=6.5),
     ]
-    mixed = mix_for_report(papers + news, cap=8, max_research=4)
+    mixed = mix_for_report(papers + news, cap=8, max_research=2)
     schemas = [item.schema_name for item in mixed]
     titles = {item.title for item in mixed}
-    assert schemas.count("research") == 4
-    assert len(mixed) == 7
+    assert schemas.count("research") == 2
+    assert len(mixed) == 5
     assert "OpenAI launches GPT" in titles
     assert "Google model release" in titles
     assert "Startup funding round" in titles
 
     document = build_document(mixed, report_date=date(2026, 8, 18), stats={"selected": len(mixed)})
-    assert sum(1 for item in document.executive if item.schema_name == "research") <= 1
-    assert len(document.research) <= 3
+    assert sum(1 for item in document.executive if item.schema_name == "research") == 0
+    assert len(document.research) <= 2
+
+
+def test_fresh_news_is_reused_so_a_new_day_is_not_empty() -> None:
+    news = _item(
+        article_id=1,
+        title="OpenAI chip results",
+        schema_name="news",
+        score=7.0,
+        published_at="2026-08-26",
+    )
+    paper = _item(
+        article_id=2,
+        title="Niche Helmholtz resonator paper",
+        schema_name="research",
+        score=9.9,
+        published_at="2026-08-27",
+    )
+    mixed = mix_for_report(
+        [news, paper],
+        cap=8,
+        blocked_ids={1},
+        report_date=date(2026, 8, 27),
+    )
+    titles = {item.title for item in mixed}
+    assert "OpenAI chip results" in titles
+    document = build_document(mixed, report_date=date(2026, 8, 27), stats={"selected": len(mixed)})
+    assert document.executive
+    assert document.executive[0].title == "OpenAI chip results"
+
+
+def test_old_product_post_stays_out_of_hero() -> None:
+    old = _item(
+        article_id=1,
+        title="August 10 product note",
+        schema_name="company",
+        score=9.4,
+        published_at="2026-08-10",
+    )
+    fresh = _item(
+        article_id=2,
+        title="Today’s model launch",
+        schema_name="news",
+        score=6.2,
+        published_at="2026-08-27",
+    )
+    five_day = _item(
+        article_id=3,
+        title="Five-day-old roundup",
+        schema_name="news",
+        score=8.8,
+        published_at="2026-08-22",
+    )
+    mixed = mix_for_report([old, fresh, five_day], cap=8, report_date=date(2026, 8, 27))
+    titles = {item.title for item in mixed}
+    assert "Today’s model launch" in titles
+    assert "August 10 product note" not in titles
+    document = build_document(mixed, report_date=date(2026, 8, 27), stats={"selected": len(mixed)})
+    executive_titles = [item.title for item in document.executive]
+    assert executive_titles[0] == "Today’s model launch"
+    assert "Five-day-old roundup" not in executive_titles
+    assert "August 10 product note" not in executive_titles
+
+
+def test_near_duplicate_headlines_do_not_fill_the_hero() -> None:
+    items = [
+        _item(article_id=1, title="Jalapeño’s first results show industry-leading speed", schema_name="company", score=8.8, published_at="2026-08-25"),
+        _item(article_id=2, title="OpenAI says its Jalapeño chip can power faster AI responses", schema_name="news", score=8.6, published_at="2026-08-25"),
+        _item(article_id=3, title="OpenAI subpoenaed by Alabama AG over Hugging Face hack", schema_name="news", score=7.4, published_at="2026-08-25"),
+    ]
+    mixed = mix_for_report(items, cap=8, report_date=date(2026, 8, 27))
+    titles = [item.title for item in mixed]
+    assert sum("Jalapeño" in title or "Jalapeno" in title for title in titles) == 1
+    document = build_document(mixed, report_date=date(2026, 8, 27), stats={"selected": len(mixed)})
+    assert any("Alabama" in item.title for item in document.executive)
 
 
 def test_validator_flags_number_missing_from_source(db_session) -> None:
@@ -227,7 +304,7 @@ def test_report_respects_max_items(db_session, tmp_path: Path, monkeypatch) -> N
     clear_settings_cache()
 
 
-def test_report_skips_stories_already_used_on_a_prior_day(db_session, tmp_path: Path) -> None:
+def test_next_day_keeps_current_news_ahead_of_a_new_paper(db_session, tmp_path: Path) -> None:
     primary = _article(
         db_session,
         source_name="Google AI Blog",
@@ -265,15 +342,15 @@ def test_report_skips_stories_already_used_on_a_prior_day(db_session, tmp_path: 
         url="https://arxiv.org/abs/2608.77777",
         text="We propose a retrieval method for agentic RAG with transformer training results.",
         item_kind="research_paper",
+        published_at=datetime(2026, 8, 17, tzinfo=timezone.utc),
     )
     IntelligenceProcessor(db_session).run()
     Summarizer(db_session, provider=MockProvider("qwen3:4b")).run()
     day2 = ReportGenerator(db_session).run(report_date=date(2026, 8, 17), output_dir=tmp_path)
     assert day2.selected >= 1
-    assert day2.skipped_repeat >= 1
     markdown2 = Path(day2.markdown_path).read_text(encoding="utf-8")
+    assert "https://blog.google/no-repeat-primary" in markdown2
     assert "https://arxiv.org/abs/2608.77777" in markdown2
-    assert "https://blog.google/no-repeat-primary" not in markdown2
     assert "https://techcrunch.com/no-repeat-support" not in markdown2
     db_session.refresh(primary)
     db_session.refresh(later)
@@ -281,7 +358,7 @@ def test_report_skips_stories_already_used_on_a_prior_day(db_session, tmp_path: 
     assert later.processing_status == ProcessingStatus.PUBLISHED.value
 
 
-def test_report_writes_empty_digest_when_all_stories_were_used(db_session, tmp_path: Path) -> None:
+def test_new_day_reuses_still_fresh_rss_stories(db_session, tmp_path: Path) -> None:
     _article(
         db_session,
         source_name="arXiv cs.AI / cs.LG / cs.CL",
@@ -294,10 +371,44 @@ def test_report_writes_empty_digest_when_all_stories_were_used(db_session, tmp_p
     Summarizer(db_session, provider=MockProvider("qwen3:4b")).run()
     first = ReportGenerator(db_session).run(report_date=date(2026, 8, 16), output_dir=tmp_path)
     assert first.selected >= 1
-    empty = ReportGenerator(db_session).run(report_date=date(2026, 8, 17), output_dir=tmp_path)
-    assert empty.selected == 0
-    assert empty.skipped_repeat >= 1
-    assert empty.markdown_path and Path(empty.markdown_path).exists()
+    again = ReportGenerator(db_session).run(report_date=date(2026, 8, 17), output_dir=tmp_path)
+    assert again.selected >= 1
+    assert again.markdown_path and Path(again.markdown_path).exists()
+    markdown = Path(again.markdown_path).read_text(encoding="utf-8")
+    assert "https://arxiv.org/abs/2608.88888" in markdown
+
+
+def test_stale_reported_story_is_not_repeated(db_session, tmp_path: Path) -> None:
+    old = _article(
+        db_session,
+        source_name="Google AI Blog",
+        title="Official large language model release with open weights",
+        url="https://blog.google/stale-primary",
+        text="Google released an open-weights large language model checkpoint on Hugging Face.",
+        published_at=datetime(2026, 8, 10, tzinfo=timezone.utc),
+    )
+    IntelligenceProcessor(db_session).run()
+    Summarizer(db_session, provider=MockProvider("qwen3:4b")).run()
+    first = ReportGenerator(db_session).run(report_date=date(2026, 8, 10), output_dir=tmp_path)
+    assert first.selected >= 1
+    later = _article(
+        db_session,
+        source_name="TechCrunch AI",
+        title="OpenAI announces a new model release with open weights",
+        url="https://techcrunch.com/fresh-model",
+        text="OpenAI released an open-weights large language model checkpoint. Weights available on Hugging Face for enterprise customers.",
+        published_at=datetime(2026, 8, 27, tzinfo=timezone.utc),
+    )
+    IntelligenceProcessor(db_session).run()
+    Summarizer(db_session, provider=MockProvider("qwen3:4b")).run()
+    day2 = ReportGenerator(db_session).run(report_date=date(2026, 8, 27), output_dir=tmp_path)
+    assert day2.selected >= 1
+    markdown = Path(day2.markdown_path).read_text(encoding="utf-8")
+    assert "https://techcrunch.com/fresh-model" in markdown
+    assert "https://blog.google/stale-primary" not in markdown
+    db_session.refresh(old)
+    db_session.refresh(later)
+    assert later.processing_status == ProcessingStatus.PUBLISHED.value
 
 
 def test_previously_reported_ids_backfill_published_when_stats_lack_ids(db_session) -> None:

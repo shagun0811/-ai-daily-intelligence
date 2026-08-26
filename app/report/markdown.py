@@ -21,7 +21,10 @@ def render_markdown(doc: DailyReportDocument) -> str:
         lines.append("")
     for index, item in enumerate(doc.executive, start=1):
         lines.append(f"{index}. **{item.title}** — {_one_line(item.why_it_matters or item.summary)}")
-        lines.append(f"   Source: [{item.source_name}]({item.source_url})")
+        source_line = f"   Source: [{item.source_name}]({item.source_url})"
+        if item.published_at:
+            source_line += f" · {item.published_at[:10]}"
+        lines.append(source_line)
         lines.append("")
 
     lines.extend(["## Top AI Developments", ""])

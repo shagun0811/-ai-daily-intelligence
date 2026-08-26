@@ -78,9 +78,6 @@ class ReportGenerator:
         blocked = self._blocked_article_ids(report_date, articles)
         items = []
         for article in articles:
-            if article.id in blocked:
-                summary.skipped_repeat += 1
-                continue
             if is_supporting(article):
                 continue
             payload = latest_summary(article)
@@ -106,7 +103,16 @@ class ReportGenerator:
                 ",".join(validation.flags) or "-",
             )
 
-        selected_pool = mix_for_report(items, cap=cap)
+        selected_pool = mix_for_report(
+            items,
+            cap=cap,
+            blocked_ids=blocked,
+            report_date=report_date,
+        )
+        selected_ids = {item.article_id for item in selected_pool}
+        summary.skipped_repeat = sum(
+            1 for item in items if item.article_id in blocked and item.article_id not in selected_ids
+        )
         flagged = sum(1 for item in selected_pool if item.validation_flags)
         log_stage(
             logger,
@@ -118,7 +124,6 @@ class ReportGenerator:
             summary.skipped_repeat,
         )
 
-        selected_ids = {item.article_id for item in selected_pool}
         for article in articles:
             if article.id in selected_ids:
                 article.processing_status = ProcessingStatus.PUBLISHED.value

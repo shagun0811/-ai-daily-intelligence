@@ -1,23 +1,23 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,620&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Source+Sans+3:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,640&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Source+Sans+3:wght@400;600;700&display=swap");
 
 :root {
-  --bg: #f3eee4;
+  --bg: #efe8da;
   --paper: #fffcf6;
-  --ink: #161410;
-  --body: #2c281f;
-  --muted: #6b6458;
+  --ink: #14120e;
+  --body: #2a261e;
+  --muted: #6a6458;
   --accent: #8c2f12;
-  --accent-soft: rgba(140, 47, 18, 0.08);
+  --accent-soft: rgba(140, 47, 18, 0.1);
   --gold: #8a6a2f;
   --rule: rgba(22, 20, 16, 0.12);
   --shadow: 0 18px 40px rgba(22, 20, 16, 0.08);
   --chip: #fffdf8;
   --max: 42rem;
-  --wide: 68rem;
+  --wide: 70rem;
 }
 
 html[data-theme="dark"] {
-  --bg: #12110e;
+  --bg: #10100d;
   --paper: #1b1914;
   --ink: #f4efe6;
   --body: #d9d2c6;
@@ -31,6 +31,7 @@ html[data-theme="dark"] {
 }
 
 * { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
 html, body {
   margin: 0;
   background: var(--bg);
@@ -91,7 +92,7 @@ a { color: var(--accent); }
   font-family: Fraunces, Georgia, serif;
   color: var(--ink);
   font-size: 1.05rem;
-  font-weight: 620;
+  font-weight: 640;
 }
 .masthead-actions {
   display: flex;
@@ -117,39 +118,76 @@ a { color: var(--accent); }
 .page {
   max-width: var(--wide);
   margin: 0 auto;
-  padding: 1.6rem 1.25rem 4rem;
+  padding: 1.4rem 1.25rem 4rem;
 }
 .issue-head {
-  max-width: var(--max);
-  margin: 0 auto 1.6rem;
+  max-width: 46rem;
+  margin: 0 auto 1.4rem;
   text-align: center;
 }
 .kicker {
   font-family: "Source Sans 3", sans-serif;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--accent);
-  margin: 0 0 0.55rem;
+  margin: 0 0 0.45rem;
 }
 h1, h2, h3 {
   font-family: Fraunces, Georgia, serif;
   color: var(--ink);
-  font-weight: 620;
+  font-weight: 640;
 }
 #issue-date {
-  font-size: clamp(2rem, 6vw, 3.4rem);
-  line-height: 1.08;
-  margin: 0 0 0.7rem;
-  letter-spacing: -0.02em;
+  font-size: clamp(2.15rem, 7vw, 3.7rem);
+  line-height: 1.02;
+  margin: 0 0 0.55rem;
+  letter-spacing: -0.03em;
+}
+.lead-headline {
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.25rem, 3.2vw, 1.75rem);
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 auto 0.55rem;
+  max-width: 40rem;
+  font-weight: 640;
 }
 .dek {
-  font-size: 1.18rem;
+  font-size: 1.08rem;
   line-height: 1.45;
   color: var(--body);
-  margin: 0 auto 1.35rem;
+  margin: 0 auto 1.1rem;
   max-width: 36rem;
+}
+.rank-strip {
+  list-style: none;
+  margin: 0 auto 1.25rem;
+  padding: 0.7rem 0.8rem;
+  max-width: 40rem;
+  display: grid;
+  gap: 0.45rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  text-align: left;
+  box-shadow: var(--shadow);
+}
+.rank-strip li {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: start;
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.rank-strip .rank {
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
 }
 .muted { color: var(--muted); }
 
@@ -271,39 +309,65 @@ h1, h2, h3 {
   font-size: 0.86rem;
   color: var(--muted);
   text-align: center;
-  margin: 0 0 1.4rem;
+  margin: 0 0 1.15rem;
 }
 
 .hero-grid {
   display: grid;
-  gap: 1rem;
-  margin-bottom: 2.2rem;
+  gap: 0.9rem;
+  margin-bottom: 1.8rem;
 }
 .hero-card {
   background: var(--paper);
   border: 1px solid var(--rule);
-  border-radius: 22px;
-  padding: 1.25rem 1.3rem 1.35rem;
+  border-radius: 20px;
+  padding: 1.1rem 1.2rem 1.2rem;
   box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.85rem;
+  align-items: start;
 }
 .hero-card.lead {
-  padding: 1.5rem 1.5rem 1.6rem;
+  padding: 1.35rem 1.4rem 1.45rem;
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--rule));
+  background:
+    linear-gradient(180deg, var(--accent-soft), transparent 42%),
+    var(--paper);
 }
 .hero-index {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--accent);
+  font-weight: 640;
+  min-width: 1.4rem;
+}
+.hero-card.lead .hero-index {
+  font-size: clamp(2.4rem, 5vw, 3.3rem);
+}
+.hero-kicker {
+  grid-column: 2;
   font-family: "Source Sans 3", sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent);
   font-weight: 700;
+  margin: 0 0 0.2rem;
 }
 .hero-card h2 {
-  font-size: 1.35rem;
-  line-height: 1.22;
-  margin: 0.4rem 0 0.55rem;
+  grid-column: 2;
+  font-size: 1.28rem;
+  line-height: 1.2;
+  margin: 0 0 0.45rem;
 }
 .hero-card.lead h2 {
-  font-size: clamp(1.55rem, 3vw, 2.15rem);
+  font-size: clamp(1.55rem, 3.1vw, 2.2rem);
+}
+.hero-source,
+.hero-why {
+  grid-column: 2;
 }
 .hero-source {
   font-family: "Source Sans 3", sans-serif;
@@ -316,6 +380,9 @@ h1, h2, h3 {
   margin: 0;
   font-size: 1.05rem;
   line-height: 1.5;
+  background: color-mix(in srgb, var(--bg) 55%, var(--paper));
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem 0.75rem;
 }
 .why-label {
   font-family: "Source Sans 3", sans-serif;
@@ -330,29 +397,30 @@ h1, h2, h3 {
 
 .section {
   max-width: var(--max);
-  margin: 0 auto 2.1rem;
+  margin: 0 auto 1.8rem;
 }
 .section h2 {
-  font-size: 1.15rem;
-  margin: 0 0 0.85rem;
-  padding-bottom: 0.45rem;
+  font-size: 1.08rem;
+  margin: 0 0 0.7rem;
+  padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--rule);
+  letter-spacing: 0.01em;
 }
 .story-list { display: grid; gap: 0; }
 .story-row {
-  padding: 0.95rem 0 1rem;
+  padding: 0.8rem 0 0.85rem;
   border-bottom: 1px solid var(--rule);
 }
 .story-row:last-child { border-bottom: 0; }
 .story-row h3 {
-  font-size: 1.12rem;
-  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  margin: 0 0 0.28rem;
   line-height: 1.28;
 }
-.story-row p { margin: 0 0 0.4rem; line-height: 1.5; }
+.story-row p { margin: 0 0 0.3rem; line-height: 1.45; }
 .story-meta {
   font-family: "Source Sans 3", sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: var(--muted);
 }
 .story-meta a { color: var(--accent); text-decoration: none; }
@@ -457,7 +525,16 @@ h1, h2, h3 {
 
 @media (max-width: 700px) {
   .masthead-inner, .page { padding-left: 1rem; padding-right: 1rem; }
-  .dek { font-size: 1.05rem; }
-  .hero-card, .hero-card.lead { padding: 1.1rem 1.05rem 1.2rem; }
+  .dek { font-size: 1rem; }
+  .hero-card, .hero-card.lead {
+    padding: 1rem 0.95rem 1.05rem;
+    grid-template-columns: 1.4rem minmax(0, 1fr);
+    column-gap: 0.65rem;
+  }
+  .hero-index { font-size: 1.55rem; }
+  .hero-card.lead .hero-index { font-size: 2.1rem; }
+  .hero-card.lead h2 { font-size: 1.35rem; }
+  .hero-why { font-size: 0.98rem; padding: 0.6rem 0.65rem; }
   .date-jump { flex-direction: column; }
+  .rank-strip { padding: 0.6rem 0.7rem; }
 }

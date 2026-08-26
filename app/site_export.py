@@ -38,7 +38,9 @@ _LEGACY_NAMES = {
 
 _EXEC_ITEM = re.compile(r"^\d+\.\s+\*\*(.+?)\*\*\s+[—–-]\s+(.*)$")
 _MD_LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
-_SOURCE_INLINE = re.compile(r"Source:\s+\[(.+?)\]\((.+?)\)")
+_SOURCE_INLINE = re.compile(
+    r"Source:\s+\[(.+?)\]\((.+?)\)(?:\s*[·•—–-]\s*(\d{4}-\d{2}-\d{2}))?"
+)
 
 
 @dataclass
@@ -232,11 +234,14 @@ def parse_briefing(markdown: str) -> dict[str, Any]:
                     row = lines[index].strip()
                     match = _EXEC_ITEM.match(row)
                     if match:
+                        why = match.group(2).strip()
                         item = {
                             "title": match.group(1).strip(),
-                            "summary": match.group(2).strip(),
+                            "summary": why,
+                            "why_it_matters": why,
                             "source_name": "",
                             "source_url": "",
+                            "published_at": "",
                         }
                         index += 1
                         if index < len(lines):
@@ -244,6 +249,7 @@ def parse_briefing(markdown: str) -> dict[str, Any]:
                             if source_match:
                                 item["source_name"] = source_match.group(1).strip()
                                 item["source_url"] = source_match.group(2).strip()
+                                item["published_at"] = (source_match.group(3) or "").strip()
                                 index += 1
                         executive.append(item)
                         continue
@@ -342,11 +348,26 @@ def _lede_from_executive(executive: list[dict[str, str]]) -> str:
     return f"{titles[0]}; {titles[1]}; and {titles[2]}"
 
 
+_GENERIC_TITLE_WORDS = {
+    "openai",
+    "google",
+    "microsoft",
+    "amazon",
+    "meta",
+    "anthropic",
+    "nvidia",
+    "intel",
+    "apple",
+    "deepmind",
+}
+
+
 def _is_near_duplicate_title(title: str, existing: list[str]) -> bool:
     words = _significant_words(title)
     for other in existing:
         shared = [word for word in _significant_words(other) if word in words]
-        if any(len(word) >= 6 for word in shared) or len(shared) >= 2:
+        distinctive = [word for word in shared if word not in _GENERIC_TITLE_WORDS]
+        if any(len(word) >= 8 for word in distinctive) or len(distinctive) >= 2:
             return True
     return False
 

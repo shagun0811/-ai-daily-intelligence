@@ -113,9 +113,19 @@ function renderChrome() {
   const isToday = selected === today;
   document.getElementById("prev-day").disabled = index <= 0;
   document.getElementById("next-day").disabled = index < 0 || index >= dates.length - 1;
-  document.getElementById("issue-kicker").textContent = isToday ? "Today in AI" : "From the archive";
+  const layout = briefingHasContent(report?.briefing) ? layoutBriefing(report.briefing, selected) : { hero: [] };
+  const lead = layout.hero[0];
+  document.getElementById("issue-kicker").textContent = isToday ? "Today’s briefing" : "From the archive";
   document.getElementById("issue-date").textContent = selected ? formatLongDate(selected) : "Pick a day";
-  document.getElementById("issue-dek").textContent = dekFor(report, isToday);
+  const leadEl = document.getElementById("lead-headline");
+  if (leadEl) {
+    leadEl.textContent = lead?.title || "";
+    leadEl.hidden = !lead?.title;
+  }
+  document.getElementById("issue-dek").textContent = lead
+    ? clip(lead.why_it_matters || lead.summary || dekFor(report, isToday), 200)
+    : dekFor(report, isToday);
+  renderRankStrip(layout.hero);
   document.getElementById("open-archive").setAttribute("aria-expanded", String(state.archiveOpen));
   const panel = document.getElementById("archive-panel");
   panel.classList.toggle("hidden", !state.archiveOpen);
@@ -224,14 +234,14 @@ function renderBriefing() {
   }
   const briefing = report.briefing;
   if (briefingHasContent(briefing)) {
-    root.innerHTML = renderEdition(report, layoutBriefing(briefing));
+    root.innerHTML = renderEdition(report, layoutBriefing(briefing, selected));
     return;
   }
   root.innerHTML = `${editionMeta(report)}<p class="muted">Opening this day’s briefing…</p>`;
   loadReportBody(report).then((parsed) => {
     if (state.selectedDate !== selected) return;
     if (briefingHasContent(parsed)) {
-      root.innerHTML = renderEdition(report, layoutBriefing(parsed));
+      root.innerHTML = renderEdition(report, layoutBriefing(parsed, selected));
       return;
     }
     if (typeof parsed === "string" && parsed.trim()) {
@@ -247,27 +257,55 @@ function briefingHasContent(briefing) {
   return Boolean((briefing.executive || []).length || (briefing.sections || []).length || (briefing.watch || []).length);
 }
 
-function layoutBriefing(briefing) {
-  const hero = uniqueHero(briefing.executive || [], 5);
-  const heroKeys = new Set(hero.map((item) => titleKey(item.title)));
-  const more = [];
+function layoutBriefing(briefing, reportDate) {
+  const raw = uniqueHero(briefing.executive || [], 8);
+  const hero = [];
+  const demoted = [];
+  raw.forEach((item) => {
+    if (isStaleForHero(item, reportDate)) demoted.push(item);
+    else hero.push(item);
+  });
+  const shown = hero.slice(0, 5);
+  const heroKeys = new Set(shown.map((item) => titleKey(item.title)));
+  const more = [...demoted, ...hero.slice(5)];
   const research = [];
   (briefing.sections || []).forEach((section) => {
     const heading = section.heading || "";
     const researchSection = /research/i.test(heading);
     (section.items || []).forEach((item) => {
       if (!item || !item.title) return;
-      if (heroKeys.has(titleKey(item.title)) || isNearDuplicate(item, hero)) return;
+      if (heroKeys.has(titleKey(item.title)) || isNearDuplicate(item, shown)) return;
       if (researchSection || isPaper(item)) research.push(item);
       else more.push(item);
     });
   });
   return {
-    hero,
+    hero: shown,
     more,
     research,
     watch: (briefing.watch || []).filter(usefulWatch),
   };
+}
+
+function isStaleForHero(item, reportDate) {
+  const published = String(item.published_at || "").slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(published) || !/^\d{4}-\d{2}-\d{2}$/.test(reportDate || "")) return false;
+  const age = (Date.parse(`${reportDate}T00:00:00Z`) - Date.parse(`${published}T00:00:00Z`)) / 86400000;
+  return age > 4;
+}
+
+function renderRankStrip(hero) {
+  const strip = document.getElementById("rank-strip");
+  if (!strip) return;
+  if (!hero.length) {
+    strip.hidden = true;
+    strip.innerHTML = "";
+    return;
+  }
+  strip.hidden = false;
+  strip.innerHTML = hero.slice(0, 3).map((item, index) => (
+    `<li><span class="rank">${index + 1}</span><span class="rank-title">${escapeHtml(clip(item.title || "", 78))}</span></li>`
+  )).join("");
 }
 
 function uniqueHero(items, max = 5) {
@@ -281,10 +319,12 @@ function uniqueHero(items, max = 5) {
 }
 
 function isNearDuplicate(item, list) {
+  const generic = new Set(["openai", "google", "microsoft", "amazon", "meta", "anthropic", "nvidia", "intel", "apple", "deepmind"]);
   const words = significantWords(item.title || "");
   return list.some((other) => {
     const shared = significantWords(other.title || "").filter((word) => words.includes(word));
-        return shared.some((word) => word.length >= 6) || shared.length >= 2;
+    const distinctive = shared.filter((word) => !generic.has(word));
+    return distinctive.some((word) => word.length >= 8) || distinctive.length >= 2;
   });
 }
 
@@ -333,9 +373,11 @@ function editionMeta(report) {
 }
 
 function heroCard(item, index) {
-  const why = clip(item.summary || item.why_it_matters || item.body || "", 280);
+  const rank = String(index + 1);
+  const why = clip(item.why_it_matters || item.summary || item.body || "", index === 0 ? 340 : 220);
   return `<article class="hero-card${index === 0 ? " lead" : ""}">
-    <div class="hero-index">${String(index + 1).padStart(2, "0")}</div>
+    <div class="hero-index" aria-hidden="true">${rank}</div>
+    <p class="hero-kicker">${index === 0 ? "Lead story" : `Story ${rank}`}</p>
     <h2>${escapeHtml(item.title || "")}</h2>
     <p class="hero-source">${sourceInner(item)}</p>
     ${why ? `<p class="hero-why"><span class="why-label">Why it matters</span>${escapeHtml(why)}</p>` : ""}
@@ -485,12 +527,13 @@ function parseBriefingMarkdown(markdown) {
           const row = lines[index].trim();
           const match = row.match(/^\d+\.\s+\*\*(.+?)\*\*\s+[—–-]\s+(.*)$/);
           if (match) {
-            const entry = { title: match[1], summary: match[2], source_name: "", source_url: "" };
+            const entry = { title: match[1], summary: match[2], why_it_matters: match[2], source_name: "", source_url: "", published_at: "" };
             const next = lines[index + 1] ? lines[index + 1].trim() : "";
-            const source = next.match(/Source:\s+\[(.+?)\]\((.+?)\)/);
+            const source = next.match(/Source:\s+\[(.+?)\]\((.+?)\)(?:\s*[·•—–-]\s*(\d{4}-\d{2}-\d{2}))?/);
             if (source) {
               entry.source_name = source[1];
               entry.source_url = source[2];
+              entry.published_at = source[3] || "";
               index += 1;
             }
             executive.push(entry);

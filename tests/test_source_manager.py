@@ -85,12 +85,15 @@ def test_existing_url_is_not_inserted_twice(db_session, monkeypatch: pytest.Monk
     monkeypatch.setattr(ArxivCollector, "collect", lambda self, src, limit, timeout: [])
     manager = SourceManager(db_session)
     first = manager.run(enabled_only=True)
-    second = manager.run(enabled_only=True)
     stored = db_session.scalar(select(Article).where(Article.url == item.url))
     assert stored is not None
+    first_seen = stored.updated_at
+    second = manager.run(enabled_only=True)
+    db_session.refresh(stored)
     assert first.articles_collected == 1
     assert second.articles_collected == 0
     assert second.articles_skipped_existing == 1
+    assert stored.updated_at >= first_seen
 
 
 def test_arxiv_items_create_research_paper_rows(db_session, monkeypatch: pytest.MonkeyPatch) -> None:

@@ -2,13 +2,13 @@
 # Do not hard-code these values in processors.
 
 weights:
-  recency: 0.15
-  credibility: 0.15
-  relevance: 0.20
-  novelty: 0.10
-  technical_significance: 0.15
-  industry_impact: 0.20
-  research_significance: 0.05
+  recency: 0.25
+  credibility: 0.14
+  relevance: 0.18
+  novelty: 0.08
+  technical_significance: 0.10
+  industry_impact: 0.23
+  research_significance: 0.02
 
 # Mapped to a 0–10 credibility component. Tier is not importance by itself.
 credibility_tier_scores:
@@ -18,5 +18,5 @@ credibility_tier_scores:
 
 # Recency: full score within this many hours, then linear decay to 0.
 recency:
-  full_score_hours: 24
-  zero_score_hours: 168
+  full_score_hours: 36
+  zero_score_hours: 120

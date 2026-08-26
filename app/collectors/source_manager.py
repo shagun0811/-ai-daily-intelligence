@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from time import monotonic
 
 from sqlalchemy.orm import Session
@@ -179,6 +180,9 @@ class SourceManager:
             )
             if not created:
                 skipped += 1
+                article.updated_at = datetime.now(timezone.utc)
+                if item.published_at and article.published_at is None:
+                    article.published_at = item.published_at
                 continue
             stored += 1
             if item.item_kind == ItemKind.RESEARCH_PAPER:

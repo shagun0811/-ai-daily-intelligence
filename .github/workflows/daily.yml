@@ -2,6 +2,8 @@ name: Daily pipeline
 
 on:
   schedule:
+    # 01:00 Asia/Kolkata = 19:30 UTC — overnight latest, don't wait for 17:00
+    - cron: "30 19 * * *"
     # 17:00 Asia/Kolkata = 11:30 UTC
     - cron: "30 11 * * *"
   workflow_dispatch:

@@ -40,7 +40,7 @@ sources:
         - cs.AI
         - cs.LG
         - cs.CL
-      max_results: 12
+      max_results: 8
       sort_by: submittedDate
       sort_order: descending
 

@@ -212,10 +212,10 @@ def test_export_hydrates_briefing_from_on_disk_markdown(db_session, tmp_path: Pa
 
 def test_archive_page_is_a_day_reader() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "briefing-20260826.js").read_text(encoding="utf-8")
-    css = (PROJECT_ROOT / "site" / "briefing-20260826.css").read_text(encoding="utf-8")
-    assert 'href="./briefing-20260826.css"' in html
-    assert 'src="./briefing-20260826.js"' in html
+    js = (PROJECT_ROOT / "site" / "briefing-20260827.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260827.css").read_text(encoding="utf-8")
+    assert 'href="./briefing-20260827.css"' in html
+    assert 'src="./briefing-20260827.js"' in html
     assert 'id="briefing"' in html
     assert 'id="date-strip"' in html
     assert 'id="prev-day"' in html
@@ -234,11 +234,18 @@ def test_archive_page_is_a_day_reader() -> None:
 
 def test_paid_reader_opens_today_not_item_dump() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "briefing-20260826.js").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "briefing-20260827.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260827.css").read_text(encoding="utf-8")
     assert 'id="item-list"' not in html
     assert 'data-tab="items"' not in html
-    assert "Today in AI" in html
+    assert "Today’s briefing" in html or "Today's briefing" in html
+    assert 'id="lead-headline"' in html
+    assert 'id="rank-strip"' in html
     assert "Archive" in html
+    assert "Lead story" in js
+    assert "isStaleForHero" in js
+    assert "hero-index" in css
+    assert "rank-strip" in css
     assert "local text pipeline" not in js.lower()
     assert "wrangler" not in js.lower()
     assert "python scripts/" not in js.lower()
