@@ -54,12 +54,21 @@ jobs:
       - name: Publish to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          # Account ID lets Wrangler skip GET /memberships (API 10000 on limited tokens).
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
             echo "Add the GitHub secret CLOUDFLARE_API_TOKEN so this job can update the live site."
+            echo "Token needs Account → Cloudflare Pages → Edit, scoped to this account."
+            echo "If deploy still returns API 10000 on /memberships, also grant User → Memberships → Read (or Account Settings → Read)."
             exit 1
           fi
-          npx --yes wrangler pages deploy site --project-name ai-daily-intelligence --commit-dirty=true
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "Add GitHub Actions variable CLOUDFLARE_ACCOUNT_ID (Cloudflare account ID)."
+            echo "Without it, Wrangler calls GET /memberships and limited tokens fail with API error 10000."
+            exit 1
+          fi
+          npx --yes wrangler pages deploy site --project-name ai-daily-intelligence --commit-dirty=true --account-id "$CLOUDFLARE_ACCOUNT_ID"
 
       - name: Save pipeline state
         if: always()
