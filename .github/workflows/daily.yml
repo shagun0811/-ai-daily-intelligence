@@ -68,7 +68,7 @@ jobs:
             echo "Without it, Wrangler calls GET /memberships and limited tokens fail with API error 10000."
             exit 1
           fi
-          npx --yes wrangler pages deploy site --project-name ai-daily-intelligence --commit-dirty=true --account-id "$CLOUDFLARE_ACCOUNT_ID"
+          npx --yes wrangler pages deploy site --project-name ai-daily-intelligence --commit-dirty=true
 
       - name: Save pipeline state
         if: always()
