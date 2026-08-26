@@ -96,7 +96,10 @@ a { color: var(--accent); }
 }
 .masthead-actions {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 0.45rem;
+  align-items: center;
 }
 .masthead-actions button,
 .day-nav button,
@@ -110,6 +113,63 @@ a { color: var(--accent); }
   cursor: pointer;
 }
 .masthead-actions button[aria-expanded="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.download-pdf,
+.download-pdf-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: var(--bg);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.48rem 0.95rem;
+  text-decoration: none;
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 700;
+  font-size: 0.86rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.download-pdf .label-short { display: none; }
+.download-pdf:hover,
+.download-pdf-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--paper);
+}
+.issue-downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1.05rem 0 0.2rem;
+}
+.download-pdf-primary {
+  padding: 0.72rem 1.35rem;
+  font-size: 0.98rem;
+}
+.save-more {
+  font-family: "Source Sans 3", sans-serif;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.save-more summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--ink);
+}
+.save-more summary::-webkit-details-marker { display: none; }
+.save-more[open] summary {
   background: var(--ink);
   color: var(--bg);
   border-color: var(--ink);
@@ -525,6 +585,10 @@ h1, h2, h3 {
 
 @media (max-width: 700px) {
   .masthead-inner, .page { padding-left: 1rem; padding-right: 1rem; }
+  .masthead .download-pdf .label-full { display: none; }
+  .masthead .download-pdf .label-short { display: inline; }
+  .issue-downloads { flex-direction: column; }
+  .download-pdf-primary { width: 100%; max-width: 22rem; }
   .dek { font-size: 1rem; }
   .hero-card, .hero-card.lead {
     padding: 1rem 0.95rem 1.05rem;

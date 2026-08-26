@@ -126,6 +126,7 @@ function renderChrome() {
     ? clip(lead.why_it_matters || lead.summary || dekFor(report, isToday), 200)
     : dekFor(report, isToday);
   renderRankStrip(layout.hero);
+  renderDownloads(report);
   document.getElementById("open-archive").setAttribute("aria-expanded", String(state.archiveOpen));
   const panel = document.getElementById("archive-panel");
   panel.classList.toggle("hidden", !state.archiveOpen);
@@ -425,6 +426,38 @@ function renderGallery(report) {
       ${cards.length ? `<div class="cards-row">${cards.slice(0, 5).map((href, index) => `<img src="./${escapeHtml(href)}" alt="Story card ${index + 1}">`).join("")}</div>` : ""}
     </div>
   </section>`;
+}
+
+function renderDownloads(report) {
+  const files = (report && report.files) || {};
+  const pdf = files.pdf;
+  const extras = [
+    ["Markdown", files.markdown],
+    ["HTML", files.html],
+    ["Download all", files.zip],
+  ].filter((entry) => entry[1]);
+  const masthead = document.getElementById("download-pdf");
+  const hero = document.getElementById("download-pdf-hero");
+  const row = document.getElementById("issue-downloads");
+  const more = document.getElementById("save-more");
+  const moreLinks = document.getElementById("save-more-links");
+  [masthead, hero].forEach((el) => {
+    if (!el) return;
+    if (pdf) {
+      const filename = pdf.split("/").pop() || "briefing.pdf";
+      el.href = `./${pdf}`;
+      el.setAttribute("download", filename);
+      el.setAttribute("aria-label", `Download this day’s briefing as PDF`);
+      el.hidden = false;
+    } else {
+      el.removeAttribute("href");
+      el.removeAttribute("download");
+      el.hidden = true;
+    }
+  });
+  if (moreLinks) moreLinks.innerHTML = extras.map(([label, href]) => downloadAnchor(label, href)).join("");
+  if (more) more.hidden = extras.length === 0;
+  if (row) row.hidden = !pdf && extras.length === 0;
 }
 
 function renderSave(report) {

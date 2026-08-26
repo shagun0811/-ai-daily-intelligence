@@ -221,15 +221,20 @@ def test_archive_page_is_a_day_reader() -> None:
     assert 'id="prev-day"' in html
     assert 'id="next-day"' in html
     assert 'id="open-archive"' in html
+    assert 'id="download-pdf"' in html
+    assert 'id="download-pdf-hero"' in html
+    assert "Download PDF" in html
     assert "Browse items" not in html
     assert "Cloudflare" not in html
     assert "static site" not in html.lower()
     assert "function renderBriefing" in js
     assert "function layoutBriefing" in js
+    assert "function renderDownloads" in js
     assert "Save this briefing" in js
     assert "Download all" in js
     assert "hero-card" in css
     assert "date-strip" in css
+    assert "download-pdf-primary" in css
 
 
 def test_paid_reader_opens_today_not_item_dump() -> None:
@@ -242,6 +247,8 @@ def test_paid_reader_opens_today_not_item_dump() -> None:
     assert 'id="lead-headline"' in html
     assert 'id="rank-strip"' in html
     assert "Archive" in html
+    assert "Download PDF" in html
+    assert 'id="download-pdf"' in html
     assert "Lead story" in js
     assert "isStaleForHero" in js
     assert "hero-index" in css
@@ -249,4 +256,24 @@ def test_paid_reader_opens_today_not_item_dump() -> None:
     assert "local text pipeline" not in js.lower()
     assert "wrangler" not in js.lower()
     assert "python scripts/" not in js.lower()
+
+
+def test_export_generates_missing_pdf_from_markdown(db_session, tmp_path: Path) -> None:
+    out = tmp_path / "site"
+    folder = out / "files" / "2026-08-26"
+    folder.mkdir(parents=True)
+    (folder / "ai-daily-intelligence-2026-08-26.md").write_text(_SAMPLE_MARKDOWN, encoding="utf-8")
+
+    summary = export_public_site(db_session, site_dir=out)
+    assert not summary.errors
+    pdf = folder / "ai-daily-intelligence-2026-08-26.pdf"
+    assert pdf.is_file()
+    assert pdf.read_bytes().startswith(b"%PDF")
+    payload = json.loads((out / "data" / "dashboard.json").read_text(encoding="utf-8"))
+    report = next(row for row in payload["reports"] if row["report_date"] == "2026-08-26")
+    assert report["files"]["pdf"].endswith("ai-daily-intelligence-2026-08-26.pdf")
+    html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
+    assert "Download PDF" in html
+    js = (PROJECT_ROOT / "site" / "briefing-20260827.js").read_text(encoding="utf-8")
+    assert "files.pdf" in js
 

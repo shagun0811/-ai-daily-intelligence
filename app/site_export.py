@@ -135,8 +135,17 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
         )
         for row in public_reports:
             date_key = str(row.get("report_date") or "")
-            if date_key:
-                _hydrate_briefing(row, files_dir / date_key)
+            if not date_key:
+                continue
+            folder = files_dir / date_key
+            _hydrate_briefing(row, folder)
+            if _ensure_day_pdf(folder, date_key, row):
+                copied += 1
+            zip_url = _write_day_zip(folder, date_key)
+            if zip_url:
+                files = dict(row.get("files") or {})
+                files["zip"] = zip_url
+                row["files"] = files
         generated_at = datetime.now(timezone.utc).isoformat()
         payload = {
             "generated_at": generated_at,
@@ -445,6 +454,94 @@ def _hydrate_briefing(row: dict[str, Any], folder: Path) -> None:
         row["preview"] = _preview_text(markdown)
     if parsed.get("title") and row.get("title") in {None, "", "AI Daily Intelligence"}:
         row["title"] = parsed["title"]
+
+
+def _ensure_day_pdf(folder: Path, date_key: str, row: dict[str, Any]) -> bool:
+    """Copy or generate the day's PDF so the public download is never a dead link."""
+    filename = _public_filenames(date_key)["pdf"]
+    target = folder / filename
+    files = dict(row.get("files") or {})
+    if target.is_file() and target.stat().st_size > 0:
+        files["pdf"] = f"files/{date_key}/{filename}"
+        row["files"] = files
+        return False
+    folder.mkdir(parents=True, exist_ok=True)
+    source = PROJECT_ROOT / "data" / "reports" / filename
+    created = False
+    if source.is_file() and source.stat().st_size > 0:
+        shutil.copy2(source, target)
+        created = True
+    else:
+        briefing = row.get("briefing") if isinstance(row.get("briefing"), dict) else {}
+        if not (briefing.get("executive") or briefing.get("sections")):
+            markdown = _read_site_markdown(folder, date_key)
+            if markdown.strip():
+                briefing = parse_briefing(markdown)
+        if not (briefing.get("executive") or briefing.get("sections") or briefing.get("watch")):
+            return False
+        try:
+            from app.report.pdf import write_pdf
+
+            write_pdf(_document_from_briefing(date_key, briefing, row.get("stats") or {}), target)
+            created = target.is_file() and target.stat().st_size > 0
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("could not write PDF for %s: %s", date_key, exc)
+            return False
+    if not created:
+        return False
+    files["pdf"] = f"files/{date_key}/{filename}"
+    row["files"] = files
+    return True
+
+
+def _document_from_briefing(date_key: str, briefing: dict[str, Any], stats: dict[str, Any]):
+    from app.report.models import DailyReportDocument, ReportItem
+
+    def to_item(raw: dict[str, Any], index: int) -> ReportItem:
+        return ReportItem(
+            article_id=index,
+            title=str(raw.get("title") or "Untitled"),
+            summary=str(raw.get("summary") or raw.get("body") or ""),
+            why_it_matters=str(raw.get("why_it_matters") or ""),
+            problem=str(raw.get("problem") or ""),
+            key_contribution=str(raw.get("key_contribution") or ""),
+            source_name=str(raw.get("source_name") or "Source"),
+            source_url=str(raw.get("source_url") or ""),
+            published_at=raw.get("published_at") or None,
+        )
+
+    executive = [to_item(item, index) for index, item in enumerate(briefing.get("executive") or [])]
+    developments: list[ReportItem] = []
+    research: list[ReportItem] = []
+    industry: list[ReportItem] = []
+    for section in briefing.get("sections") or []:
+        heading = str(section.get("heading") or "").lower()
+        items = [to_item(item, index) for index, item in enumerate(section.get("items") or [])]
+        if "research" in heading:
+            research.extend(items)
+        elif "industry" in heading or "product" in heading:
+            industry.extend(items)
+        else:
+            developments.extend(items)
+    sources: list[tuple[str, str]] = []
+    for src in briefing.get("sources") or []:
+        if isinstance(src, dict):
+            sources.append((str(src.get("name") or ""), str(src.get("url") or "")))
+    return DailyReportDocument(
+        title=str(briefing.get("title") or "AI Daily Intelligence"),
+        report_date=date.fromisoformat(date_key),
+        executive=executive,
+        developments=developments,
+        research=research,
+        industry=industry,
+        watch=[str(item) for item in (briefing.get("watch") or [])],
+        sources=sources,
+        stats={
+            "candidates": stats.get("candidates") or 0,
+            "selected": stats.get("selected") or len(executive),
+            "flagged": stats.get("flagged") or 0,
+        },
+    )
 
 
 def _is_archive_date(date_key: str) -> bool:

@@ -19,6 +19,10 @@
         <span class="brand-name">AI Daily Intelligence</span>
       </a>
       <nav class="masthead-actions" aria-label="Edition">
+        <a id="download-pdf" class="download-pdf" hidden>
+          <span class="label-full">Download PDF</span>
+          <span class="label-short">PDF</span>
+        </a>
         <button type="button" id="open-archive" aria-expanded="false" aria-controls="archive-panel">Archive</button>
         <button type="button" id="theme-toggle" aria-label="Switch color theme">Dark</button>
       </nav>
@@ -32,6 +36,13 @@
       <p class="lead-headline" id="lead-headline" hidden></p>
       <p class="dek" id="issue-dek"></p>
       <ol class="rank-strip" id="rank-strip" hidden></ol>
+      <div class="issue-downloads" id="issue-downloads" hidden>
+        <a id="download-pdf-hero" class="download-pdf-primary" hidden>Download PDF</a>
+        <details class="save-more" id="save-more" hidden>
+          <summary>More formats</summary>
+          <div class="save-links" id="save-more-links"></div>
+        </details>
+      </div>
       <div class="day-nav">
         <button type="button" id="prev-day" aria-label="Previous day">‹</button>
         <div id="date-strip" class="date-strip" role="listbox" aria-label="Days with a briefing"></div>
