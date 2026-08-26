@@ -47,8 +47,10 @@ def test_sources_yaml_parses() -> None:
 def test_enabled_sources_exclude_failed_feeds() -> None:
     enabled = {item.name for item in enabled_sources()}
     assert "Google AI Blog" in enabled
-    assert "Hugging Face Blog" not in enabled
-    assert "OpenAI News" not in enabled
+    assert "Hugging Face Blog" in enabled
+    assert "OpenAI News" in enabled
+    assert "The Verge AI" in enabled
+    assert "Google DeepMind Blog" not in enabled
 
 
 def test_scoring_weights_sum_to_one() -> None:

@@ -40,7 +40,7 @@ sources:
         - cs.AI
         - cs.LG
         - cs.CL
-      max_results: 40
+      max_results: 12
       sort_by: submittedDate
       sort_order: descending
 
@@ -48,21 +48,21 @@ sources:
     url: https://huggingface.co/blog/feed.xml
     type: rss
     category: open_source
-    credibility: tier_3
-    enabled: false
+    credibility: tier_2
+    enabled: true
     collection_method: rss
     extra:
-      notes: Returned HTTP 503 on 2026-08-16. Re-enable after a successful probe.
+      notes: Re-enabled after a 200 response on 2026-08-18.
 
   - name: OpenAI News
     url: https://openai.com/news/rss.xml
     type: rss
     category: company
     credibility: tier_1
-    enabled: false
+    enabled: true
     collection_method: rss
     extra:
-      notes: RSS request timed out on 2026-08-16. Re-enable after a successful probe.
+      notes: Re-enabled after a 200 response on 2026-08-18.
 
   - name: Google DeepMind Blog
     url: https://deepmind.google/blog/rss.xml
@@ -79,10 +79,20 @@ sources:
     type: rss
     category: news
     credibility: tier_2
-    enabled: false
+    enabled: true
     collection_method: rss
     extra:
-      notes: Returned HTTP 500 on 2026-08-16. Re-enable after a successful probe.
+      notes: Re-enabled after a 200 response on 2026-08-18.
+
+  - name: Google News AI
+    url: https://news.google.com/rss/search?q=artificial+intelligence+when:1d&hl=en-US&gl=US&ceid=US:en
+    type: rss
+    category: news
+    credibility: tier_2
+    enabled: true
+    collection_method: rss
+    extra:
+      notes: Latest AI headlines. Filter with the relevance cutoff.
 
   - name: NVIDIA Generative AI Blog
     url: https://blogs.nvidia.com/blog/category/generative-ai/feed/

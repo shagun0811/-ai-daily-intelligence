@@ -149,7 +149,12 @@ class Summarizer:
                 continue
             eligible.append(article)
 
-        eligible.sort(key=lambda item: _weighted_total(item), reverse=True)
+        eligible.sort(
+            key=lambda item: (
+                1 if schema_for(item) == "research" else 0,
+                -_weighted_total(item),
+            )
+        )
         summary.candidates = len(eligible)
         cap = self.settings.max_llm_items
         if len(eligible) > cap:

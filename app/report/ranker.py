@@ -48,6 +48,26 @@ def supporting_labels(article: Article) -> list[str]:
     return labels
 
 
+def mix_for_report(
+    items: list[ReportItem],
+    *,
+    cap: int,
+    max_research: int = 4,
+) -> list[ReportItem]:
+    """Cap the briefing and prefer news/company over a pile of research papers."""
+    ranked = sorted(items, key=lambda item: item.score, reverse=True)
+    papers = [item for item in ranked if item.schema_name == "research"]
+    others = [item for item in ranked if item.schema_name != "research"]
+    paper_take = min(len(papers), max_research, max(0, cap))
+    other_take = min(len(others), max(0, cap - paper_take))
+    selected = others[:other_take] + papers[:paper_take]
+    leftover = max(0, cap - len(selected))
+    if leftover:
+        selected.extend(others[other_take : other_take + leftover])
+    selected.sort(key=lambda item: item.score, reverse=True)
+    return selected[:cap]
+
+
 def to_report_item(article: Article, summary: dict, validation: ValidationResult) -> ReportItem:
     kind = schema_for(article)
     score = float(article.score.weighted_total) if article.score is not None else 0.0
@@ -77,14 +97,19 @@ def build_document(
     stats: dict,
     max_exec: int = 5,
     max_dev: int = 8,
-    max_research: int = 5,
+    max_research: int = 3,
     max_industry: int = 5,
     max_watch: int = 5,
+    max_exec_papers: int = 1,
 ) -> DailyReportDocument:
     ranked = sorted(items, key=lambda item: item.score, reverse=True)
-    executive = ranked[:max_exec]
+    others = [item for item in ranked if item.schema_name != "research"]
+    papers = [item for item in ranked if item.schema_name == "research"]
+    executive = others[:max_exec]
+    if len(executive) < max_exec:
+        executive.extend(papers[: min(max_exec_papers, max_exec - len(executive))])
     used = {item.article_id for item in executive}
-    research = [item for item in ranked if item.schema_name == "research" and item.article_id not in used][:max_research]
+    research = [item for item in papers if item.article_id not in used][:max_research]
     used.update(item.article_id for item in research)
     industry = [item for item in ranked if item.schema_name == "company" and item.article_id not in used][:max_industry]
     used.update(item.article_id for item in industry)

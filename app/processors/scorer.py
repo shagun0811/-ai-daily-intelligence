@@ -59,9 +59,9 @@ def novelty_score(article: Article, recency: float) -> tuple[float, str]:
 
 
 def technical_score(article: Article, text: str) -> float:
-    score = 3.0
+    score = 3.5
     if article.item_kind == ItemKind.RESEARCH_PAPER.value:
-        score = 7.5
+        score = 4.5
     terms = (
         "architecture",
         "benchmark",
@@ -79,19 +79,22 @@ def technical_score(article: Article, text: str) -> float:
 
 
 def industry_score(article: Article, text: str, category: str) -> float:
+    is_paper = article.item_kind == ItemKind.RESEARCH_PAPER.value or category == "RESEARCH"
     score = 3.0
+    if not is_paper:
+        score += 1.5
     if category in {"PRODUCT", "MODEL_RELEASE", "FUNDING", "ACQUISITION", "COMPANY"}:
         score += 2.5
     terms = ("launch", "available", "enterprise", "customer", "partnership", "revenue", "api")
     score += sum(0.5 for term in terms if term in text)
-    if article.item_kind == ItemKind.RESEARCH_PAPER.value:
+    if is_paper:
         score -= 1.0
     return _clamp(score)
 
 
 def research_score(article: Article, text: str, category: str) -> float:
     if article.item_kind == ItemKind.RESEARCH_PAPER.value or category == "RESEARCH":
-        score = 8.0
+        score = 5.0
     else:
         score = 2.0
     terms = ("abstract", "method", "arxiv", "paper", "results", "limitation")

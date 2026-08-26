@@ -2,13 +2,13 @@
 # Do not hard-code these values in processors.
 
 weights:
-  recency: 0.10
+  recency: 0.15
   credibility: 0.15
-  relevance: 0.15
-  novelty: 0.15
-  technical_significance: 0.20
-  industry_impact: 0.15
-  research_significance: 0.10
+  relevance: 0.20
+  novelty: 0.10
+  technical_significance: 0.15
+  industry_impact: 0.20
+  research_significance: 0.05
 
 # Mapped to a 0–10 credibility component. Tier is not importance by itself.
 credibility_tier_scores:

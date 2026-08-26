@@ -50,7 +50,6 @@ def test_research_paper_is_relevant_and_research(db_session) -> None:
     )
     relevance = score_relevance(paper)
     assert relevance.relevant is True
-    assert relevance.score >= 8.0
     classification = classify_article(paper)
     assert classification.category == ClassificationCategory.RESEARCH
     topics = extract_topics(paper)
@@ -67,6 +66,22 @@ def test_model_release_beats_generic_company_news(db_session) -> None:
     )
     result = classify_article(article)
     assert result.category == ClassificationCategory.MODEL_RELEASE
+
+
+def test_niche_helmholtz_paper_is_not_relevant(db_session) -> None:
+    paper = _article(
+        db_session,
+        source_name="arXiv cs.AI / cs.LG / cs.CL",
+        title="Helmholtz resonator acoustics with finite-element soil moisture mapping",
+        url="https://arxiv.org/abs/2608.06666",
+        text=(
+            "A Helmholtz resonator side-branch for palm presentation acoustics "
+            "and electrocardiogram noise in a biomedical imaging phantom."
+        ),
+        item_kind="research_paper",
+    )
+    relevance = score_relevance(paper)
+    assert relevance.relevant is False
 
 
 def test_dinner_party_post_is_low_relevance(db_session) -> None:

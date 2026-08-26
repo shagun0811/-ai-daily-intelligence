@@ -2,7 +2,9 @@
 # Used by Python rules in Phase 4. Phase 5 summarizes items that pass this filter.
 
 relevance:
-  min_score: 4.0
+  min_score: 6.0
+  paper_bonus: 2.0
+  news_bonus: 2.0
   strong_terms:
     - large language model
     - small language model
@@ -15,22 +17,26 @@ relevance:
     - reinforcement learning
     - computer vision
     - ai agent
+    - agentic
+    - rag
     - ai safety
     - benchmark
     - inference
     - gpu cluster
+    - chatgpt
+    - openai
+    - anthropic
+    - gemini
+    - copilot
   weak_terms:
     - llm
     - slm
     - gpt
     - claude
-    - gemini
     - llama
     - qwen
     - mistral
     - deepmind
-    - openai
-    - anthropic
     - huggingface
     - hugging face
     - arxiv
@@ -40,12 +46,26 @@ relevance:
     - artificial intelligence
     - generative ai
     - chatbot
+    - startup
+    - funding
   noise_terms:
     - dinner party
     - cookie banner
     - subscribe to our newsletter
     - seating chart
     - sports score
+  niche_terms:
+    - helmholtz
+    - resonator
+    - acoustics
+    - palm presentation
+    - side-branch
+    - finite-element
+    - soil moisture
+    - crop yield
+    - biomedical imaging phantom
+    - electrocardiogram
+    - histopathology stain
 
 categories:
   ACQUISITION:

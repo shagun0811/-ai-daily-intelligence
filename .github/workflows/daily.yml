@@ -20,6 +20,8 @@ jobs:
       SCHEDULER_ENABLED: "false"
       CLOUDFLARE_AUTO_DEPLOY: "false"
       PYTHONUNBUFFERED: "1"
+      TZ: Asia/Kolkata
+      HTTP_TIMEOUT_SECONDS: "30"
     steps:
       - uses: actions/checkout@v4
 
@@ -47,6 +49,28 @@ jobs:
       - name: Run daily pipeline
         run: python scripts/run_pipeline.py
 
+      - name: Confirm today's briefing was exported
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+
+          today = datetime.now(ZoneInfo("Asia/Kolkata")).date().isoformat()
+          path = Path("site/data/history.json")
+          if not path.is_file():
+              raise SystemExit("site/data/history.json is missing — pipeline did not export the briefing")
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          dates = [str(item) for item in (payload.get("dates") or [])]
+          print("exported dates:", dates)
+          if today not in dates:
+              raise SystemExit(f"today's briefing {today} is missing from export; have {dates}")
+          latest = next((row for row in payload.get("reports") or [] if str(row.get("report_date")) == today), {})
+          preview = str(latest.get("preview") or "")
+          print(f"today={today} preview_chars={len(preview)} arxiv_mentions={preview.lower().count('arxiv')}")
+          PY
+
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -68,7 +92,81 @@ jobs:
             echo "Without it, Wrangler calls GET /memberships and limited tokens fail with API error 10000."
             exit 1
           fi
-          npx --yes wrangler pages deploy site --project-name ai-daily-intelligence --commit-dirty=true
+          # GitHub's branch is master. Wrangler infers that and deploys a *preview*
+          # (master.pages.dev) unless --branch matches the Pages production branch.
+          # The 26 Aug run uploaded 93 files to the master preview and left
+          # ai-daily-intelligence.pages.dev on the 17–19 Aug archive.
+          PROD_BRANCH="$(python - <<'PY'
+          import json, os, sys, urllib.error, urllib.request
+          account = os.environ["CLOUDFLARE_ACCOUNT_ID"]
+          token = os.environ["CLOUDFLARE_API_TOKEN"]
+          url = f"https://api.cloudflare.com/client/v4/accounts/{account}/pages/projects/ai-daily-intelligence"
+          req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
+          try:
+              with urllib.request.urlopen(req, timeout=30) as resp:
+                  payload = json.load(resp)
+              branch = str((payload.get("result") or {}).get("production_branch") or "").strip()
+              print(branch or "main")
+          except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+              print(f"could not read Pages project ({type(exc).__name__}); defaulting to main", file=sys.stderr)
+              print("main")
+          PY
+          )"
+          echo "Cloudflare Pages production branch: $PROD_BRANCH"
+
+          deploy_branch() {
+            echo "Deploying site/ to Cloudflare Pages branch: $1"
+            npx --yes wrangler pages deploy site --project-name ai-daily-intelligence --commit-dirty=true --branch "$1"
+          }
+
+          live_has_today() {
+            python - <<'PY'
+          import json, time, urllib.request
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+
+          today = datetime.now(ZoneInfo("Asia/Kolkata")).date().isoformat()
+          url = "https://ai-daily-intelligence.pages.dev/data/history.json"
+          last = []
+          for attempt in range(8):
+              try:
+                  req = urllib.request.Request(
+                      f"{url}?t={attempt}",
+                      headers={"Cache-Control": "no-cache", "Pragma": "no-cache"},
+                  )
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      payload = json.loads(resp.read().decode("utf-8"))
+                  last = [str(item) for item in (payload.get("dates") or [])]
+                  print(f"live dates attempt={attempt + 1}: {last}")
+                  if today in last:
+                      print(f"production site has today's briefing {today}")
+                      raise SystemExit(0)
+              except SystemExit:
+                  raise
+              except Exception as exc:  # noqa: BLE001
+                  print(f"live history fetch attempt={attempt + 1} error={type(exc).__name__}")
+              time.sleep(5)
+          print(f"production site missing {today}; last dates={last}")
+          raise SystemExit(1)
+          PY
+          }
+
+          deploy_branch "$PROD_BRANCH"
+          if live_has_today; then
+            exit 0
+          fi
+          for fallback in main production master; do
+            if [ "$fallback" = "$PROD_BRANCH" ]; then
+              continue
+            fi
+            echo "Production URL still stale; retrying deploy with --branch $fallback"
+            deploy_branch "$fallback"
+            if live_has_today; then
+              exit 0
+            fi
+          done
+          echo "Deployed, but https://ai-daily-intelligence.pages.dev still lacks today's briefing."
+          exit 1
 
       - name: Save pipeline state
         if: always()

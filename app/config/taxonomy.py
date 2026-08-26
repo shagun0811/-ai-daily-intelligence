@@ -13,10 +13,13 @@ from app.database.enums import ClassificationCategory, TopicCode
 
 
 class RelevanceTaxonomy(BaseModel):
-    min_score: float = 4.0
+    min_score: float = 6.0
+    paper_bonus: float = 2.0
+    news_bonus: float = 2.0
     strong_terms: list[str] = Field(default_factory=list)
     weak_terms: list[str] = Field(default_factory=list)
     noise_terms: list[str] = Field(default_factory=list)
+    niche_terms: list[str] = Field(default_factory=list)
 
 
 class TaxonomyConfig(BaseModel):

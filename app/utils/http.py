@@ -14,7 +14,7 @@ logger = get_logger(__name__)
 
 DEFAULT_USER_AGENT = (
     "AIDailyIntelligenceAggregator/0.1 "
-    "(local research collector; +https://localhost)"
+    "(+https://ai-daily-intelligence.pages.dev)"
 )
 _RETRY_STATUS = {429, 500, 502, 503, 504}
 

@@ -20,7 +20,7 @@ from app.media.builder import write_media_pack
 from app.report.html import render_html
 from app.report.markdown import render_markdown
 from app.report.pdf import write_pdf
-from app.report.ranker import build_document, is_supporting, latest_summary, to_report_item
+from app.report.ranker import build_document, is_supporting, latest_summary, mix_for_report, to_report_item
 from app.report.validator import validate_item
 
 logger = get_logger(__name__)
@@ -106,8 +106,7 @@ class ReportGenerator:
                 ",".join(validation.flags) or "-",
             )
 
-        items.sort(key=lambda item: item.score, reverse=True)
-        selected_pool = items[:cap]
+        selected_pool = mix_for_report(items, cap=cap)
         flagged = sum(1 for item in selected_pool if item.validation_flags)
         log_stage(
             logger,

@@ -9,9 +9,13 @@ from app.database.enums import ItemKind
 from app.database.models import Article
 
 
+def _norm(text: str) -> str:
+    return " ".join((text or "").lower().replace("-", " ").split())
+
+
 def _blob(article: Article) -> str:
     parts = [article.title or "", article.description or "", article.cleaned_text or ""]
-    return " ".join(parts).lower()
+    return _norm(" ".join(parts))
 
 
 def _clamp(value: float) -> float:
@@ -35,21 +39,28 @@ def score_relevance(
     score = 1.5
 
     if article.item_kind == ItemKind.RESEARCH_PAPER.value:
-        score = 8.0
+        score += taxonomy.relevance.paper_bonus
         reasons.append("research_paper")
+    else:
+        score += taxonomy.relevance.news_bonus
+        reasons.append("news_item")
 
     for term in taxonomy.relevance.strong_terms:
-        if term.lower() in text:
+        if _norm(term) in text:
             score += 1.4
             reasons.append(f"strong:{term}")
     for term in taxonomy.relevance.weak_terms:
-        if term.lower() in text:
+        if _norm(term) in text:
             score += 0.45
             reasons.append(f"weak:{term}")
     for term in taxonomy.relevance.noise_terms:
-        if term.lower() in text:
+        if _norm(term) in text:
             score -= 2.5
             reasons.append(f"noise:{term}")
+    for term in taxonomy.relevance.niche_terms:
+        if _norm(term) in text:
+            score -= 3.0
+            reasons.append(f"niche:{term}")
 
     score = _clamp(score)
     return RelevanceResult(

@@ -15,6 +15,8 @@ from app.llm.mock_provider import MockProvider
 from app.processors.intelligence import IntelligenceProcessor
 from app.processors.summarizer import Summarizer
 from app.report.generator import ReportGenerator
+from app.report.models import ReportItem
+from app.report.ranker import build_document, mix_for_report
 from app.report.validator import extract_numbers, validate_item
 from app.utils.hashing import content_hash
 
@@ -37,6 +39,43 @@ def _article(db_session, *, source_name: str, title: str, url: str, text: str, *
     db_session.flush()
     db_session.refresh(article)
     return article
+
+
+def _item(*, article_id: int, title: str, schema_name: str, score: float) -> ReportItem:
+    return ReportItem(
+        article_id=article_id,
+        title=title,
+        summary="summary",
+        why_it_matters="why",
+        source_name="Example",
+        source_url=f"https://example.com/{article_id}",
+        score=score,
+        schema_name=schema_name,
+    )
+
+
+def test_mix_for_report_prefers_news_over_papers() -> None:
+    papers = [
+        _item(article_id=index, title=f"Paper {index}", schema_name="research", score=9.5 - index * 0.01)
+        for index in range(1, 13)
+    ]
+    news = [
+        _item(article_id=100, title="OpenAI launches GPT", schema_name="news", score=7.0),
+        _item(article_id=101, title="Google model release", schema_name="company", score=6.8),
+        _item(article_id=102, title="Startup funding round", schema_name="company", score=6.5),
+    ]
+    mixed = mix_for_report(papers + news, cap=8, max_research=4)
+    schemas = [item.schema_name for item in mixed]
+    titles = {item.title for item in mixed}
+    assert schemas.count("research") == 4
+    assert len(mixed) == 7
+    assert "OpenAI launches GPT" in titles
+    assert "Google model release" in titles
+    assert "Startup funding round" in titles
+
+    document = build_document(mixed, report_date=date(2026, 8, 18), stats={"selected": len(mixed)})
+    assert sum(1 for item in document.executive if item.schema_name == "research") <= 1
+    assert len(document.research) <= 3
 
 
 def test_validator_flags_number_missing_from_source(db_session) -> None:
@@ -170,7 +209,7 @@ def test_report_respects_max_items(db_session, tmp_path: Path, monkeypatch) -> N
         source_name="arXiv cs.AI / cs.LG / cs.CL",
         title="Paper one on large language models",
         url="https://arxiv.org/abs/2608.44444",
-        text="A large language model paper with transformer training results.",
+        text="A large language model paper with transformer training results and inference benchmarks.",
         item_kind="research_paper",
     )
     _article(

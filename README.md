@@ -101,10 +101,13 @@ python scripts/run_scheduler.py --once
 This is the path that updates the live website every day at **17:00 IST** without your PC.
 
 1. Put this project on GitHub (one-time).
-2. In the GitHub repo: **Settings → Secrets and variables → Actions → New repository secret**
-   - Name: `CLOUDFLARE_API_TOKEN`
-   - Value: a Cloudflare API token with **Cloudflare Pages — Edit** permission
-3. After the first push, GitHub runs `.github/workflows/daily.yml` every day at 11:30 UTC (5:00pm IST), builds the report, and deploys https://ai-daily-intelligence.pages.dev
+2. In the GitHub repo: **Settings → Secrets and variables → Actions**
+   - Secret `CLOUDFLARE_API_TOKEN`: a Cloudflare **custom** API token. Include the correct account, then:
+     - Account → **Cloudflare Pages → Edit**
+     - Account Settings → **Read** (if listed)
+     - User → **Memberships → Read** (needed if Wrangler still calls `GET /memberships` and fails with API 10000)
+   - Variable `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account ID (dashboard URL after `dash.cloudflare.com/`). This lets Wrangler skip User Memberships Read.
+3. After the first push, GitHub runs `.github/workflows/daily.yml` every day at 11:30 UTC (5:00pm IST), builds the report, and deploys https://ai-daily-intelligence.pages.dev (the Pages **production** branch, not the `master` preview alias).
 
 You can also run it by hand: GitHub → **Actions → Daily pipeline → Run workflow**.
 

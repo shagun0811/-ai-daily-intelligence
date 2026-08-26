@@ -195,7 +195,7 @@ def test_max_llm_items_cap(db_session, monkeypatch) -> None:
         source_name="arXiv cs.AI / cs.LG / cs.CL",
         title="Paper one on large language models",
         url="https://arxiv.org/abs/2608.11111",
-        text="A large language model paper with transformer training results.",
+        text="A large language model paper with transformer training results and inference benchmarks.",
         item_kind="research_paper",
     )
     _article(
@@ -210,6 +210,33 @@ def test_max_llm_items_cap(db_session, monkeypatch) -> None:
     summary = Summarizer(db_session, provider=CountingMock()).run()
     assert summary.summarized == 1
     assert summary.skipped_cap == 1
+    clear_settings_cache()
+
+
+def test_max_llm_items_prefers_news_over_papers(db_session, monkeypatch) -> None:
+    monkeypatch.setenv("MAX_LLM_ITEMS", "1")
+    clear_settings_cache()
+    news = _article(
+        db_session,
+        source_name="Google AI Blog",
+        title="Google announces a new model release with open weights",
+        url="https://blog.google/news-first-sum",
+        text="Google released an open-weights large language model checkpoint on Hugging Face.",
+    )
+    _article(
+        db_session,
+        source_name="arXiv cs.AI / cs.LG / cs.CL",
+        title="A retrieval method for agentic RAG systems",
+        url="https://arxiv.org/abs/2608.12121",
+        text="We propose a retrieval method for agentic RAG with transformer training results.",
+        item_kind="research_paper",
+    )
+    IntelligenceProcessor(db_session).run()
+    summary = Summarizer(db_session, provider=CountingMock()).run()
+    db_session.refresh(news)
+    assert summary.summarized == 1
+    assert summary.skipped_cap == 1
+    assert news.processing_status == ProcessingStatus.SUMMARIZED.value
     clear_settings_cache()
 
 
