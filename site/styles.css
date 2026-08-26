@@ -114,7 +114,161 @@ button { cursor: pointer; color: var(--title); }
 .visuals { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.6rem; }
 .visuals img { width: 100%; border-radius: 12px; border: 1px solid var(--border); }
 .error { color: #ffb4b4; }
+button.linkish {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--accent);
+  font-weight: 700;
+  border-radius: 0;
+}
+.archive-toolbar { margin-bottom: 1rem; }
+.archive-nav {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+.archive-heading h2 {
+  margin: 0.15rem 0 0.2rem;
+  font-family: Fraunces, Georgia, serif;
+  color: var(--title);
+  font-size: 1.45rem;
+}
+.date-strip {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding: 0.15rem 0 0.7rem;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+.date-chip {
+  flex: 0 0 auto;
+  min-width: 4.4rem;
+  text-align: center;
+  padding: 0.45rem 0.5rem 0.5rem;
+  border-radius: 14px;
+}
+.date-chip .dow {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+.date-chip .num {
+  display: block;
+  font-family: Fraunces, Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--title);
+  line-height: 1.2;
+}
+.date-chip .mon { display: block; font-size: 0.72rem; color: var(--muted); }
+.date-chip.today { border-color: var(--accent); }
+.date-chip.today .dow { color: var(--accent); }
+.date-chip.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+.date-chip.selected .dow,
+.date-chip.selected .num,
+.date-chip.selected .mon { color: inherit; }
+.date-jump {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+.date-jump input { min-width: 11rem; }
+.report-reader {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.15rem 1.2rem 1.4rem;
+  box-shadow: var(--shadow);
+}
+.report-chrome {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.report-chrome h2 {
+  margin: 0.2rem 0 0.35rem;
+  font-family: Fraunces, Georgia, serif;
+  color: var(--title);
+  font-size: 1.7rem;
+}
+.badge-today {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  vertical-align: middle;
+}
+.downloads.secondary a {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.report-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.1rem;
+  margin-top: 0.9rem;
+}
+.report-aside img { width: 100%; border-radius: 12px; border: 1px solid var(--border); }
+.report-body { line-height: 1.55; }
+.report-body h2 {
+  font-family: Fraunces, Georgia, serif;
+  color: var(--title);
+  font-size: 1.28rem;
+  margin: 1.35rem 0 0.55rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+}
+.report-body h2:first-child { margin-top: 0; }
+.report-body h3 { color: var(--title); font-size: 1.05rem; margin: 0.2rem 0 0.35rem; }
+.report-body a { color: var(--accent); }
+.report-body ol.exec { padding-left: 1.2rem; }
+.report-body ol.exec li { margin: 0.7rem 0; }
+.story {
+  margin: 0 0 1rem;
+  padding: 0 0 0.95rem;
+  border-bottom: 1px solid var(--border);
+}
+.story:last-child { border-bottom: 0; }
+.story-source { color: var(--muted); font-size: 0.92rem; }
+.empty-day {
+  text-align: center;
+  padding: 2.4rem 1rem;
+  color: var(--muted);
+}
+.empty-day h3 { color: var(--title); font-family: Fraunces, Georgia, serif; margin-bottom: 0.4rem; }
+.cards-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem; margin-top: 0.6rem; }
+.cards-row img { width: 100%; border-radius: 10px; border: 1px solid var(--border); }
+@media (min-width: 900px) {
+  .report-layout {
+    grid-template-columns: minmax(0, 1fr) 260px;
+    align-items: start;
+  }
+  .report-aside { position: sticky; top: 1rem; }
+}
 @media (max-width: 800px) {
   .metrics, .filters { grid-template-columns: 1fr 1fr; }
   .hero-top { flex-direction: column; }
+  .archive-nav { grid-template-columns: 1fr 1fr; }
+  .archive-heading { grid-column: 1 / -1; order: -1; }
 }

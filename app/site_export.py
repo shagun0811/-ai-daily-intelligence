@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import zipfile
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from sqlalchemy.orm import Session
 
@@ -28,6 +30,10 @@ _LEGACY_NAMES = {
     "infographic": "report-infographic.png",
     "video": "report-briefing.gif",
 }
+
+_EXEC_ITEM = re.compile(r"^\d+\.\s+\*\*(.+?)\*\*\s+[—–-]\s+(.*)$")
+_MD_LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
+_SOURCE_INLINE = re.compile(r"Source:\s+\[(.+?)\]\((.+?)\)")
 
 
 @dataclass
@@ -77,6 +83,8 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
                 public["files"] = previous["files"]
             if not public.get("preview") and previous.get("preview"):
                 public["preview"] = previous["preview"]
+            if not public.get("briefing") and previous.get("briefing"):
+                public["briefing"] = previous["briefing"]
             _remove_legacy_duplicates(files_dir / date_key, date_key)
             zip_url = _write_day_zip(files_dir / date_key, date_key)
             if zip_url:
@@ -98,7 +106,7 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
                 continue
             existing = by_date.get(folder.name)
             if existing is None:
-                by_date[folder.name] = {
+                existing = {
                     "id": None,
                     "report_date": folder.name,
                     "title": "AI Daily Intelligence",
@@ -106,19 +114,26 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
                     "preview": "",
                     "files": disk_files,
                 }
+                by_date[folder.name] = existing
             else:
                 merged = dict(existing.get("files") or {})
                 merged.update({key: value for key, value in disk_files.items() if value})
                 existing["files"] = merged
+            _hydrate_briefing(existing, folder)
 
         public_reports = sorted(
             by_date.values(),
             key=lambda row: str(row.get("report_date") or ""),
             reverse=True,
         )
+        for row in public_reports:
+            date_key = str(row.get("report_date") or "")
+            if date_key:
+                _hydrate_briefing(row, files_dir / date_key)
         generated_at = datetime.now(timezone.utc).isoformat()
         payload = {
             "generated_at": generated_at,
+            "today": _today_iso(),
             "stats": dashboard_stats(session),
             "options": filter_options(session),
             "items": search_items(session, limit=80),
@@ -127,6 +142,7 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
         }
         history = {
             "generated_at": generated_at,
+            "today": payload["today"],
             "archive_start": ARCHIVE_START.isoformat(),
             "count": len(public_reports),
             "dates": [row.get("report_date") for row in public_reports],
@@ -155,6 +171,202 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
         summary.errors.append(str(exc))
         log_stage(logger, STAGE_REPORT, "site export failed error=%s", exc, level=40)
     return summary
+
+
+def parse_briefing(markdown: str) -> dict[str, Any]:
+    """Turn daily-report markdown into sections the archive reader can render."""
+    text = (markdown or "").replace("\r\n", "\n")
+    if not text.strip():
+        return {}
+    lines = text.split("\n")
+    title = "AI Daily Intelligence"
+    report_date = ""
+    stats_line = ""
+    executive: list[dict[str, str]] = []
+    sections: list[dict[str, Any]] = []
+    watch: list[str] = []
+    sources: list[dict[str, str]] = []
+    heading = ""
+    current_section: dict[str, Any] | None = None
+    current_item: dict[str, str] | None = None
+
+    def flush_item() -> None:
+        nonlocal current_item
+        if current_item is not None and current_section is not None:
+            current_section.setdefault("items", []).append(current_item)
+        current_item = None
+
+    def flush_section() -> None:
+        nonlocal current_section
+        flush_item()
+        if current_section is not None:
+            sections.append(current_section)
+        current_section = None
+
+    index = 0
+    while index < len(lines):
+        stripped = lines[index].strip()
+        if stripped.startswith("# ") and not heading and not executive:
+            title = stripped[2:].strip() or title
+            index += 1
+            continue
+        if stripped.startswith("**Date:**"):
+            report_date = stripped.replace("**Date:**", "").strip()
+            index += 1
+            continue
+        if stripped.startswith("*") and stripped.endswith("*") and "consider" in stripped.lower():
+            stats_line = stripped.strip("*").strip()
+            index += 1
+            continue
+        if stripped.startswith("## "):
+            flush_section()
+            heading = stripped[3:].strip()
+            if heading == "Executive Summary":
+                index += 1
+                while index < len(lines) and not lines[index].startswith("## "):
+                    row = lines[index].strip()
+                    match = _EXEC_ITEM.match(row)
+                    if match:
+                        item = {
+                            "title": match.group(1).strip(),
+                            "summary": match.group(2).strip(),
+                            "source_name": "",
+                            "source_url": "",
+                        }
+                        index += 1
+                        if index < len(lines):
+                            source_match = _SOURCE_INLINE.search(lines[index].strip())
+                            if source_match:
+                                item["source_name"] = source_match.group(1).strip()
+                                item["source_url"] = source_match.group(2).strip()
+                                index += 1
+                        executive.append(item)
+                        continue
+                    index += 1
+                continue
+            if heading == "What to Watch":
+                index += 1
+                while index < len(lines) and not lines[index].startswith("## "):
+                    row = lines[index].strip()
+                    if row.startswith("- "):
+                        watch.append(row[2:].strip())
+                    index += 1
+                continue
+            if heading == "Sources":
+                index += 1
+                while index < len(lines) and not lines[index].startswith("## "):
+                    row = lines[index].strip()
+                    link = _MD_LINK.search(row)
+                    if row.startswith("- ") and link:
+                        sources.append({"name": link.group(1).strip(), "url": link.group(2).strip()})
+                    index += 1
+                continue
+            current_section = {"heading": heading, "items": []}
+            index += 1
+            continue
+        if stripped.startswith("### ") and current_section is not None:
+            flush_item()
+            current_item = {
+                "title": stripped[4:].strip(),
+                "body": "",
+                "problem": "",
+                "key_contribution": "",
+                "why_it_matters": "",
+                "source_name": "",
+                "source_url": "",
+                "published_at": "",
+            }
+            index += 1
+            continue
+        if current_item is not None:
+            if stripped.startswith("**Problem:**"):
+                current_item["problem"] = stripped.replace("**Problem:**", "").strip()
+            elif stripped.startswith("**Key contribution:**"):
+                current_item["key_contribution"] = stripped.replace("**Key contribution:**", "").strip()
+            elif stripped.startswith("**Why it matters:**"):
+                current_item["why_it_matters"] = stripped.replace("**Why it matters:**", "").strip()
+            elif stripped.startswith("**Source:**"):
+                link = _MD_LINK.search(stripped)
+                if link:
+                    current_item["source_name"] = link.group(1).strip()
+                    current_item["source_url"] = link.group(2).strip()
+                if "—" in stripped:
+                    current_item["published_at"] = stripped.split("—", 1)[-1].strip()
+            elif stripped.startswith("**Supporting sources:**"):
+                current_item["supporting"] = stripped.replace("**Supporting sources:**", "").strip()
+            elif stripped.startswith("*Validation notes:*"):
+                current_item["notes"] = stripped.replace("*Validation notes:*", "").strip()
+            elif stripped and not stripped.startswith("No items"):
+                current_item["body"] = (
+                    f"{current_item['body']} {stripped}".strip() if current_item["body"] else stripped
+                )
+            index += 1
+            continue
+        index += 1
+    flush_section()
+    return {
+        "title": title,
+        "date": report_date,
+        "stats_line": stats_line,
+        "executive": executive,
+        "sections": sections,
+        "watch": watch,
+        "sources": sources,
+    }
+
+
+def _today_iso() -> str:
+    try:
+        zone = ZoneInfo("Asia/Kolkata")
+    except ZoneInfoNotFoundError:
+        zone = timezone.utc
+    return datetime.now(zone).date().isoformat()
+
+
+def _preview_text(markdown: str, limit: int = 4000) -> str:
+    text = markdown or ""
+    if len(text) > limit:
+        return text[:limit].rstrip() + "\n\n…"
+    return text
+
+
+def _read_site_markdown(folder: Path, date_key: str | None = None) -> str:
+    if not folder.is_dir():
+        return ""
+    key = date_key or folder.name
+    names = [_public_filenames(key)["markdown"], _LEGACY_NAMES["markdown"]]
+    for name in names:
+        path = folder / name
+        if not path.is_file():
+            continue
+        try:
+            return path.read_text(encoding="utf-8")
+        except OSError:
+            return ""
+    return ""
+
+
+def _hydrate_briefing(row: dict[str, Any], folder: Path) -> None:
+    """Fill structured briefing from the day's markdown so the site can render it."""
+    existing = row.get("briefing") if isinstance(row.get("briefing"), dict) else {}
+    markdown = _read_site_markdown(folder, str(row.get("report_date") or folder.name))
+    if not markdown.strip():
+        preview = str(row.get("preview") or "")
+        if preview and not preview.rstrip().endswith("…"):
+            markdown = preview
+    if not markdown.strip():
+        if existing:
+            row["briefing"] = existing
+        return
+    parsed = parse_briefing(markdown)
+    if parsed.get("executive") or parsed.get("sections") or parsed.get("watch"):
+        row["briefing"] = parsed
+    elif existing:
+        row["briefing"] = existing
+    if not row.get("preview"):
+        row["preview"] = _preview_text(markdown)
+    if parsed.get("title") and row.get("title") in {None, "", "AI Daily Intelligence"}:
+        row["title"] = parsed["title"]
 
 
 def _is_archive_date(date_key: str) -> bool:
@@ -228,9 +440,11 @@ def _public_report(report: dict[str, Any], files_dir: Path) -> tuple[dict[str, A
             else:
                 public_files.setdefault(key, value)
 
-    preview = str(report.get("markdown_content") or "")
-    if len(preview) > 4000:
-        preview = preview[:4000].rstrip() + "\n\n…"
+    markdown = str(report.get("markdown_content") or "")
+    if not markdown.strip():
+        markdown = _read_site_markdown(dest, date_key)
+    preview = _preview_text(markdown)
+    briefing = parse_briefing(markdown) if markdown.strip() else {}
 
     return (
         {
@@ -243,6 +457,7 @@ def _public_report(report: dict[str, Any], files_dir: Path) -> tuple[dict[str, A
                 "flagged": stats.get("flagged"),
             },
             "preview": preview,
+            "briefing": briefing,
             "files": public_files,
         },
         copied,

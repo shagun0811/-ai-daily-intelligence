@@ -67,6 +67,8 @@ def deploy_public_site(site_dir: Path | None = None) -> SiteDeploySummary:
         "--project-name",
         project,
         "--commit-dirty=true",
+        "--branch",
+        "production",
     ]
     try:
         with tempfile.TemporaryDirectory(prefix="adi-pages-") as tmp:

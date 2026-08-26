@@ -138,4 +138,4 @@ Each pipeline stage (collect → clean → score → summarize → report) commi
 
 ## Next
 
-The Cloudflare site updates automatically from **GitHub Actions** at 5pm IST (laptop can be off) after you add the `CLOUDFLARE_API_TOKEN` secret. Every daily report from **2026-08-17 onward** stays in the archive. On the live page, open **Report archive** and use **Download all**. The stable URL is https://ai-daily-intelligence.pages.dev
+The Cloudflare site updates automatically from **GitHub Actions** at 5pm IST (laptop can be off) after you add the `CLOUDFLARE_API_TOKEN` secret. Every daily report from **2026-08-17 onward** stays in the archive. On the live page, open **Report archive**, pick a day, and read the briefing on the page (downloads stay as extras). The stable URL is https://ai-daily-intelligence.pages.dev

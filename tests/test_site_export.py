@@ -6,6 +6,7 @@ import json
 from datetime import date, datetime, timezone
 from pathlib import Path
 
+from app.config.settings import PROJECT_ROOT
 from app.database.enums import ProcessingStatus
 from app.database.models import DailyReport
 from app.database.repository import Repository
@@ -60,6 +61,8 @@ def test_export_writes_json_and_copies_report_files(db_session, tmp_path: Path) 
     assert history["count"] == 1
     assert history["dates"] == ["2026-08-17"]
     assert history["archive_start"] == "2026-08-17"
+    assert payload["today"]
+    assert payload["reports"][0]["briefing"]["title"] == "AI Daily Intelligence"
 
 
 def _write_report(db_session, tmp_path: Path, day: date, title: str) -> Path:
@@ -113,3 +116,86 @@ def test_export_does_not_wipe_later_site_files(db_session, tmp_path: Path) -> No
     assert (out / "files" / "2026-08-18" / "ai-daily-intelligence-2026-08-18.md").is_file()
     assert (out / "files" / "2026-08-17" / "ai-daily-intelligence-2026-08-17.md").is_file()
     assert (out / "files" / "2026-08-18" / "ai-daily-intelligence-2026-08-18.zip").is_file()
+
+
+_SAMPLE_MARKDOWN = """# AI Daily Intelligence
+
+**Date:** 2026-08-26
+
+*Scored items considered: 12 · In this report: 2 · no source-check warnings*
+
+## Executive Summary
+
+1. **Jalapeño’s first results** — Custom inference chip with lower latency.
+   Source: [OpenAI News](https://openai.com/index/jalapeno-first-results)
+
+2. **OpenAI subpoenaed by Alabama AG** — Investigation after a Hugging Face hack.
+   Source: [The Verge AI](https://www.theverge.com/example)
+
+## Top AI Developments
+
+### Recursive memory for long-horizon agents
+
+Agents lose the task state as histories grow.
+
+**Why it matters:** Long-horizon agents need working memory, not the full transcript.
+
+**Source:** [arXiv cs.AI](https://arxiv.org/abs/2608.1) — 2026-08-25
+
+## Research Advancements
+
+No items in this section.
+
+## What to Watch
+
+- Chip benchmarks
+- Safety investigations
+
+## Sources
+
+- [OpenAI News](https://openai.com/index/jalapeno-first-results)
+- [The Verge AI](https://www.theverge.com/example)
+"""
+
+
+def test_parse_briefing_extracts_readable_day_report() -> None:
+    from app.site_export import parse_briefing
+
+    briefing = parse_briefing(_SAMPLE_MARKDOWN)
+    assert briefing["title"] == "AI Daily Intelligence"
+    assert briefing["date"] == "2026-08-26"
+    assert briefing["executive"][0]["title"] == "Jalapeño’s first results"
+    assert briefing["executive"][0]["source_url"].endswith("jalapeno-first-results")
+    assert briefing["sections"][0]["heading"] == "Top AI Developments"
+    assert briefing["sections"][0]["items"][0]["title"].startswith("Recursive memory")
+    assert "working memory" in briefing["sections"][0]["items"][0]["why_it_matters"]
+    assert briefing["watch"] == ["Chip benchmarks", "Safety investigations"]
+    assert briefing["sources"][0]["name"] == "OpenAI News"
+
+
+def test_export_hydrates_briefing_from_on_disk_markdown(db_session, tmp_path: Path) -> None:
+    out = tmp_path / "site"
+    folder = out / "files" / "2026-08-26"
+    folder.mkdir(parents=True)
+    (folder / "ai-daily-intelligence-2026-08-26.md").write_text(_SAMPLE_MARKDOWN, encoding="utf-8")
+
+    summary = export_public_site(db_session, site_dir=out)
+    assert not summary.errors
+    payload = json.loads((out / "data" / "dashboard.json").read_text(encoding="utf-8"))
+    dates = [row["report_date"] for row in payload["reports"]]
+    assert "2026-08-26" in dates
+    briefing = next(row["briefing"] for row in payload["reports"] if row["report_date"] == "2026-08-26")
+    assert briefing["executive"][0]["title"] == "Jalapeño’s first results"
+    assert briefing["sections"][0]["items"][0]["why_it_matters"]
+
+
+def test_archive_page_is_a_day_reader() -> None:
+    html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "app.js").read_text(encoding="utf-8")
+    assert 'id="report-reader"' in html
+    assert 'id="date-strip"' in html
+    assert 'id="prev-day"' in html
+    assert 'id="next-day"' in html
+    assert "function renderBriefing" in js
+    assert "Download all" in js
+

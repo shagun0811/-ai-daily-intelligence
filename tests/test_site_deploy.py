@@ -36,6 +36,8 @@ def test_deploy_uploads_with_wrangler(monkeypatch, tmp_path: Path) -> None:
         assert command[0] == "npx"
         assert "--project-name" in command
         assert "ai-daily-intelligence" in command
+        assert "--branch" in command
+        assert "production" in command
         assert (Path(cwd) / "index.html").is_file()
         assert (Path(cwd) / "data" / "dashboard.json").is_file()
         return SimpleNamespace(
