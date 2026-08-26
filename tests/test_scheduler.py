@@ -132,6 +132,60 @@ def test_run_daily_pipeline_order(monkeypatch) -> None:
     assert outcome.ok is True
 
 
+def test_run_daily_pipeline_partial_collect_is_ok(monkeypatch) -> None:
+    calls: list[str] = []
+
+    class _Result:
+        def __init__(self, *, errors: list[str] | None = None, successful_sources: int = 0) -> None:
+            self.errors = errors or []
+            self.successful_sources = successful_sources
+
+        def as_text(self) -> str:
+            return "ok"
+
+    class _Step:
+        def __init__(self, name: str) -> None:
+            self.name = name
+
+        def __call__(self, session) -> "_Step":
+            return self
+
+        def run(self, **_kwargs) -> _Result:
+            calls.append(self.name)
+            if self.name == "collect":
+                return _Result(errors=["arXiv: HTTP 429"], successful_sources=6)
+            return _Result()
+
+    monkeypatch.setattr("app.pipeline.runner.setup_logging", lambda: None)
+    monkeypatch.setattr("app.pipeline.runner.init_db", lambda seed=True: None)
+
+    class _Session:
+        def __enter__(self):
+            return object()
+
+        def __exit__(self, *args):
+            return False
+
+    monkeypatch.setattr("app.pipeline.runner.session_scope", lambda: _Session())
+    monkeypatch.setattr("app.pipeline.runner.SourceManager", _Step("collect"))
+    monkeypatch.setattr("app.pipeline.runner.ContentProcessor", _Step("clean"))
+    monkeypatch.setattr("app.pipeline.runner.IntelligenceProcessor", _Step("score"))
+    monkeypatch.setattr("app.pipeline.runner.Summarizer", _Step("summarize"))
+    monkeypatch.setattr("app.pipeline.runner.ReportGenerator", _Step("report"))
+    monkeypatch.setattr(
+        "app.pipeline.runner.export_public_site",
+        lambda session: calls.append("publish") or _Result(),
+    )
+    monkeypatch.setattr(
+        "app.pipeline.runner.deploy_public_site",
+        lambda: calls.append("deploy") or _Result(),
+    )
+    outcome = run_daily_pipeline()
+    assert calls == ["collect", "clean", "score", "summarize", "report", "publish", "deploy"]
+    assert outcome.ok is True
+    assert outcome.errors == []
+
+
 def test_run_daily_pipeline_continues_after_stage_failure(monkeypatch) -> None:
     calls: list[str] = []
 

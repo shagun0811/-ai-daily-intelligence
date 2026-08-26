@@ -79,8 +79,11 @@ def _run_stage(outcome: PipelineOutcome, *, name: str, field_name: str, fn: _Sta
             result = fn(session)
         text = result.as_text() if hasattr(result, "as_text") else str(result)
         setattr(outcome, field_name, text)
-        if hasattr(result, "errors"):
-            outcome.errors.extend(getattr(result, "errors", []) or [])
+        stage_errors = list(getattr(result, "errors", []) or []) if hasattr(result, "errors") else []
+        # One RSS/arXiv outage must not fail the job if other sources produced items.
+        collect_partial = name == "collect" and getattr(result, "successful_sources", 0) > 0
+        if stage_errors and not collect_partial:
+            outcome.errors.extend(stage_errors)
         log_stage(logger, stage_label, "stage done")
     except Exception as exc:  # noqa: BLE001
         message = f"{name}: {exc}"

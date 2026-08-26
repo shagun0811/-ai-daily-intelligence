@@ -46,7 +46,7 @@ def fetch_url(
     """GET a URL. Retries transient errors; raises HttpError on failure."""
     settings = get_settings()
     timeout = timeout if timeout is not None else settings.http_timeout_seconds
-    retries = max_retries if max_retries is not None else 2
+    retries = max_retries if max_retries is not None else 3
     headers = {"User-Agent": DEFAULT_USER_AGENT, "Accept": "*/*"}
 
     last_error: Exception | None = None
@@ -65,7 +65,13 @@ def fetch_url(
                     attempt + 1,
                     level=30,
                 )
-                sleep(min(2 ** attempt, 4))
+                retry_after = response.headers.get("Retry-After", "")
+                if retry_after.isdigit():
+                    sleep(min(int(retry_after), 20))
+                elif response.status_code == 429:
+                    sleep(min(8 * (attempt + 1), 20))
+                else:
+                    sleep(min(2 ** attempt, 4))
                 continue
             if response.status_code >= 400:
                 raise HttpError(
