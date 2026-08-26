@@ -22,7 +22,7 @@ def main() -> None:
     print(summary.as_text())
     print("Open inside VS Code Simple Browser:")
     print("  python scripts/preview_site.py")
-    print("Or: Terminal → Run Task → Preview briefing in VS Code")
+    print("Or: Terminal -> Run Task -> Preview briefing in VS Code")
     print("Live site: https://ai-daily-intelligence.pages.dev")
     print("The daily scheduler deploys this automatically when CLOUDFLARE_AUTO_DEPLOY=true")
     sys.exit(0 if not summary.errors else 1)

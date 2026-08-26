@@ -4,61 +4,55 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI Daily Intelligence</title>
-  <link rel="stylesheet" href="./styles.css">
+  <meta name="description" content="A daily briefing of what moved in AI, ranked by why it matters.">
+  <script>
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <link rel="stylesheet" href="./briefing-20260826.css">
 </head>
 <body>
-  <div class="page">
-    <header class="hero">
-      <div class="hero-top">
-        <div>
-          <div class="kicker">Daily briefing desk</div>
-          <h1>AI Daily Intelligence</h1>
-          <p>Ranked AI news, research, and product moves — static site for Cloudflare Pages.</p>
-          <p><button type="button" class="linkish" id="open-today">Read today's briefing</button></p>
-        </div>
-        <button id="theme-toggle" type="button">Light</button>
+  <a class="skip" href="#briefing">Skip to briefing</a>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <a class="brand" href="./" id="brand-home">
+        <span class="brand-kicker">Daily briefing</span>
+        <span class="brand-name">AI Daily Intelligence</span>
+      </a>
+      <nav class="masthead-actions" aria-label="Edition">
+        <button type="button" id="open-archive" aria-expanded="false" aria-controls="archive-panel">Archive</button>
+        <button type="button" id="theme-toggle" aria-label="Switch color theme">Dark</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="issue-head">
+      <p class="kicker" id="issue-kicker">Today in AI</p>
+      <h1 id="issue-date">Loading the briefing…</h1>
+      <p class="dek" id="issue-dek"></p>
+      <div class="day-nav">
+        <button type="button" id="prev-day" aria-label="Previous day">‹</button>
+        <div id="date-strip" class="date-strip" role="listbox" aria-label="Days with a briefing"></div>
+        <button type="button" id="next-day" aria-label="Next day">›</button>
       </div>
-    </header>
-
-    <section id="metrics" class="metrics"></section>
-    <p id="updated" class="muted"></p>
-
-    <nav class="tabs">
-      <button type="button" class="tab active" data-tab="items">Browse items</button>
-      <button type="button" class="tab" data-tab="reports">Report archive</button>
-    </nav>
-
-    <section id="items" class="panel">
-      <div class="filters">
-        <input id="search" type="search" placeholder="Search title, source, or brief…">
-        <select id="source"><option value="">All sources</option></select>
-        <select id="category"><option value="">All categories</option></select>
-      </div>
-      <p id="item-count" class="muted"></p>
-      <div id="item-list"></div>
     </section>
 
-    <section id="reports" class="panel hidden">
-      <div class="archive-toolbar">
-        <div class="archive-nav">
-          <button type="button" id="prev-day" aria-label="Previous day">‹ Prev</button>
-          <div class="archive-heading">
-            <div class="kicker" id="archive-kicker">Report archive</div>
-            <h2 id="archive-title">Pick a day</h2>
-            <p class="muted" id="archive-sub"></p>
-          </div>
-          <button type="button" id="next-day" aria-label="Next day">Next ›</button>
-        </div>
-        <div id="date-strip" class="date-strip" role="listbox" aria-label="Days with a briefing"></div>
+    <section id="archive-panel" class="archive-panel hidden" hidden>
+      <div class="archive-head">
+        <h2>Every published day</h2>
+        <p class="muted">Open any date in the same reader. The briefing stays on the page.</p>
         <label class="date-jump">
           Jump to date
           <input id="report-date" type="date">
         </label>
       </div>
-      <div id="report-reader"></div>
+      <div id="archive-grid" class="archive-grid"></div>
     </section>
+
+    <article id="briefing" class="briefing" aria-live="polite"></article>
     <p id="error" class="error hidden"></p>
-  </div>
-  <script src="./app.js"></script>
+  </main>
+
+  <script src="./briefing-20260826.js"></script>
 </body>
 </html>

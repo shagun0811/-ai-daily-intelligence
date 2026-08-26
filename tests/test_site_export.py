@@ -164,6 +164,9 @@ def test_parse_briefing_extracts_readable_day_report() -> None:
     briefing = parse_briefing(_SAMPLE_MARKDOWN)
     assert briefing["title"] == "AI Daily Intelligence"
     assert briefing["date"] == "2026-08-26"
+    assert "Jalapeño" in briefing["lede"]
+    assert briefing["lede"].count("Jalapeño") == 1
+    assert "subpoenaed" in briefing["lede"].lower()
     assert briefing["executive"][0]["title"] == "Jalapeño’s first results"
     assert briefing["executive"][0]["source_url"].endswith("jalapeno-first-results")
     assert briefing["sections"][0]["heading"] == "Top AI Developments"
@@ -171,6 +174,24 @@ def test_parse_briefing_extracts_readable_day_report() -> None:
     assert "working memory" in briefing["sections"][0]["items"][0]["why_it_matters"]
     assert briefing["watch"] == ["Chip benchmarks", "Safety investigations"]
     assert briefing["sources"][0]["name"] == "OpenAI News"
+
+
+def test_lede_skips_near_duplicate_headlines() -> None:
+    from app.site_export import _lede_from_executive
+
+    lede = _lede_from_executive(
+        [
+            {"title": "Jalapeño’s first results show industry-leading speed and efficiency in AI inference"},
+            {"title": "OpenAI says its Jalapeño chip can power faster AI responses than the competition"},
+            {"title": "OpenAI subpoenaed by Alabama AG over Hugging Face hack"},
+            {"title": "Welcome to the AI crisis in math"},
+        ]
+    )
+    assert "Jalapeño" in lede
+    assert lede.lower().count("jalapeño") == 1
+    assert "subpoenaed" in lede.lower()
+    assert "math" in lede.lower()
+    assert not lede.rstrip().endswith("and")
 
 
 def test_export_hydrates_briefing_from_on_disk_markdown(db_session, tmp_path: Path) -> None:
@@ -191,11 +212,34 @@ def test_export_hydrates_briefing_from_on_disk_markdown(db_session, tmp_path: Pa
 
 def test_archive_page_is_a_day_reader() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "app.js").read_text(encoding="utf-8")
-    assert 'id="report-reader"' in html
+    js = (PROJECT_ROOT / "site" / "briefing-20260826.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260826.css").read_text(encoding="utf-8")
+    assert 'href="./briefing-20260826.css"' in html
+    assert 'src="./briefing-20260826.js"' in html
+    assert 'id="briefing"' in html
     assert 'id="date-strip"' in html
     assert 'id="prev-day"' in html
     assert 'id="next-day"' in html
+    assert 'id="open-archive"' in html
+    assert "Browse items" not in html
+    assert "Cloudflare" not in html
+    assert "static site" not in html.lower()
     assert "function renderBriefing" in js
+    assert "function layoutBriefing" in js
+    assert "Save this briefing" in js
     assert "Download all" in js
+    assert "hero-card" in css
+    assert "date-strip" in css
+
+
+def test_paid_reader_opens_today_not_item_dump() -> None:
+    html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "briefing-20260826.js").read_text(encoding="utf-8")
+    assert 'id="item-list"' not in html
+    assert 'data-tab="items"' not in html
+    assert "Today in AI" in html
+    assert "Archive" in html
+    assert "local text pipeline" not in js.lower()
+    assert "wrangler" not in js.lower()
+    assert "python scripts/" not in js.lower()
 

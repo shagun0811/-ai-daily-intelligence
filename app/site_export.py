@@ -1,10 +1,15 @@
-"""Export a static Cloudflare Pages site from the local database. Read-only."""
+"""Export a static Cloudflare Pages site from the local database. Read-only.
+
+Site chrome lives in site/index.html plus cache-busted briefing-*.css/js.
+This exporter writes JSON and copies daily files; it does not overwrite the reader UX.
+"""
 
 from __future__ import annotations
 
 import json
 import re
 import shutil
+import unicodedata
 import zipfile
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
@@ -308,11 +313,63 @@ def parse_briefing(markdown: str) -> dict[str, Any]:
         "title": title,
         "date": report_date,
         "stats_line": stats_line,
+        "lede": _lede_from_executive(executive),
         "executive": executive,
         "sections": sections,
         "watch": watch,
         "sources": sources,
     }
+
+
+def _lede_from_executive(executive: list[dict[str, str]]) -> str:
+    """One-line masthead dek: what moved today, not a pipeline status line."""
+    titles: list[str] = []
+    selected: list[str] = []
+    for item in executive:
+        raw = str(item.get("title") or "").strip()
+        if not raw or _is_near_duplicate_title(raw, selected):
+            continue
+        selected.append(raw)
+        titles.append(_clip_lede_title(raw))
+        if len(titles) == 3:
+            break
+    if not titles:
+        return "The day’s ranked AI stories, in one sitting."
+    if len(titles) == 1:
+        return titles[0]
+    if len(titles) == 2:
+        return f"{titles[0]}, and {titles[1]}"
+    return f"{titles[0]}; {titles[1]}; and {titles[2]}"
+
+
+def _is_near_duplicate_title(title: str, existing: list[str]) -> bool:
+    words = _significant_words(title)
+    for other in existing:
+        shared = [word for word in _significant_words(other) if word in words]
+        if any(len(word) >= 6 for word in shared) or len(shared) >= 2:
+            return True
+    return False
+
+
+def _significant_words(title: str) -> list[str]:
+    folded = "".join(
+        ch.lower() if ch.isalnum() else " "
+        for ch in unicodedata.normalize("NFD", title)
+        if unicodedata.category(ch) != "Mn"
+    )
+    return [word for word in folded.split() if len(word) > 4]
+
+
+def _clip_lede_title(title: str, limit: int = 58) -> str:
+    text = " ".join(title.split())
+    if len(text) <= limit:
+        return text.rstrip(",:;.—-")
+    cut = text[:limit].rsplit(" ", 1)[0]
+    stop = {"and", "or", "the", "a", "an", "of", "for", "to", "in", "with", "as"}
+    parts = cut.split()
+    while parts and parts[-1].lower().strip(",:;.—-") in stop:
+        parts.pop()
+    return " ".join(parts).rstrip(",:;.—-") or text[:limit]
 
 
 def _today_iso() -> str:
