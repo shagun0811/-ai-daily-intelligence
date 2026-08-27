@@ -71,6 +71,15 @@ jobs:
           latest = next((row for row in payload.get("reports") or [] if str(row.get("report_date")) == today), {})
           preview = str(latest.get("preview") or "")
           print(f"today={today} preview_chars={len(preview)} arxiv_mentions={preview.lower().count('arxiv')}")
+          feed = Path("site/feed.xml")
+          if not feed.is_file():
+              raise SystemExit("site/feed.xml is missing — export did not write the RSS feed")
+          body = feed.read_text(encoding="utf-8")
+          if not body.lstrip().startswith("<?xml"):
+              raise SystemExit("site/feed.xml is not XML")
+          if "<item>" not in body:
+              raise SystemExit("site/feed.xml has no <item> entries")
+          print(f"rss_bytes={feed.stat().st_size} rss_items={body.count('<item>')}")
           PY
 
       - uses: actions/setup-node@v4

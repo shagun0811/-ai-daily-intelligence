@@ -22,6 +22,7 @@ from sqlalchemy.orm import Session
 from app.config.logging import STAGE_REPORT, get_logger, log_stage
 from app.config.settings import PROJECT_ROOT
 from app.dashboard_data import dashboard_stats, filter_options, list_reports, search_items
+from app.site_rss import write_public_feeds
 
 logger = get_logger(__name__)
 
@@ -146,9 +147,9 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
                 files = dict(row.get("files") or {})
                 files["zip"] = zip_url
                 row["files"] = files
-        generated_at = datetime.now(timezone.utc).isoformat()
+        generated_at = datetime.now(timezone.utc)
         payload = {
-            "generated_at": generated_at,
+            "generated_at": generated_at.isoformat(),
             "today": _today_iso(),
             "stats": dashboard_stats(session),
             "options": filter_options(session),
@@ -157,7 +158,7 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
             "reports": public_reports,
         }
         history = {
-            "generated_at": generated_at,
+            "generated_at": generated_at.isoformat(),
             "today": payload["today"],
             "archive_start": ARCHIVE_START.isoformat(),
             "count": len(public_reports),
@@ -172,6 +173,7 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
             json.dumps(history, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
+        write_public_feeds(root, public_reports, generated_at=generated_at)
         summary.items = len(payload["items"])
         summary.reports = len(public_reports)
         summary.files_copied = copied

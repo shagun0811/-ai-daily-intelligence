@@ -63,6 +63,11 @@ def test_export_writes_json_and_copies_report_files(db_session, tmp_path: Path) 
     assert history["archive_start"] == "2026-08-17"
     assert payload["today"]
     assert payload["reports"][0]["briefing"]["title"] == "AI Daily Intelligence"
+    feed = (out / "feed.xml").read_text(encoding="utf-8")
+    assert feed.startswith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
+    assert "<rss version=\"2.0\"" in feed
+    assert (out / "rss.xml").read_text(encoding="utf-8") == feed
+    assert (out / "atom.xml").is_file()
 
 
 def _write_report(db_session, tmp_path: Path, day: date, title: str) -> Path:
@@ -208,14 +213,18 @@ def test_export_hydrates_briefing_from_on_disk_markdown(db_session, tmp_path: Pa
     briefing = next(row["briefing"] for row in payload["reports"] if row["report_date"] == "2026-08-26")
     assert briefing["executive"][0]["title"] == "Jalapeño’s first results"
     assert briefing["sections"][0]["items"][0]["why_it_matters"]
+    feed = (out / "feed.xml").read_text(encoding="utf-8")
+    assert "Jalapeño’s first results" in feed
+    assert "working memory" in feed or "Custom inference chip" in feed
+    assert "<item>" in feed
 
 
 def test_archive_page_is_a_day_reader() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "briefing-20260827b.js").read_text(encoding="utf-8")
-    css = (PROJECT_ROOT / "site" / "briefing-20260827b.css").read_text(encoding="utf-8")
-    assert 'href="./briefing-20260827b.css"' in html
-    assert 'src="./briefing-20260827b.js"' in html
+    js = (PROJECT_ROOT / "site" / "briefing-20260827c.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260827c.css").read_text(encoding="utf-8")
+    assert 'href="./briefing-20260827c.css"' in html
+    assert 'src="./briefing-20260827c.js"' in html
     assert 'id="briefing"' in html
     assert 'id="date-strip"' in html
     assert 'id="prev-day"' in html
@@ -223,6 +232,9 @@ def test_archive_page_is_a_day_reader() -> None:
     assert 'id="open-archive"' in html
     assert 'id="download-pdf"' in html
     assert 'id="download-pdf-hero"' in html
+    assert 'id="rss-feed"' in html
+    assert 'rel="alternate" type="application/rss+xml"' in html
+    assert "https://ai-daily-intelligence.pages.dev/feed.xml" in html
     assert "Download PDF" in html
     assert "Browse items" not in html
     assert "Cloudflare" not in html
@@ -230,17 +242,19 @@ def test_archive_page_is_a_day_reader() -> None:
     assert "function renderBriefing" in js
     assert "function layoutBriefing" in js
     assert "function renderDownloads" in js
+    assert "function bindRssCopy" in js
     assert "Save this briefing" in js
     assert "Download all" in js
     assert "hero-card" in css
     assert "date-strip" in css
     assert "download-pdf-primary" in css
+    assert ".rss-feed" in css
 
 
 def test_paid_reader_opens_today_not_item_dump() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "briefing-20260827b.js").read_text(encoding="utf-8")
-    css = (PROJECT_ROOT / "site" / "briefing-20260827b.css").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "briefing-20260827c.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260827c.css").read_text(encoding="utf-8")
     assert 'id="item-list"' not in html
     assert 'data-tab="items"' not in html
     assert "Today’s briefing" in html or "Today's briefing" in html
@@ -249,6 +263,7 @@ def test_paid_reader_opens_today_not_item_dump() -> None:
     assert "Archive" in html
     assert "Download PDF" in html
     assert 'id="download-pdf"' in html
+    assert 'id="rss-feed"' in html
     assert "Lead story" in js
     assert "isStaleForHero" in js
     assert "hero-index" in css
@@ -274,6 +289,6 @@ def test_export_generates_missing_pdf_from_markdown(db_session, tmp_path: Path) 
     assert report["files"]["pdf"].endswith("ai-daily-intelligence-2026-08-26.pdf")
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
     assert "Download PDF" in html
-    js = (PROJECT_ROOT / "site" / "briefing-20260827b.js").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "briefing-20260827c.js").read_text(encoding="utf-8")
     assert "files.pdf" in js
 

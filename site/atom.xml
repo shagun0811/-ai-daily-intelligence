@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title>AI Daily Intelligence</title>
+<link href="https://ai-daily-intelligence.pages.dev/" rel="alternate" type="text/html"/>
+<link href="https://ai-daily-intelligence.pages.dev/atom.xml" rel="self" type="application/atom+xml"/>
+<id>https://ai-daily-intelligence.pages.dev/</id>
+<updated>2026-08-27T16:33:08.137649+00:00</updated>
+<subtitle>Today’s ranked AI briefing: the stories that actually moved, and why they matter.</subtitle>
+<entry>
+<title>AI Daily Intelligence — 2026-08-27</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-27" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-27</id>
+<updated>2026-08-27T17:00:00+05:30</updated>
+<published>2026-08-27T17:00:00+05:30</published>
+<content type="text">Google unveils agentic AI platform for lawyers called; Learning never stops: How AI makes learning continuous; and OpenAI’s Jalapeño chip is built for fast inference at
+
+Ranked stories: Google unveils agentic AI platform for lawyers called Gemini Enterprise for Legal - ABA Journal; Learning never stops: How AI makes learning continuous; OpenAI’s Jalapeño chip is built for fast inference at scale, benchmarks show; OpenAI subpoenaed by Alabama AG over Hugging Face hack</content>
+</entry>
+<entry>
+<title>Google unveils agentic AI platform for lawyers called Gemini Enterprise for Legal - ABA Journal</title>
+<link href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxNSUZaaFh6b0drV2JuR0ZjcVpCY182WnUtRDJXRG5sOEczWXZLUGlLZVRTdC1zdTYyd0lOYTBMRkFpMWdyX2UwM09OVEJYSHBEWmJucG9tNnRWZDFzZF9Uc1JPMGk1WWNCZjVkMGJheDRVNXFNNS1fbjQxX1hpdGNpa0U1QWdsU0MyaUpsRzd4Vkd6d1hqRThPZE8zdXhaS01Da1I4Y3Fab1JLUQ?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-27:story-1-584840150cbc</id>
+<updated>2026-08-26T00:00:00+05:30</updated>
+<published>2026-08-26T00:00:00+05:30</published>
+<content type="text">Google unveils agentic AI platform for lawyers called Gemini Enterprise for Legal ABA Journal
+
+Source: Google News AI (https://news.google.com/rss/articles/CBMiqgFBVV95cUxNSUZaaFh6b0drV2JuR0ZjcVpCY182WnUtRDJXRG5sOEczWXZLUGlLZVRTdC1zdTYyd0lOYTBMRkFpMWdyX2UwM09OVEJYSHBEWmJucG9tNnRWZDFzZF9Uc1JPMGk1WWNCZjVkMGJheDRVNXFNNS1fbjQxX1hpdGNpa0U1QWdsU0MyaUpsRzd4Vkd6d1hqRThPZE8zdXhaS01Da1I4Y3Fab1JLUQ?oc=5)</content>
+</entry>
+<entry>
+<title>Learning never stops: How AI makes learning continuous</title>
+<link href="https://openai.com/index/learning-never-stops" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-27:story-2-2c557c91b5a5</id>
+<updated>2026-08-26T00:00:00+05:30</updated>
+<published>2026-08-26T00:00:00+05:30</published>
+<content type="text">OpenAI’s new report explores how students and educators use ChatGPT to make learning more continuous, with support that extends beyond the classroom.
+
+Source: OpenAI News (https://openai.com/index/learning-never-stops)</content>
+</entry>
+<entry>
+<title>OpenAI’s Jalapeño chip is built for fast inference at scale, benchmarks show</title>
+<link href="https://techcrunch.com/2026/08/25/openais-jalapeno-chip-is-built-for-fast-inference-at-scale-benchmarks-show/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-27:story-3-216ee112e926</id>
+<updated>2026-08-25T00:00:00+05:30</updated>
+<published>2026-08-25T00:00:00+05:30</published>
+<content type="text">Tested on SemiAnalysis’ InferenceX benchmark, Jalapeño registered both more tokens per user and more throughput per kilowatt than the currently available state-of-the art.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/08/25/openais-jalapeno-chip-is-built-for-fast-inference-at-scale-benchmarks-show/)</content>
+</entry>
+<entry>
+<title>OpenAI subpoenaed by Alabama AG over Hugging Face hack</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/984239/alabama-attorney-general-subpoena-openai-hugging-face-hack" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-27:story-4-bdbbe5aedeb1</id>
+<updated>2026-08-25T00:00:00+05:30</updated>
+<published>2026-08-25T00:00:00+05:30</published>
+<content type="text">Alabama&apos;s attorney general issued a subpoena to OpenAI on Monday as part of an investigation into how one of its AI agents escaped a supposedly secure testing environment and autonomously hacked another company last month. The investigation seeks to determine whether OpenAI&apos;s safety practices violated state consumer protection laws and pose a risk to Alabama citizens, the AG&apos;s office said in a st…
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/984239/alabama-attorney-general-subpoena-openai-hugging-face-hack)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-26</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-26" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-26</id>
+<updated>2026-08-26T17:00:00+05:30</updated>
+<published>2026-08-26T17:00:00+05:30</published>
+<content type="text">Jalapeño’s first results show industry-leading speed; OpenAI subpoenaed by Alabama AG over Hugging Face hack; and Welcome to the AI crisis in math
+
+Ranked stories: Jalapeño’s first results show industry-leading speed and efficiency in AI inference; OpenAI says its Jalapeño chip can power faster AI responses than the competition; OpenAI subpoenaed by Alabama AG over Hugging Face hack; Welcome to the AI crisis in math; Valor, Point72 back General Intuition at $6B valuation as AI startup pushes into robotics</content>
+</entry>
+<entry>
+<title>Jalapeño’s first results show industry-leading speed and efficiency in AI inference</title>
+<link href="https://openai.com/index/jalapeno-first-results" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-26:story-1-829cb2d98993</id>
+<updated>2026-08-26T17:00:00+05:30</updated>
+<published>2026-08-26T17:00:00+05:30</published>
+<content type="text">Jalapeño is a custom inference chip from OpenAI that delivers faster, more power-efficient AI inference, with higher throughput and lower latency for modern models.
+
+Source: OpenAI News (https://openai.com/index/jalapeno-first-results)</content>
+</entry>
+<entry>
+<title>OpenAI says its Jalapeño chip can power faster AI responses than the competition</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/984290/openai-jalapeno-ai-chip-benchmarks" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-26:story-2-ad49b35ee7d4</id>
+<updated>2026-08-26T17:00:00+05:30</updated>
+<published>2026-08-26T17:00:00+05:30</published>
+<content type="text">OpenAI says its new AI chip, Jalapeño, completes tasks more efficiently and returns responses faster than other AI systems, according to a blog post published on Tuesday . During a briefing with reporters, OpenAI hardware vice president Richard Ho said Jalapeño offers the &quot;best of both worlds&quot; with lower latency and higher throughput, as AI systems typically &quot;have to make a trade-off between the…
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/984290/openai-jalapeno-ai-chip-benchmarks)</content>
+</entry>
+<entry>
+<title>OpenAI subpoenaed by Alabama AG over Hugging Face hack</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/984239/alabama-attorney-general-subpoena-openai-hugging-face-hack" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-26:story-3-f231957df621</id>
+<updated>2026-08-26T17:00:00+05:30</updated>
+<published>2026-08-26T17:00:00+05:30</published>
+<content type="text">Alabama&apos;s attorney general issued a subpoena to OpenAI on Monday as part of an investigation into how one of its AI agents escaped a supposedly secure testing environment and autonomously hacked another company last month. The investigation seeks to determine whether OpenAI&apos;s safety practices violated state consumer protection laws and pose a risk to Alabama citizens, the AG&apos;s office said in a st…
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/984239/alabama-attorney-general-subpoena-openai-hugging-face-hack)</content>
+</entry>
+<entry>
+<title>Welcome to the AI crisis in math</title>
+<link href="https://www.theverge.com/podcast/982434/ai-math-openai-astra-existential-crisis" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-26:story-4-dcb88db6d679</id>
+<updated>2026-08-26T17:00:00+05:30</updated>
+<published>2026-08-26T17:00:00+05:30</published>
+<content type="text">Today on Decoder , I’m talking with Robert Hart, The Verge ’s London-based AI reporter, about what AI is doing to the field of mathematics and the existential crisis many lead mathematicians are having about it. OpenAI just published a set of solutions to longstanding problems in math that went off like a bombshell in the field.
+
+Source: The Verge AI (https://www.theverge.com/podcast/982434/ai-math-openai-astra-existential-crisis)</content>
+</entry>
+<entry>
+<title>Valor, Point72 back General Intuition at $6B valuation as AI startup pushes into robotics</title>
+<link href="https://techcrunch.com/2026/08/24/valor-point72-back-general-intuition-at-6b-valuation-as-ai-startup-pushes-into-robotics/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-26:story-5-0b193ba49c31</id>
+<updated>2026-08-26T17:00:00+05:30</updated>
+<published>2026-08-26T17:00:00+05:30</published>
+<content type="text">General Intuition, the startup building a foundation model that trains generalized AI agents how to move through space and time, is in talks to raise at a $6 billion pre-money valuation from new investors including Valor Ventures, Point72 Ventures, and Seven Seven Six.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/08/24/valor-point72-back-general-intuition-at-6b-valuation-as-ai-startup-pushes-into-robotics/)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-25</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-25" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-25</id>
+<updated>2026-08-25T17:00:00+05:30</updated>
+<published>2026-08-25T17:00:00+05:30</published>
+<content type="text">Mitigating Reasoning-Induced Misalignment via; Robustness of Anomaly Detection Models for Industrial; and How to Train a Critic Stably and Efficiently
+
+Ranked stories: Mitigating Reasoning-Induced Misalignment via Safety-Direction Penalty; Robustness of Anomaly Detection Models for Industrial Control Systems under Training-Time Data Contamination; ChebBooster: A Training-Free Approach for Efficient Diffusion Transformer Inference via Chebyshev-Inspired Extrapolation; How to Train a Critic Stably and Efficiently; Interpretable AI with Local Distillation</content>
+</entry>
+<entry>
+<title>Mitigating Reasoning-Induced Misalignment via Safety-Direction Penalty</title>
+<link href="https://arxiv.org/abs/2608.23497" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-25:story-1-abc64d74582d</id>
+<updated>2026-08-25T17:00:00+05:30</updated>
+<published>2026-08-25T17:00:00+05:30</published>
+<content type="text">Reasoning-Induced Misalignment, where fine-tuning on reasoning data containing no harmful content, including mathematics, code, and problem-solving with chain-of-thought traces can induce harmful behaviors of LLM, posing a serious challenge to the safety of LLM reasoning. Cross-architecture, cross-scale, and cross-dataset checks show that RIM does not always emerge.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.23497)</content>
+</entry>
+<entry>
+<title>Robustness of Anomaly Detection Models for Industrial Control Systems under Training-Time Data Contamination</title>
+<link href="https://arxiv.org/abs/2608.23547" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-25:story-2-0aa7d4086c1d</id>
+<updated>2026-08-25T17:00:00+05:30</updated>
+<published>2026-08-25T17:00:00+05:30</published>
+<content type="text">Machine-learning-based anomaly detection is increasingly used in industrial control systems (ICS), yet most studies assume that detector training data is trustworthy. In practice, training data may be corrupted through compromised logs, labeling errors, manipulated historian records, or unsafe retraining processes.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.23547)</content>
+</entry>
+<entry>
+<title>ChebBooster: A Training-Free Approach for Efficient Diffusion Transformer Inference via Chebyshev-Inspired Extrapolation</title>
+<link href="https://arxiv.org/abs/2608.23429" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-25:story-3-4152ad7209fd</id>
+<updated>2026-08-25T17:00:00+05:30</updated>
+<published>2026-08-25T17:00:00+05:30</published>
+<content type="text">Diffusion Transformers (DiTs) have shown strong performance in high-fidelity image generation, but their sampling process remains computationally intensive due to full model execution at every timestep. While cache-based acceleration has been explored to mitigate inference cost, naive reuse schemes suffer from low accuracy over long intervals, and Taylor-series-based extrapolation methods often f…
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.23429)</content>
+</entry>
+<entry>
+<title>How to Train a Critic Stably and Efficiently</title>
+<link href="https://arxiv.org/abs/2608.23566" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-25:story-4-8965cca7a722</id>
+<updated>2026-08-25T17:00:00+05:30</updated>
+<published>2026-08-25T17:00:00+05:30</published>
+<content type="text">Group-based reinforcement learning methods such as GRPO for large language models avoid training a critic by sampling multiple responses for each prompt. A reliable critic could instead estimate token-level advantages from one response, but standard critic-based training recipes are often unstable.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.23566)</content>
+</entry>
+<entry>
+<title>Interpretable AI with Local Distillation</title>
+<link href="https://arxiv.org/abs/2608.23538" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-25:story-5-c17b56d863cc</id>
+<updated>2026-08-25T17:00:00+05:30</updated>
+<published>2026-08-25T17:00:00+05:30</published>
+<content type="text">Modern AI models such as tabular foundation models and gradient-boosted ensembles can outpredict classical methods, but provide little basis for reasoning about their predictions. High-stakes decisions call for models that are both accurate and interpretable as built.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.23538)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-24</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-24" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-24</id>
+<updated>2026-08-24T17:00:00+05:30</updated>
+<published>2026-08-24T17:00:00+05:30</published>
+<content type="text">Beyond Imitation: Self-Improving Robot Policies via; Rethinking Expressivity and Efficiency in Test-Time; and Detecting Backdoors in Object Detection via Pre-NMS
+
+Ranked stories: Beyond Imitation: Self-Improving Robot Policies via Off-Policy Q-Planning; Rethinking Expressivity and Efficiency in Test-Time Training; Detecting Backdoors in Object Detection via Pre-NMS Prediction Distribution Shift; The Third Restructuring of Software Form: From the Three-Tier Architecture to Storage, Models, and Agents; Time-Aware Tranformer-Based Prediction Model for AECOPD</content>
+</entry>
+<entry>
+<title>Beyond Imitation: Self-Improving Robot Policies via Off-Policy Q-Planning</title>
+<link href="https://arxiv.org/abs/2608.21204" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-24:story-1-264ccd33cc4f</id>
+<updated>2026-08-24T17:00:00+05:30</updated>
+<published>2026-08-24T17:00:00+05:30</published>
+<content type="text">Behaviour Cloning (BC) has driven remarkable progress in robot manipulation, yet it is fundamentally limited by its inability to self-improve: a policy that fails cannot learn from that failure without additional human demonstrations. Reinforcement Learning fine-tuning offers a path to self-improvement but has proven difficult to scale to the multi-billion-parameter models underpinning modern rob…
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.21204)</content>
+</entry>
+<entry>
+<title>Rethinking Expressivity and Efficiency in Test-Time Training</title>
+<link href="https://arxiv.org/abs/2608.21308" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-24:story-2-2de92de62ff0</id>
+<updated>2026-08-24T17:00:00+05:30</updated>
+<published>2026-08-24T17:00:00+05:30</published>
+<content type="text">Test-Time Training (TTT) enables long-context processing via continuous weight updates during inference, but current methods struggle to balance the expressivity of per-token update dynamics with the hardware efficiency of chunk-wise approximations. We propose E$^2$-TTT (Expressive and Efficient TTT) to bridge this gap.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.21308)</content>
+</entry>
+<entry>
+<title>Detecting Backdoors in Object Detection via Pre-NMS Prediction Distribution Shift</title>
+<link href="https://arxiv.org/abs/2608.19088" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-24:story-3-8fc466b88b73</id>
+<updated>2026-08-24T17:00:00+05:30</updated>
+<published>2026-08-24T17:00:00+05:30</published>
+<content type="text">Object detection models deployed in safety-critical applications remain vulnerable to backdoor attacks that cause targeted misbehaviors when a hidden trigger is present. Existing detection methods either rely on trigger inversion or exploit architecture-specific assumptions, and critically, representative existing methods fail to generalize reliably to scene-level attacks, where a single trigger…
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19088)</content>
+</entry>
+<entry>
+<title>The Third Restructuring of Software Form: From the Three-Tier Architecture to Storage, Models, and Agents</title>
+<link href="https://arxiv.org/abs/2608.20201" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-24:story-4-9346d23bd5bb</id>
+<updated>2026-08-24T17:00:00+05:30</updated>
+<published>2026-08-24T17:00:00+05:30</published>
+<content type="text">Software form has undergone two paradigm shifts since its inception: Software 1.0, in which instructions determine behavior, and Software 2.0, in which data determines behavior (machine learning). This paper argues that a third shift - Software 3.0, in which context and reasoning determine behavior - is now underway, and contends that its terminal form converges to three elements: a generalized d…
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20201)</content>
+</entry>
+<entry>
+<title>Time-Aware Tranformer-Based Prediction Model for AECOPD</title>
+<link href="https://arxiv.org/abs/2608.21324" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-24:story-5-9a1eb428e985</id>
+<updated>2026-08-24T17:00:00+05:30</updated>
+<published>2026-08-24T17:00:00+05:30</published>
+<content type="text">The rapid symptom change of Acute exacerbation of chronic obstructive pulmonary disease (AECOPD) makes it critical to have time-sensitive prediction models. However, most current machine learning models studying AECOPD use clinical and laboratory data, which will inevitably cause latency.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.21324)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-23</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-23" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-23</id>
+<updated>2026-08-23T17:00:00+05:30</updated>
+<published>2026-08-23T17:00:00+05:30</published>
+<content type="text">InsufficiencyBench: Evaluating LLM legal advice on; ContractScrub: A benchmark for final review of legal; and $TCP_α$: Margin-Controlled Confidence estimation
+
+Ranked stories: InsufficiencyBench: Evaluating LLM legal advice on underspecified user queries; ContractScrub: A benchmark for final review of legal contracts; $TCP_α$: Margin-Controlled Confidence estimation for reliable Music Information Retrieval; Electronic Navigational Chart Change Classification; Beyond Trial Averaging: Anchoring Neural and Visual Representations for Few-Repetition Brain-to-Image Retrieval</content>
+</entry>
+<entry>
+<title>InsufficiencyBench: Evaluating LLM legal advice on underspecified user queries</title>
+<link href="https://arxiv.org/abs/2608.20220" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-23:story-1-c569b11c202d</id>
+<updated>2026-08-23T17:00:00+05:30</updated>
+<published>2026-08-23T17:00:00+05:30</published>
+<content type="text">Legal AI systems are increasingly used to answer legal questions, yet existing benchmarks assume queries arrive fully specified. In practice, users omit facts that materially determine the legal outcome.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20220)</content>
+</entry>
+<entry>
+<title>ContractScrub: A benchmark for final review of legal contracts</title>
+<link href="https://arxiv.org/abs/2608.20204" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-23:story-2-da1a2f18575c</id>
+<updated>2026-08-23T17:00:00+05:30</updated>
+<published>2026-08-23T17:00:00+05:30</published>
+<content type="text">Legal work, with its heavy reliance on processing large amounts of text, is often considered one of the domains most exposed to the use of LLMs. Contract ``scrubbing,&apos;&apos; the final review of transactional agreements for errors and inconsistencies, is a particularly suitable task for automation, because it is routine, painstaking work requiring detailed attention to long documents.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20204)</content>
+</entry>
+<entry>
+<title>$TCP_α$: Margin-Controlled Confidence estimation for reliable Music Information Retrieval</title>
+<link href="https://arxiv.org/abs/2608.20326" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-23:story-3-abf580b4dabe</id>
+<updated>2026-08-23T17:00:00+05:30</updated>
+<published>2026-08-23T17:00:00+05:30</published>
+<content type="text">Deep neural networks are often overconfident, assigning high confidence even to incorrect predictions. Consequently, users lack a reliable signal for deciding when a prediction can be trusted.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20326)</content>
+</entry>
+<entry>
+<title>Electronic Navigational Chart Change Classification</title>
+<link href="https://arxiv.org/abs/2608.20218" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-23:story-4-d8a6abd458d4</id>
+<updated>2026-08-23T17:00:00+05:30</updated>
+<published>2026-08-23T17:00:00+05:30</published>
+<content type="text">Electronic Navigational Charts (ENCs) are geospatial vector datasets used in maritime navigation systems that represent hydrographic and navigational information such as depths, navigational aids, traffic schemes, and hazards. A major challenge for hydrographic offices is determining whether a given chart change poses a critical or non-critical risk to maritime safety.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20218)</content>
+</entry>
+<entry>
+<title>Beyond Trial Averaging: Anchoring Neural and Visual Representations for Few-Repetition Brain-to-Image Retrieval</title>
+<link href="https://arxiv.org/abs/2608.19128" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-23:story-5-5261d5f19ee4</id>
+<updated>2026-08-23T17:00:00+05:30</updated>
+<published>2026-08-23T17:00:00+05:30</published>
+<content type="text">Decoding visual information from brain signals probes neural representations and enables neuro-rehabilitation and dream decoding. Recent brain-to-image retrieval approaches have achieved promising performance, typically by averaging many (up to 80) neural trials per image, requiring repeated stimulus presentation that increases latency, cost, and user burden.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19128)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-22</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-22" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-22</id>
+<updated>2026-08-22T17:00:00+05:30</updated>
+<published>2026-08-22T17:00:00+05:30</published>
+<content type="text">Rule-Compliant Visual Spatial Planning for Multimodal; Ask Self, Ask Others: Relation Is All You Need; and MemTrapBench: Benchmarking Cognitive Traps in LLM Memory
+
+Ranked stories: Rule-Compliant Visual Spatial Planning for Multimodal Large Language Models; Ask Self, Ask Others: Relation Is All You Need; MemTrapBench: Benchmarking Cognitive Traps in LLM Memory Use; Too Sure to Be Safe: Model Calibration for Reliable Log Anomaly Detection; QUASAR: A Quantum-Classical Neural Network for SAR Satellite Physical-Layer Authentication</content>
+</entry>
+<entry>
+<title>Rule-Compliant Visual Spatial Planning for Multimodal Large Language Models</title>
+<link href="https://arxiv.org/abs/2608.20237" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-22:story-1-682a63c06b07</id>
+<updated>2026-08-22T17:00:00+05:30</updated>
+<published>2026-08-22T17:00:00+05:30</published>
+<content type="text">Multimodal large language models (MLLMs) combine linguistic reasoning with visual perception, yet their ability to perform visual spatial planning under explicit or previously unseen rule constraints remains underexplored. This setting requires models to jointly understand spatial layouts, interpret natural-language rules, and plan valid actions accordingly.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20237)</content>
+</entry>
+<entry>
+<title>Ask Self, Ask Others: Relation Is All You Need</title>
+<link href="https://arxiv.org/abs/2608.20172" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-22:story-2-dd5b03c82266</id>
+<updated>2026-08-22T17:00:00+05:30</updated>
+<published>2026-08-22T17:00:00+05:30</published>
+<content type="text">Attention directly derives normalized information flow from pairwise scores. We introduce Relation, an alternative token-mixing primitive that first organizes pairwise evidence into explicit Self and Exchange relations and derives information flow afterward.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20172)</content>
+</entry>
+<entry>
+<title>MemTrapBench: Benchmarking Cognitive Traps in LLM Memory Use</title>
+<link href="https://arxiv.org/abs/2608.20202" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-22:story-3-d82489d37ab8</id>
+<updated>2026-08-22T17:00:00+05:30</updated>
+<published>2026-08-22T17:00:00+05:30</published>
+<content type="text">Memory has become a key component of large language models, enabling them to retain information and learn from long-term interactions. However, existing memory benchmarks mainly evaluate whether information is correctly extracted, stored, and retrieved, while largely overlooking how retrieved memories reshape model reasoning and affect performance on the current task.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20202)</content>
+</entry>
+<entry>
+<title>Too Sure to Be Safe: Model Calibration for Reliable Log Anomaly Detection</title>
+<link href="https://arxiv.org/abs/2608.17965" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-22:story-4-8e9d43edc91e</id>
+<updated>2026-08-22T17:00:00+05:30</updated>
+<published>2026-08-22T17:00:00+05:30</published>
+<content type="text">Online log anomaly detection is critical for maintaining the reliability of large-scale computing systems. Although recent language model-based log anomaly detectors achieve strong detection performance, their confidence estimates remain poorly calibrated.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.17965)</content>
+</entry>
+<entry>
+<title>QUASAR: A Quantum-Classical Neural Network for SAR Satellite Physical-Layer Authentication</title>
+<link href="https://arxiv.org/abs/2608.20240" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-22:story-5-019f788d4105</id>
+<updated>2026-08-22T17:00:00+05:30</updated>
+<published>2026-08-22T17:00:00+05:30</published>
+<content type="text">X-band SAR satellites (8-12 GHz) play a critical role in disaster response, environmental monitoring, and military intelligence. Yet, they lack robust physical-layer authentication (PLA), a security layer orthogonal to cryptographic solutions.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20240)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-21</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-21" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-21</id>
+<updated>2026-08-21T17:00:00+05:30</updated>
+<published>2026-08-21T17:00:00+05:30</published>
+<content type="text">Explainable Transformer Models for Clinical Prediction; Prompt-Conditioned Channel Attention for Hierarchical; and AI4AI-Bench: Benchmarking LLM Agents in Algorithmic
+
+Ranked stories: Explainable Transformer Models for Clinical Prediction Tasks on Structured Electronic Health Records; Prompt-Conditioned Channel Attention for Hierarchical Feature Modulation toward Anatomy-Agnostic Segmentation; Daedalus-150M: A Convolution-Attention Hybrid Designed for CPU Inference; AI4AI-Bench: Benchmarking LLM Agents in Algorithmic Design for Recursive Self-Improvement; Decoding silent reading from non-invasive EEG</content>
+</entry>
+<entry>
+<title>Explainable Transformer Models for Clinical Prediction Tasks on Structured Electronic Health Records</title>
+<link href="https://arxiv.org/abs/2608.20315" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-1-35e58c59c809</id>
+<updated>2026-08-21T17:00:00+05:30</updated>
+<published>2026-08-21T17:00:00+05:30</published>
+<content type="text">Predictive models over structured electronic health records (EHRs) remain central to machine learning for healthcare, but few have jointly emphasized quantitative laboratory information and interpretability with respect to input medical events. We present BERT-LER, a BERT-style model for coded EHR timelines pretrained and fine-tuned from a de-identified EHR dataset of 75 million patients, that en…
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20315)</content>
+</entry>
+<entry>
+<title>Prompt-Conditioned Channel Attention for Hierarchical Feature Modulation toward Anatomy-Agnostic Segmentation</title>
+<link href="https://arxiv.org/abs/2608.20229" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-2-8c3f33eff481</id>
+<updated>2026-08-21T17:00:00+05:30</updated>
+<published>2026-08-21T17:00:00+05:30</published>
+<content type="text">Anatomically plausible segmentation remains challenging because of low contrast, ambiguous boundaries, and modality-specific artifacts. Interactive segmentation has emerged as a promising strategy to guide feature extraction and improve localization, particularly in structurally ambiguous regions.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20229)</content>
+</entry>
+<entry>
+<title>Daedalus-150M: A Convolution-Attention Hybrid Designed for CPU Inference</title>
+<link href="https://arxiv.org/abs/2608.20210" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-3-f1257c5486da</id>
+<updated>2026-08-21T17:00:00+05:30</updated>
+<published>2026-08-21T17:00:00+05:30</published>
+<content type="text">Small language models are usually built like large ones and then squeezed onto a CPU afterwards. We did the opposite: we fixed the target first, one user, one token at a time, 4-bit weights, ordinary CPU, and chose the architecture to suit it.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20210)</content>
+</entry>
+<entry>
+<title>AI4AI-Bench: Benchmarking LLM Agents in Algorithmic Design for Recursive Self-Improvement</title>
+<link href="https://arxiv.org/abs/2608.20318" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-4-0718c61be2f0</id>
+<updated>2026-08-21T17:00:00+05:30</updated>
+<published>2026-08-21T17:00:00+05:30</published>
+<content type="text">Recursive self-improvement (RSI) asks whether an AI system can improve the process that produces AI systems, so that the next system inherits the improvement. That process is the training algorithm: a better objective or update rule improves the compute\mbox{-}capability exchange rate for every subsequent run, including the one that produces the next agent.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20318)</content>
+</entry>
+<entry>
+<title>Decoding silent reading from non-invasive EEG</title>
+<link href="https://arxiv.org/abs/2608.20186" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-5-a2452fee4229</id>
+<updated>2026-08-21T17:00:00+05:30</updated>
+<published>2026-08-21T17:00:00+05:30</published>
+<content type="text">Non-invasive decoding of inner speech faces a fundamental data problem: a corpus pairing brain activity with a person&apos;s spontaneous inner monologue cannot be collected, and the available proxy paradigms (cued repetitive and retrospectively reported generative inner speech) are slow to acquire, poorly time-locked, and subject compliance is unverifiable. We therefore treat silent reading as a scala…
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20186)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-20</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-20" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-20</id>
+<updated>2026-08-20T17:00:00+05:30</updated>
+<published>2026-08-20T17:00:00+05:30</published>
+<content type="text">Pretraining Reusable Inference Across Views; GS-VLA: Plug-and-Play Viewpoint Canonicalization; and ReWEIGH the Evidence: Calibrating Token-Level Ordinal
+
+Ranked stories: Pretraining Reusable Inference Across Views with Synthetic Task Priors; GS-VLA: Plug-and-Play Viewpoint Canonicalization for Frozen VLA Policies via Gaussian Splatting; Pre-Compiled Pipeline Shards for Distributed LLM Inference on Intel AI PC Fleets; ReWEIGH the Evidence: Calibrating Token-Level Ordinal Visual Evidence to Mitigate Hallucinations in Large Vision-Language Models; SCORE: Subject Coordinate Recovery for Label-Free Cross-Subject EEG-to-Image Retrieval</content>
+</entry>
+<entry>
+<title>Pretraining Reusable Inference Across Views with Synthetic Task Priors</title>
+<link href="https://arxiv.org/abs/2608.19115" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-20:story-1-1aa9b3c1c840</id>
+<updated>2026-08-20T17:00:00+05:30</updated>
+<published>2026-08-20T17:00:00+05:30</published>
+<content type="text">Modern pretrained encoders make representations from heterogeneous views increasingly reusable, but the procedure that determines view utility and combines evidence is still relearned for each downstream task. Consequently, knowledge about view relevance, complementarity, reliability, and missingness is repeatedly discarded rather than transferred across tasks.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19115)</content>
+</entry>
+<entry>
+<title>GS-VLA: Plug-and-Play Viewpoint Canonicalization for Frozen VLA Policies via Gaussian Splatting</title>
+<link href="https://arxiv.org/abs/2608.19066" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-20:story-2-78c1fff2ff93</id>
+<updated>2026-08-20T17:00:00+05:30</updated>
+<published>2026-08-20T17:00:00+05:30</published>
+<content type="text">This paper proposes a lightweight, plug-and-play framework that improves robustness to viewpoint shifts in Vision-Language-Action (VLA) policies without policy retraining. To our knowledge, this is the first approach to directly leverage 3D Gaussian-based novel-view synthesis for observation-space adaptation in VLA policies.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19066)</content>
+</entry>
+<entry>
+<title>Pre-Compiled Pipeline Shards for Distributed LLM Inference on Intel AI PC Fleets</title>
+<link href="https://arxiv.org/abs/2608.19147" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-20:story-3-3c06cf12070a</id>
+<updated>2026-08-20T17:00:00+05:30</updated>
+<published>2026-08-20T17:00:00+05:30</published>
+<content type="text">Modern Intel AI PCs ship capable integrated GPUs and NPUs with 16+ GB of unified memory, and they spend considerable time idle. That is not enough memory to fit a large model such as a 70B-parameter LLM.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19147)</content>
+</entry>
+<entry>
+<title>ReWEIGH the Evidence: Calibrating Token-Level Ordinal Visual Evidence to Mitigate Hallucinations in Large Vision-Language Models</title>
+<link href="https://arxiv.org/abs/2608.19075" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-20:story-4-ab15085e5238</id>
+<updated>2026-08-20T17:00:00+05:30</updated>
+<published>2026-08-20T17:00:00+05:30</published>
+<content type="text">Large vision-language models (LVLMs) often hallucinate, generating content that the input image does not support. Preventing such content during decoding calls for a candidate-specific measure of how strongly the image supports the token under consideration.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19075)</content>
+</entry>
+<entry>
+<title>SCORE: Subject Coordinate Recovery for Label-Free Cross-Subject EEG-to-Image Retrieval</title>
+<link href="https://arxiv.org/abs/2608.19134" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-20:story-5-c3781797ce43</id>
+<updated>2026-08-20T17:00:00+05:30</updated>
+<published>2026-08-20T17:00:00+05:30</published>
+<content type="text">Accurate visual decoding can reveal how the brain represents visual information and recover perceived content from neural signals such as electroencephalography (EEG), with potential for neural communication. However, current EEG-to-image retrieval methods perform far below their within-subject counterparts for new users without labeled calibration, limiting real-world deployment.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19134)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-19</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-19" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-19</id>
+<updated>2026-08-19T17:00:00+05:30</updated>
+<published>2026-08-19T17:00:00+05:30</published>
+<content type="text">Meta AI is getting a Mac app; OpenAI lays out new security changes after its AI hacked; and OpenAI hit the brakes. Now what?
+
+Ranked stories: Meta AI is getting a Mac app; OpenAI lays out new security changes after its AI hacked Hugging Face; OpenAI hit the brakes. Now what?; Offering Zero Data Retention for frontier models; ScarfBench: Benchmarking AI Agents for Enterprise Java Framework Migration</content>
+</entry>
+<entry>
+<title>Meta AI is getting a Mac app</title>
+<link href="https://www.theverge.com/tech/982270/meta-ai-mac-app" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-1-2cd0103582a2</id>
+<updated>2026-08-19T17:00:00+05:30</updated>
+<published>2026-08-19T17:00:00+05:30</published>
+<content type="text">Meta AI can create content and make suggestions based on what it “sees” on your screen. | Image: Meta Meta is launching a new Mac app dedicated to its AI chatbot.
+
+Source: The Verge AI (https://www.theverge.com/tech/982270/meta-ai-mac-app)</content>
+</entry>
+<entry>
+<title>OpenAI lays out new security changes after its AI hacked Hugging Face</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/981640/openai-security-changes-ai-hugging-face-hack" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-2-8c6e4e5dd669</id>
+<updated>2026-08-19T17:00:00+05:30</updated>
+<published>2026-08-19T17:00:00+05:30</published>
+<content type="text">OpenAI is announcing security updates following the July news that its AI broke out of a sandboxed environment and accidentally hacked Hugging Face , including improvements to its research environments, monitoring, and alignment techniques. The company had already put the brakes on a new model, Astra , that it thinks could have &quot;critical&quot; cybersecurity capabilities, and the company says it instit…
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/981640/openai-security-changes-ai-hugging-face-hack)</content>
+</entry>
+<entry>
+<title>OpenAI hit the brakes. Now what?</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/982323/openai-hit-brakes-voluntary-pacing-ai" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-3-e2a1bfff91a9</id>
+<updated>2026-08-19T17:00:00+05:30</updated>
+<published>2026-08-19T17:00:00+05:30</published>
+<content type="text">With a looming IPO, intense competition from Anthropic, and Chinese and open-weight rivals nipping at its heels, OpenAI has plenty of reasons to move fast. Instead, it hit the brakes .
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/982323/openai-hit-brakes-voluntary-pacing-ai)</content>
+</entry>
+<entry>
+<title>Offering Zero Data Retention for frontier models</title>
+<link href="https://openai.com/index/our-commitment-to-zero-data-retention" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-4-144a06638d59</id>
+<updated>2026-08-19T17:00:00+05:30</updated>
+<published>2026-08-19T17:00:00+05:30</published>
+<content type="text">OpenAI reaffirms Zero Data Retention for eligible API customers and previews Private Safety Processing for advanced AI safety without compromising data privacy.
+
+Source: OpenAI News (https://openai.com/index/our-commitment-to-zero-data-retention)</content>
+</entry>
+<entry>
+<title>ScarfBench: Benchmarking AI Agents for Enterprise Java Framework Migration</title>
+<link href="https://huggingface.co/blog/ibm-research/scarfbench" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-5-b4870a9461ed</id>
+<updated>2026-08-19T17:00:00+05:30</updated>
+<published>2026-08-19T17:00:00+05:30</published>
+<content type="text">Not stated in the source.
+
+Source: Hugging Face Blog (https://huggingface.co/blog/ibm-research/scarfbench)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-18</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-18" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-18</id>
+<updated>2026-08-18T17:00:00+05:30</updated>
+<published>2026-08-18T17:00:00+05:30</published>
+<content type="text">OpenAI launches ChatGPT for Teens, promising a more; Rogue AI aren’t science fiction anymore; and Google’s Pet Memory forgot who my cats are
+
+Ranked stories: OpenAI launches ChatGPT for Teens, promising a more age-appropriate chatbot - ABC News - Breaking News, Latest News and Videos; ChatGPT is getting a dedicated mode for teens; Rogue AI aren’t science fiction anymore; Google’s Pet Memory forgot who my cats are; ChatGPT’s Computer History tracks your clicks and keystrokes</content>
+</entry>
+<entry>
+<title>OpenAI launches ChatGPT for Teens, promising a more age-appropriate chatbot - ABC News - Breaking News, Latest News and Videos</title>
+<link href="https://news.google.com/rss/articles/CBMipAFBVV95cUxPODNVMmNOelM3amNTTjM2cDlOWlNJU0p6WEVmbUMzTXBFVzRySHJ4Ymo1SXU0TFZPSEViZTVWSk1KLXp2aUVaMHgyX2VQWGF3S0kwd2Jjc1Z5VDFzaHBOakN0MWRyRFJ3ZFkyTDZTbmNIZ3pfTUlVZDBKNnQzWUJmM0VlZnNwbVdRZGl6MElweVhlOUU2NGVtWWlBUHZqcjliYjI4Zg?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-18:story-1-ad70711ca69d</id>
+<updated>2026-08-18T17:00:00+05:30</updated>
+<published>2026-08-18T17:00:00+05:30</published>
+<content type="text">OpenAI launches ChatGPT for Teens, promising a more age-appropriate chatbot ABC News - Breaking News, Latest News and Videos
+
+Source: Google News AI (https://news.google.com/rss/articles/CBMipAFBVV95cUxPODNVMmNOelM3amNTTjM2cDlOWlNJU0p6WEVmbUMzTXBFVzRySHJ4Ymo1SXU0TFZPSEViZTVWSk1KLXp2aUVaMHgyX2VQWGF3S0kwd2Jjc1Z5VDFzaHBOakN0MWRyRFJ3ZFkyTDZTbmNIZ3pfTUlVZDBKNnQzWUJmM0VlZnNwbVdRZGl6MElweVhlOUU2NGVtWWlBUHZqcjliYjI4Zg?oc=5)</content>
+</entry>
+<entry>
+<title>ChatGPT is getting a dedicated mode for teens</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/981333/openai-chatgpt-teen-mode" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-18:story-2-604f555aab35</id>
+<updated>2026-08-18T17:00:00+05:30</updated>
+<published>2026-08-18T17:00:00+05:30</published>
+<content type="text">ChatGPT for Teens includes safeguards and parental controls. | Image: OpenAI OpenAI is introducing a dedicated ChatGPT mode for teenagers, combining existing youth safeguards and new safety features under one roof.
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/981333/openai-chatgpt-teen-mode)</content>
+</entry>
+<entry>
+<title>Rogue AI aren’t science fiction anymore</title>
+<link href="https://www.theverge.com/column/980337/rogue-ai-science-fiction-openai" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-18:story-3-54b26915c6a6</id>
+<updated>2026-08-18T17:00:00+05:30</updated>
+<published>2026-08-18T17:00:00+05:30</published>
+<content type="text">This is The Stepback , a weekly newsletter breaking down one essential story from the tech world. For more on AI safety, follow Robert Hart .
+
+Source: The Verge AI (https://www.theverge.com/column/980337/rogue-ai-science-fiction-openai)</content>
+</entry>
+<entry>
+<title>Google’s Pet Memory forgot who my cats are</title>
+<link href="https://www.theverge.com/tech/981269/google-home-gemini-pet-memory-nest-camera-review" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-18:story-4-036a371ec889</id>
+<updated>2026-08-18T17:00:00+05:30</updated>
+<published>2026-08-18T17:00:00+05:30</published>
+<content type="text">One of the best things my smart home does is help me care for my pets , and security cameras are particularly useful for keeping track of my many critters. But the barrage of notifications they send often means I miss important ones.
+
+Source: The Verge AI (https://www.theverge.com/tech/981269/google-home-gemini-pet-memory-nest-camera-review)</content>
+</entry>
+<entry>
+<title>ChatGPT’s Computer History tracks your clicks and keystrokes</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/980742/chatgpts-computer-history-tracks-your-clicks-and-keystrokes" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-18:story-5-3f6a69611164</id>
+<updated>2026-08-18T17:00:00+05:30</updated>
+<published>2026-08-18T17:00:00+05:30</published>
+<content type="text">ChatGPT&apos;s desktop app on macOS has a new feature called Computer History that turns your actions into training data, learning how you work, suggesting automations, and even picking up tasks you left half done. It uses your activity to build a timeline that ChatGPT and Codex can reference when you make a request.
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/980742/chatgpts-computer-history-tracks-your-clicks-and-keystrokes)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-17</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-17" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-17</id>
+<updated>2026-08-17T17:00:00+05:30</updated>
+<published>2026-08-17T17:00:00+05:30</published>
+<content type="text">DFM Mimir v1: An Open HRM Delivering Frontier Performance; TabSOM: A tabular-to-image encoding method based on; and DeaMoE: Efficient MoE Structure for Fast Small-Batch
+
+Ranked stories: DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B Parameters Using Only Permissible Post-Training Data; TabSOM: A tabular-to-image encoding method based on self-organizing maps; DeaMoE: Efficient MoE Structure for Fast Small-Batch Decoding; Intern-S2-Preview: Scientific Agentic Foundation Model; Generating Benchmark Health Data Using a Tabular Diffusion Transformer</content>
+</entry>
+<entry>
+<title>DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B Parameters Using Only Permissible Post-Training Data</title>
+<link href="https://arxiv.org/abs/2608.13517" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-1-07ecd886950b</id>
+<updated>2026-08-17T17:00:00+05:30</updated>
+<published>2026-08-17T17:00:00+05:30</published>
+<content type="text">Current large language model development relies on massive, often non-permissible datasets, creating a high barrier for researchers committed to open-source and ethically sourced data. We introduce Mimir v1, a 1-billion-parameter language model based on the Hierarchical Reasoning Model (HRM) architecture, that is trained from scratch and delivers highly competitive performance for English and set…
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.13517)</content>
+</entry>
+<entry>
+<title>TabSOM: A tabular-to-image encoding method based on self-organizing maps</title>
+<link href="https://arxiv.org/abs/2608.13513" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-2-b033f349c9b5</id>
+<updated>2026-08-17T17:00:00+05:30</updated>
+<published>2026-08-17T17:00:00+05:30</published>
+<content type="text">Tabular-to-image methods have emerged as novel approaches to leverage the high predictive performance of convolutional neural networks and vision transformers. They convert tabular data into image representations, mapping each feature at a fixed pixel location derived from a dimensionality-reduction method (e.g., t-SNE, UMAP, PCA).
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.13513)</content>
+</entry>
+<entry>
+<title>DeaMoE: Efficient MoE Structure for Fast Small-Batch Decoding</title>
+<link href="https://arxiv.org/abs/2608.14385" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-3-1d32e736e5e2</id>
+<updated>2026-08-17T17:00:00+05:30</updated>
+<published>2026-08-17T17:00:00+05:30</published>
+<content type="text">Mixture-of-Experts (MoE) models have been widely adopted in real-time interactive applications such as coding assistants, real-time audio-video interaction systems. To meet the extremely low response latency requirements of these scenarios, practitioners commonly employ small-batch decoding, under which MoE inference becomes memory-bound and is severely bottlenecked by expert weight loading.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.14385)</content>
+</entry>
+<entry>
+<title>Intern-S2-Preview: Scientific Agentic Foundation Model</title>
+<link href="https://arxiv.org/abs/2608.13505" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-4-5fb73676b78b</id>
+<updated>2026-08-17T17:00:00+05:30</updated>
+<published>2026-08-17T17:00:00+05:30</published>
+<content type="text">Scientific discovery increasingly requires AI systems that can reason over scientific evidence of heterogeneous modalities, interact with scientific tools and environments, and sustain progress across long task horizons. We present Intern-S2-Preview, a series of scientific agentic foundation models designed to support multimodal scientific understanding, reasoning, generation, and long-horizon ta…
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.13505)</content>
+</entry>
+<entry>
+<title>Generating Benchmark Health Data Using a Tabular Diffusion Transformer</title>
+<link href="https://arxiv.org/abs/2608.14496" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-5-34e301c21979</id>
+<updated>2026-08-17T17:00:00+05:30</updated>
+<published>2026-08-17T17:00:00+05:30</published>
+<content type="text">Cross-Tabular Data Generation (CTDG) seeks to learn a generative model from multiple heterogeneous tables and produce new synthetic tabular datasets. However, existing synthetic tabular data generation methods are largely restricted to single-input-table scenarios and struggle to effectively handle multiple heterogeneous tables with diverse feature sets.
+
+Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.14496)</content>
+</entry>
+</feed>
