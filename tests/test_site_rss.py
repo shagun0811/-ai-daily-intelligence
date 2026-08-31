@@ -4,13 +4,35 @@ from __future__ import annotations
 
 from xml.etree import ElementTree as ET
 
-from app.site_rss import FEED_DAYS, PUBLIC_SITE_URL, build_atom, build_rss, write_public_feeds
+from app.site_rss import FEED_DAYS, PUBLIC_SITE_URL, XSL_PATH, build_atom, build_rss, write_public_feeds
 
 
 _ATOM = "{http://www.w3.org/2005/Atom}"
+_GNEWS = (
+    "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNSUZaaFh6b0drV2JuR0ZjcVpCY182WnUt"
+    "RDJXRG5sOEczWXZLUGlLZVRTdC1zdTYyd0lOYTBMRkFpMWdyX2UwM09OVEJYSHBEWmJucG9tNnRWZDFz"
+    "ZF9Uc1JPMGk1WWNCZjVkMGJheDRVNXFNNS1fbjQxX1hpdGNpa0U1QWdsU0MyaUpsRzd4Vkd6d1hqRThP"
+    "ZE8zdXhaS01Da1I4Y3Fab1JLUQ?oc=5"
+)
 
 
-def _report(day: str, title: str, why: str, url: str, source: str = "OpenAI News") -> dict:
+def _report(
+    day: str,
+    title: str,
+    why: str,
+    url: str,
+    source: str = "OpenAI News",
+    **extra: str,
+) -> dict:
+    item = {
+        "title": title,
+        "summary": why,
+        "why_it_matters": why,
+        "source_name": source,
+        "source_url": url,
+        "published_at": day,
+    }
+    item.update(extra)
     return {
         "report_date": day,
         "title": "AI Daily Intelligence",
@@ -18,19 +40,17 @@ def _report(day: str, title: str, why: str, url: str, source: str = "OpenAI News
         "briefing": {
             "title": "AI Daily Intelligence",
             "lede": why,
-            "executive": [
-                {
-                    "title": title,
-                    "summary": why,
-                    "why_it_matters": why,
-                    "source_name": source,
-                    "source_url": url,
-                    "published_at": day,
-                }
-            ],
+            "executive": [item],
             "sections": [],
         },
     }
+
+
+def _items(xml: str):
+    root = ET.fromstring(xml)
+    channel = root.find("channel")
+    assert channel is not None
+    return root, channel, channel.findall("item")
 
 
 def test_rss_is_well_formed_with_expected_tags() -> None:
@@ -64,7 +84,7 @@ def test_rss_is_well_formed_with_expected_tags() -> None:
     assert edition.findtext("link") == f"{PUBLIC_SITE_URL}/#2026-08-27"
     assert edition.find("guid") is not None
     assert edition.find("pubDate") is not None
-    assert "Custom inference chip" in (edition.findtext("description") or "")
+    assert "Jalapeño’s first results" in (edition.findtext("description") or "")
     assert story.findtext("title") == "Jalapeño’s first results"
     assert story.findtext("link") == "https://openai.com/index/jalapeno-first-results"
     assert "lower latency" in (story.findtext("description") or "")
@@ -134,6 +154,126 @@ def test_atom_is_well_formed() -> None:
     assert entries[1].findtext(f"{_ATOM}title") == "OpenAI subpoenaed by Alabama AG"
 
 
+def test_rss_includes_stylesheet_and_stays_well_formed() -> None:
+    xml = build_rss(
+        [
+            _report(
+                "2026-08-31",
+                "OpenAI wants California to strengthen its newly passed AI safety law",
+                "The company is asking the state to tighten SB 53.",
+                "https://www.theverge.com/example",
+            )
+        ]
+    )
+    assert xml.splitlines()[0] == '<?xml version="1.0" encoding="UTF-8"?>'
+    assert f'<?xml-stylesheet type="text/xsl" href="{XSL_PATH}"?>' in xml
+    root, channel, items = _items(xml)
+    assert root.tag == "rss"
+    assert root.attrib["version"] == "2.0"
+    assert channel.find("title") is not None
+    assert len(items) == 2
+
+
+def test_rss_never_emits_not_stated_placeholder() -> None:
+    xml = build_rss(
+        [
+            _report(
+                "2026-08-19",
+                "ScarfBench: Benchmarking AI Agents for Enterprise Java Framework Migration",
+                "Not stated in the source.",
+                "https://huggingface.co/blog/ibm-research/scarfbench",
+                source="Hugging Face Blog",
+            )
+        ]
+    )
+    assert "Not stated in the source" not in xml
+    _, _, items = _items(xml)
+    story = items[1]
+    body = story.findtext("description") or ""
+    assert "ScarfBench" in body
+    assert "Hugging Face Blog" in body
+
+
+def test_rss_edition_description_keeps_full_headlines() -> None:
+    title = "OpenAI wants California to strengthen its newly passed AI safety law"
+    xml = build_rss(
+        [
+            _report(
+                "2026-08-31",
+                title,
+                "OpenAI wants California to strengthen its newly passed AI",
+                "https://www.theverge.com/example",
+            )
+        ]
+    )
+    _, _, items = _items(xml)
+    edition = items[0].findtext("description") or ""
+    assert "safety law" in edition
+    assert title in edition
+    assert not edition.rstrip().endswith(" AI")
+
+
+def test_rss_trims_mid_word_ellipsis_to_a_complete_phrase() -> None:
+    xml = build_rss(
+        [
+            _report(
+                "2026-08-27",
+                "OpenAI subpoenaed by Alabama AG over Hugging Face hack",
+                "Alabama's attorney general issued a subpoena to OpenAI on Monday. The investigation seeks to determine whether safety practices pose a risk to citizens, the AG's office said in a st…",
+                "https://www.theverge.com/example",
+                source="The Verge AI",
+            )
+        ]
+    )
+    _, _, items = _items(xml)
+    body = items[1].findtext("description") or ""
+    assert "st…" not in body
+    assert "said in a st" not in body
+    assert "Monday." in body
+
+
+def test_rss_prefers_canonical_url_over_google_news() -> None:
+    xml = build_rss(
+        [
+            _report(
+                "2026-08-27",
+                "Google unveils agentic AI platform for lawyers called Gemini Enterprise for Legal - ABA Journal",
+                "Google launched Gemini Enterprise for Legal.",
+                _GNEWS,
+                source="Google News AI",
+                canonical_url="https://www.abajournal.com/web/article/gemini-enterprise-for-legal",
+            )
+        ]
+    )
+    _, _, items = _items(xml)
+    story = items[1]
+    assert story.findtext("link") == "https://www.abajournal.com/web/article/gemini-enterprise-for-legal"
+    body = story.findtext("description") or ""
+    assert "news.google.com" not in body
+    assert "abajournal.com" in body
+
+
+def test_rss_keeps_google_news_link_but_hides_it_from_description() -> None:
+    xml = build_rss(
+        [
+            _report(
+                "2026-08-18",
+                "OpenAI launches ChatGPT for Teens",
+                "A dedicated ChatGPT mode for teenagers.",
+                _GNEWS,
+                source="Google News AI",
+            )
+        ]
+    )
+    _, _, items = _items(xml)
+    story = items[1]
+    assert (story.findtext("link") or "").startswith("https://news.google.com/")
+    body = story.findtext("description") or ""
+    assert "news.google.com" not in body
+    assert "Google News AI" in body
+    assert "A dedicated ChatGPT mode" in body
+
+
 def test_write_public_feeds_duplicates_rss_alias(tmp_path) -> None:
     write_public_feeds(
         tmp_path,
@@ -149,10 +289,28 @@ def test_write_public_feeds_duplicates_rss_alias(tmp_path) -> None:
     feed = (tmp_path / "feed.xml").read_text(encoding="utf-8")
     alias = (tmp_path / "rss.xml").read_text(encoding="utf-8")
     atom = (tmp_path / "atom.xml").read_text(encoding="utf-8")
+    xsl = (tmp_path / "feed.xsl").read_text(encoding="utf-8")
     assert feed == alias
     assert feed.startswith("<?xml")
+    assert f'href="{XSL_PATH}"' in feed
     assert "<rss version=\"2.0\"" in feed
     assert atom.startswith("<?xml")
     assert "http://www.w3.org/2005/Atom" in atom
+    assert xsl.strip().startswith("<?xml")
+    assert "xsl:stylesheet" in xsl
+    assert "xsl:for-each select=\"item\"" in xsl
     ET.fromstring(feed)
     ET.fromstring(atom)
+
+
+def test_feed_headers_allow_browser_stylesheet() -> None:
+    from pathlib import Path
+
+    from app.config.settings import PROJECT_ROOT
+
+    text = (PROJECT_ROOT / "site" / "_headers").read_text(encoding="utf-8")
+    assert "/feed.xml" in text
+    assert "/feed.xsl" in text
+    assert "text/xsl" in text
+    assert "application/xml" in text or "application/rss+xml" in text
+    assert "application/rss+xml" in text or "xml" in text

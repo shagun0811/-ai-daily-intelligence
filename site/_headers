@@ -21,13 +21,17 @@
   Content-Disposition: attachment
 
 /feed.xml
-  Content-Type: application/rss+xml; charset=utf-8
+  Content-Type: application/xml; charset=utf-8
   Cache-Control: public, max-age=900
 
 /rss.xml
-  Content-Type: application/rss+xml; charset=utf-8
+  Content-Type: application/xml; charset=utf-8
   Cache-Control: public, max-age=900
 
 /atom.xml
   Content-Type: application/atom+xml; charset=utf-8
   Cache-Control: public, max-age=900
+
+/feed.xsl
+  Content-Type: text/xsl; charset=utf-8
+  Cache-Control: public, max-age=86400

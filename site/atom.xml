@@ -4,7 +4,7 @@
 <link href="https://ai-daily-intelligence.pages.dev/" rel="alternate" type="text/html"/>
 <link href="https://ai-daily-intelligence.pages.dev/atom.xml" rel="self" type="application/atom+xml"/>
 <id>https://ai-daily-intelligence.pages.dev/</id>
-<updated>2026-08-27T16:33:08.137649+00:00</updated>
+<updated>2026-08-31T13:45:50.711224+00:00</updated>
 <subtitle>Today’s ranked AI briefing: the stories that actually moved, and why they matter.</subtitle>
 <entry>
 <title>AI Daily Intelligence — 2026-08-27</title>
@@ -12,9 +12,7 @@
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-27</id>
 <updated>2026-08-27T17:00:00+05:30</updated>
 <published>2026-08-27T17:00:00+05:30</published>
-<content type="text">Google unveils agentic AI platform for lawyers called; Learning never stops: How AI makes learning continuous; and OpenAI’s Jalapeño chip is built for fast inference at
-
-Ranked stories: Google unveils agentic AI platform for lawyers called Gemini Enterprise for Legal - ABA Journal; Learning never stops: How AI makes learning continuous; OpenAI’s Jalapeño chip is built for fast inference at scale, benchmarks show; OpenAI subpoenaed by Alabama AG over Hugging Face hack</content>
+<content type="text">Ranked stories: Google unveils agentic AI platform for lawyers called Gemini Enterprise for Legal - ABA Journal; Learning never stops: How AI makes learning continuous; OpenAI’s Jalapeño chip is built for fast inference at scale, benchmarks show; OpenAI subpoenaed by Alabama AG over Hugging Face hack</content>
 </entry>
 <entry>
 <title>Google unveils agentic AI platform for lawyers called Gemini Enterprise for Legal - ABA Journal</title>
@@ -24,7 +22,7 @@ Ranked stories: Google unveils agentic AI platform for lawyers called Gemini Ent
 <published>2026-08-26T00:00:00+05:30</published>
 <content type="text">Google unveils agentic AI platform for lawyers called Gemini Enterprise for Legal ABA Journal
 
-Source: Google News AI (https://news.google.com/rss/articles/CBMiqgFBVV95cUxNSUZaaFh6b0drV2JuR0ZjcVpCY182WnUtRDJXRG5sOEczWXZLUGlLZVRTdC1zdTYyd0lOYTBMRkFpMWdyX2UwM09OVEJYSHBEWmJucG9tNnRWZDFzZF9Uc1JPMGk1WWNCZjVkMGJheDRVNXFNNS1fbjQxX1hpdGNpa0U1QWdsU0MyaUpsRzd4Vkd6d1hqRThPZE8zdXhaS01Da1I4Y3Fab1JLUQ?oc=5)</content>
+Source: Google News AI</content>
 </entry>
 <entry>
 <title>Learning never stops: How AI makes learning continuous</title>
@@ -52,7 +50,7 @@ Source: TechCrunch AI (https://techcrunch.com/2026/08/25/openais-jalapeno-chip-i
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-27:story-4-bdbbe5aedeb1</id>
 <updated>2026-08-25T00:00:00+05:30</updated>
 <published>2026-08-25T00:00:00+05:30</published>
-<content type="text">Alabama&apos;s attorney general issued a subpoena to OpenAI on Monday as part of an investigation into how one of its AI agents escaped a supposedly secure testing environment and autonomously hacked another company last month. The investigation seeks to determine whether OpenAI&apos;s safety practices violated state consumer protection laws and pose a risk to Alabama citizens, the AG&apos;s office said in a st…
+<content type="text">Alabama&apos;s attorney general issued a subpoena to OpenAI on Monday as part of an investigation into how one of its AI agents escaped a supposedly secure testing environment and autonomously hacked another company last month.
 
 Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/984239/alabama-attorney-general-subpoena-openai-hugging-face-hack)</content>
 </entry>
@@ -62,9 +60,7 @@ Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/984239
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-26</id>
 <updated>2026-08-26T17:00:00+05:30</updated>
 <published>2026-08-26T17:00:00+05:30</published>
-<content type="text">Jalapeño’s first results show industry-leading speed; OpenAI subpoenaed by Alabama AG over Hugging Face hack; and Welcome to the AI crisis in math
-
-Ranked stories: Jalapeño’s first results show industry-leading speed and efficiency in AI inference; OpenAI says its Jalapeño chip can power faster AI responses than the competition; OpenAI subpoenaed by Alabama AG over Hugging Face hack; Welcome to the AI crisis in math; Valor, Point72 back General Intuition at $6B valuation as AI startup pushes into robotics</content>
+<content type="text">Ranked stories: Jalapeño’s first results show industry-leading speed and efficiency in AI inference; OpenAI says its Jalapeño chip can power faster AI responses than the competition; OpenAI subpoenaed by Alabama AG over Hugging Face hack; Welcome to the AI crisis in math; Valor, Point72 back General Intuition at $6B valuation as AI startup pushes into robotics</content>
 </entry>
 <entry>
 <title>Jalapeño’s first results show industry-leading speed and efficiency in AI inference</title>
@@ -82,7 +78,7 @@ Source: OpenAI News (https://openai.com/index/jalapeno-first-results)</content>
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-26:story-2-ad49b35ee7d4</id>
 <updated>2026-08-26T17:00:00+05:30</updated>
 <published>2026-08-26T17:00:00+05:30</published>
-<content type="text">OpenAI says its new AI chip, Jalapeño, completes tasks more efficiently and returns responses faster than other AI systems, according to a blog post published on Tuesday . During a briefing with reporters, OpenAI hardware vice president Richard Ho said Jalapeño offers the &quot;best of both worlds&quot; with lower latency and higher throughput, as AI systems typically &quot;have to make a trade-off between the…
+<content type="text">OpenAI says its new AI chip, Jalapeño, completes tasks more efficiently and returns responses faster than other AI systems, according to a blog post published on Tuesday .
 
 Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/984290/openai-jalapeno-ai-chip-benchmarks)</content>
 </entry>
@@ -92,7 +88,7 @@ Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/984290
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-26:story-3-f231957df621</id>
 <updated>2026-08-26T17:00:00+05:30</updated>
 <published>2026-08-26T17:00:00+05:30</published>
-<content type="text">Alabama&apos;s attorney general issued a subpoena to OpenAI on Monday as part of an investigation into how one of its AI agents escaped a supposedly secure testing environment and autonomously hacked another company last month. The investigation seeks to determine whether OpenAI&apos;s safety practices violated state consumer protection laws and pose a risk to Alabama citizens, the AG&apos;s office said in a st…
+<content type="text">Alabama&apos;s attorney general issued a subpoena to OpenAI on Monday as part of an investigation into how one of its AI agents escaped a supposedly secure testing environment and autonomously hacked another company last month.
 
 Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/984239/alabama-attorney-general-subpoena-openai-hugging-face-hack)</content>
 </entry>
@@ -122,9 +118,7 @@ Source: TechCrunch AI (https://techcrunch.com/2026/08/24/valor-point72-back-gene
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-25</id>
 <updated>2026-08-25T17:00:00+05:30</updated>
 <published>2026-08-25T17:00:00+05:30</published>
-<content type="text">Mitigating Reasoning-Induced Misalignment via; Robustness of Anomaly Detection Models for Industrial; and How to Train a Critic Stably and Efficiently
-
-Ranked stories: Mitigating Reasoning-Induced Misalignment via Safety-Direction Penalty; Robustness of Anomaly Detection Models for Industrial Control Systems under Training-Time Data Contamination; ChebBooster: A Training-Free Approach for Efficient Diffusion Transformer Inference via Chebyshev-Inspired Extrapolation; How to Train a Critic Stably and Efficiently; Interpretable AI with Local Distillation</content>
+<content type="text">Ranked stories: Mitigating Reasoning-Induced Misalignment via Safety-Direction Penalty; Robustness of Anomaly Detection Models for Industrial Control Systems under Training-Time Data Contamination; ChebBooster: A Training-Free Approach for Efficient Diffusion Transformer Inference via Chebyshev-Inspired Extrapolation; How to Train a Critic Stably and Efficiently; Interpretable AI with Local Distillation</content>
 </entry>
 <entry>
 <title>Mitigating Reasoning-Induced Misalignment via Safety-Direction Penalty</title>
@@ -152,7 +146,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.23547)</content>
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-25:story-3-4152ad7209fd</id>
 <updated>2026-08-25T17:00:00+05:30</updated>
 <published>2026-08-25T17:00:00+05:30</published>
-<content type="text">Diffusion Transformers (DiTs) have shown strong performance in high-fidelity image generation, but their sampling process remains computationally intensive due to full model execution at every timestep. While cache-based acceleration has been explored to mitigate inference cost, naive reuse schemes suffer from low accuracy over long intervals, and Taylor-series-based extrapolation methods often f…
+<content type="text">Diffusion Transformers (DiTs) have shown strong performance in high-fidelity image generation, but their sampling process remains computationally intensive due to full model execution at every timestep.
 
 Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.23429)</content>
 </entry>
@@ -182,9 +176,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.23538)</content>
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-24</id>
 <updated>2026-08-24T17:00:00+05:30</updated>
 <published>2026-08-24T17:00:00+05:30</published>
-<content type="text">Beyond Imitation: Self-Improving Robot Policies via; Rethinking Expressivity and Efficiency in Test-Time; and Detecting Backdoors in Object Detection via Pre-NMS
-
-Ranked stories: Beyond Imitation: Self-Improving Robot Policies via Off-Policy Q-Planning; Rethinking Expressivity and Efficiency in Test-Time Training; Detecting Backdoors in Object Detection via Pre-NMS Prediction Distribution Shift; The Third Restructuring of Software Form: From the Three-Tier Architecture to Storage, Models, and Agents; Time-Aware Tranformer-Based Prediction Model for AECOPD</content>
+<content type="text">Ranked stories: Beyond Imitation: Self-Improving Robot Policies via Off-Policy Q-Planning; Rethinking Expressivity and Efficiency in Test-Time Training; Detecting Backdoors in Object Detection via Pre-NMS Prediction Distribution Shift; The Third Restructuring of Software Form: From the Three-Tier Architecture to Storage, Models, and Agents; Time-Aware Tranformer-Based Prediction Model for AECOPD</content>
 </entry>
 <entry>
 <title>Beyond Imitation: Self-Improving Robot Policies via Off-Policy Q-Planning</title>
@@ -192,7 +184,7 @@ Ranked stories: Beyond Imitation: Self-Improving Robot Policies via Off-Policy Q
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-24:story-1-264ccd33cc4f</id>
 <updated>2026-08-24T17:00:00+05:30</updated>
 <published>2026-08-24T17:00:00+05:30</published>
-<content type="text">Behaviour Cloning (BC) has driven remarkable progress in robot manipulation, yet it is fundamentally limited by its inability to self-improve: a policy that fails cannot learn from that failure without additional human demonstrations. Reinforcement Learning fine-tuning offers a path to self-improvement but has proven difficult to scale to the multi-billion-parameter models underpinning modern rob…
+<content type="text">Behaviour Cloning (BC) has driven remarkable progress in robot manipulation, yet it is fundamentally limited by its inability to self-improve: a policy that fails cannot learn from that failure without additional human demonstrations.
 
 Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.21204)</content>
 </entry>
@@ -212,7 +204,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.21308)</content>
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-24:story-3-8fc466b88b73</id>
 <updated>2026-08-24T17:00:00+05:30</updated>
 <published>2026-08-24T17:00:00+05:30</published>
-<content type="text">Object detection models deployed in safety-critical applications remain vulnerable to backdoor attacks that cause targeted misbehaviors when a hidden trigger is present. Existing detection methods either rely on trigger inversion or exploit architecture-specific assumptions, and critically, representative existing methods fail to generalize reliably to scene-level attacks, where a single trigger…
+<content type="text">Object detection models deployed in safety-critical applications remain vulnerable to backdoor attacks that cause targeted misbehaviors when a hidden trigger is present.
 
 Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19088)</content>
 </entry>
@@ -222,7 +214,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19088)</content>
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-24:story-4-9346d23bd5bb</id>
 <updated>2026-08-24T17:00:00+05:30</updated>
 <published>2026-08-24T17:00:00+05:30</published>
-<content type="text">Software form has undergone two paradigm shifts since its inception: Software 1.0, in which instructions determine behavior, and Software 2.0, in which data determines behavior (machine learning). This paper argues that a third shift - Software 3.0, in which context and reasoning determine behavior - is now underway, and contends that its terminal form converges to three elements: a generalized d…
+<content type="text">Software form has undergone two paradigm shifts since its inception: Software 1.0, in which instructions determine behavior, and Software 2.0, in which data determines behavior (machine learning).
 
 Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20201)</content>
 </entry>
@@ -242,9 +234,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.21324)</content>
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-23</id>
 <updated>2026-08-23T17:00:00+05:30</updated>
 <published>2026-08-23T17:00:00+05:30</published>
-<content type="text">InsufficiencyBench: Evaluating LLM legal advice on; ContractScrub: A benchmark for final review of legal; and $TCP_α$: Margin-Controlled Confidence estimation
-
-Ranked stories: InsufficiencyBench: Evaluating LLM legal advice on underspecified user queries; ContractScrub: A benchmark for final review of legal contracts; $TCP_α$: Margin-Controlled Confidence estimation for reliable Music Information Retrieval; Electronic Navigational Chart Change Classification; Beyond Trial Averaging: Anchoring Neural and Visual Representations for Few-Repetition Brain-to-Image Retrieval</content>
+<content type="text">Ranked stories: InsufficiencyBench: Evaluating LLM legal advice on underspecified user queries; ContractScrub: A benchmark for final review of legal contracts; $TCP_α$: Margin-Controlled Confidence estimation for reliable Music Information Retrieval; Electronic Navigational Chart Change Classification; Beyond Trial Averaging: Anchoring Neural and Visual Representations for Few-Repetition Brain-to-Image Retrieval</content>
 </entry>
 <entry>
 <title>InsufficiencyBench: Evaluating LLM legal advice on underspecified user queries</title>
@@ -302,9 +292,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19128)</content>
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-22</id>
 <updated>2026-08-22T17:00:00+05:30</updated>
 <published>2026-08-22T17:00:00+05:30</published>
-<content type="text">Rule-Compliant Visual Spatial Planning for Multimodal; Ask Self, Ask Others: Relation Is All You Need; and MemTrapBench: Benchmarking Cognitive Traps in LLM Memory
-
-Ranked stories: Rule-Compliant Visual Spatial Planning for Multimodal Large Language Models; Ask Self, Ask Others: Relation Is All You Need; MemTrapBench: Benchmarking Cognitive Traps in LLM Memory Use; Too Sure to Be Safe: Model Calibration for Reliable Log Anomaly Detection; QUASAR: A Quantum-Classical Neural Network for SAR Satellite Physical-Layer Authentication</content>
+<content type="text">Ranked stories: Rule-Compliant Visual Spatial Planning for Multimodal Large Language Models; Ask Self, Ask Others: Relation Is All You Need; MemTrapBench: Benchmarking Cognitive Traps in LLM Memory Use; Too Sure to Be Safe: Model Calibration for Reliable Log Anomaly Detection; QUASAR: A Quantum-Classical Neural Network for SAR Satellite Physical-Layer Authentication</content>
 </entry>
 <entry>
 <title>Rule-Compliant Visual Spatial Planning for Multimodal Large Language Models</title>
@@ -362,9 +350,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20240)</content>
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-21</id>
 <updated>2026-08-21T17:00:00+05:30</updated>
 <published>2026-08-21T17:00:00+05:30</published>
-<content type="text">Explainable Transformer Models for Clinical Prediction; Prompt-Conditioned Channel Attention for Hierarchical; and AI4AI-Bench: Benchmarking LLM Agents in Algorithmic
-
-Ranked stories: Explainable Transformer Models for Clinical Prediction Tasks on Structured Electronic Health Records; Prompt-Conditioned Channel Attention for Hierarchical Feature Modulation toward Anatomy-Agnostic Segmentation; Daedalus-150M: A Convolution-Attention Hybrid Designed for CPU Inference; AI4AI-Bench: Benchmarking LLM Agents in Algorithmic Design for Recursive Self-Improvement; Decoding silent reading from non-invasive EEG</content>
+<content type="text">Ranked stories: Explainable Transformer Models for Clinical Prediction Tasks on Structured Electronic Health Records; Prompt-Conditioned Channel Attention for Hierarchical Feature Modulation toward Anatomy-Agnostic Segmentation; Daedalus-150M: A Convolution-Attention Hybrid Designed for CPU Inference; AI4AI-Bench: Benchmarking LLM Agents in Algorithmic Design for Recursive Self-Improvement; Decoding silent reading from non-invasive EEG</content>
 </entry>
 <entry>
 <title>Explainable Transformer Models for Clinical Prediction Tasks on Structured Electronic Health Records</title>
@@ -372,7 +358,7 @@ Ranked stories: Explainable Transformer Models for Clinical Prediction Tasks on 
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-1-35e58c59c809</id>
 <updated>2026-08-21T17:00:00+05:30</updated>
 <published>2026-08-21T17:00:00+05:30</published>
-<content type="text">Predictive models over structured electronic health records (EHRs) remain central to machine learning for healthcare, but few have jointly emphasized quantitative laboratory information and interpretability with respect to input medical events. We present BERT-LER, a BERT-style model for coded EHR timelines pretrained and fine-tuned from a de-identified EHR dataset of 75 million patients, that en…
+<content type="text">Predictive models over structured electronic health records (EHRs) remain central to machine learning for healthcare, but few have jointly emphasized quantitative laboratory information and interpretability with respect to input medical events.
 
 Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20315)</content>
 </entry>
@@ -412,7 +398,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20318)</content>
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-5-a2452fee4229</id>
 <updated>2026-08-21T17:00:00+05:30</updated>
 <published>2026-08-21T17:00:00+05:30</published>
-<content type="text">Non-invasive decoding of inner speech faces a fundamental data problem: a corpus pairing brain activity with a person&apos;s spontaneous inner monologue cannot be collected, and the available proxy paradigms (cued repetitive and retrospectively reported generative inner speech) are slow to acquire, poorly time-locked, and subject compliance is unverifiable. We therefore treat silent reading as a scala…
+<content type="text">Non-invasive decoding of inner speech faces a fundamental data problem: a corpus pairing brain activity with a person&apos;s spontaneous inner monologue cannot be collected, and the available proxy paradigms (cued repetitive and retrospectively reported generative inner speech) are slow to acquire, poorly time-locked, and subject compliance is unverifiable.
 
 Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20186)</content>
 </entry>
@@ -422,9 +408,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20186)</content>
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-20</id>
 <updated>2026-08-20T17:00:00+05:30</updated>
 <published>2026-08-20T17:00:00+05:30</published>
-<content type="text">Pretraining Reusable Inference Across Views; GS-VLA: Plug-and-Play Viewpoint Canonicalization; and ReWEIGH the Evidence: Calibrating Token-Level Ordinal
-
-Ranked stories: Pretraining Reusable Inference Across Views with Synthetic Task Priors; GS-VLA: Plug-and-Play Viewpoint Canonicalization for Frozen VLA Policies via Gaussian Splatting; Pre-Compiled Pipeline Shards for Distributed LLM Inference on Intel AI PC Fleets; ReWEIGH the Evidence: Calibrating Token-Level Ordinal Visual Evidence to Mitigate Hallucinations in Large Vision-Language Models; SCORE: Subject Coordinate Recovery for Label-Free Cross-Subject EEG-to-Image Retrieval</content>
+<content type="text">Ranked stories: Pretraining Reusable Inference Across Views with Synthetic Task Priors; GS-VLA: Plug-and-Play Viewpoint Canonicalization for Frozen VLA Policies via Gaussian Splatting; Pre-Compiled Pipeline Shards for Distributed LLM Inference on Intel AI PC Fleets; ReWEIGH the Evidence: Calibrating Token-Level Ordinal Visual Evidence to Mitigate Hallucinations in Large Vision-Language Models; SCORE: Subject Coordinate Recovery for Label-Free Cross-Subject EEG-to-Image Retrieval</content>
 </entry>
 <entry>
 <title>Pretraining Reusable Inference Across Views with Synthetic Task Priors</title>
@@ -482,9 +466,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19134)</content>
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-19</id>
 <updated>2026-08-19T17:00:00+05:30</updated>
 <published>2026-08-19T17:00:00+05:30</published>
-<content type="text">Meta AI is getting a Mac app; OpenAI lays out new security changes after its AI hacked; and OpenAI hit the brakes. Now what?
-
-Ranked stories: Meta AI is getting a Mac app; OpenAI lays out new security changes after its AI hacked Hugging Face; OpenAI hit the brakes. Now what?; Offering Zero Data Retention for frontier models; ScarfBench: Benchmarking AI Agents for Enterprise Java Framework Migration</content>
+<content type="text">Ranked stories: Meta AI is getting a Mac app; OpenAI lays out new security changes after its AI hacked Hugging Face; OpenAI hit the brakes. Now what?; Offering Zero Data Retention for frontier models; ScarfBench: Benchmarking AI Agents for Enterprise Java Framework Migration</content>
 </entry>
 <entry>
 <title>Meta AI is getting a Mac app</title>
@@ -502,7 +484,7 @@ Source: The Verge AI (https://www.theverge.com/tech/982270/meta-ai-mac-app)</con
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-2-8c6e4e5dd669</id>
 <updated>2026-08-19T17:00:00+05:30</updated>
 <published>2026-08-19T17:00:00+05:30</published>
-<content type="text">OpenAI is announcing security updates following the July news that its AI broke out of a sandboxed environment and accidentally hacked Hugging Face , including improvements to its research environments, monitoring, and alignment techniques. The company had already put the brakes on a new model, Astra , that it thinks could have &quot;critical&quot; cybersecurity capabilities, and the company says it instit…
+<content type="text">OpenAI is announcing security updates following the July news that its AI broke out of a sandboxed environment and accidentally hacked Hugging Face , including improvements to its research environments, monitoring, and alignment techniques.
 
 Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/981640/openai-security-changes-ai-hugging-face-hack)</content>
 </entry>
@@ -532,7 +514,7 @@ Source: OpenAI News (https://openai.com/index/our-commitment-to-zero-data-retent
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-5-b4870a9461ed</id>
 <updated>2026-08-19T17:00:00+05:30</updated>
 <published>2026-08-19T17:00:00+05:30</published>
-<content type="text">Not stated in the source.
+<content type="text">ScarfBench: Benchmarking AI Agents for Enterprise Java Framework Migration
 
 Source: Hugging Face Blog (https://huggingface.co/blog/ibm-research/scarfbench)</content>
 </entry>
@@ -542,9 +524,7 @@ Source: Hugging Face Blog (https://huggingface.co/blog/ibm-research/scarfbench)<
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-18</id>
 <updated>2026-08-18T17:00:00+05:30</updated>
 <published>2026-08-18T17:00:00+05:30</published>
-<content type="text">OpenAI launches ChatGPT for Teens, promising a more; Rogue AI aren’t science fiction anymore; and Google’s Pet Memory forgot who my cats are
-
-Ranked stories: OpenAI launches ChatGPT for Teens, promising a more age-appropriate chatbot - ABC News - Breaking News, Latest News and Videos; ChatGPT is getting a dedicated mode for teens; Rogue AI aren’t science fiction anymore; Google’s Pet Memory forgot who my cats are; ChatGPT’s Computer History tracks your clicks and keystrokes</content>
+<content type="text">Ranked stories: OpenAI launches ChatGPT for Teens, promising a more age-appropriate chatbot - ABC News - Breaking News, Latest News and Videos; ChatGPT is getting a dedicated mode for teens; Rogue AI aren’t science fiction anymore; Google’s Pet Memory forgot who my cats are; ChatGPT’s Computer History tracks your clicks and keystrokes</content>
 </entry>
 <entry>
 <title>OpenAI launches ChatGPT for Teens, promising a more age-appropriate chatbot - ABC News - Breaking News, Latest News and Videos</title>
@@ -554,7 +534,7 @@ Ranked stories: OpenAI launches ChatGPT for Teens, promising a more age-appropri
 <published>2026-08-18T17:00:00+05:30</published>
 <content type="text">OpenAI launches ChatGPT for Teens, promising a more age-appropriate chatbot ABC News - Breaking News, Latest News and Videos
 
-Source: Google News AI (https://news.google.com/rss/articles/CBMipAFBVV95cUxPODNVMmNOelM3amNTTjM2cDlOWlNJU0p6WEVmbUMzTXBFVzRySHJ4Ymo1SXU0TFZPSEViZTVWSk1KLXp2aUVaMHgyX2VQWGF3S0kwd2Jjc1Z5VDFzaHBOakN0MWRyRFJ3ZFkyTDZTbmNIZ3pfTUlVZDBKNnQzWUJmM0VlZnNwbVdRZGl6MElweVhlOUU2NGVtWWlBUHZqcjliYjI4Zg?oc=5)</content>
+Source: Google News AI</content>
 </entry>
 <entry>
 <title>ChatGPT is getting a dedicated mode for teens</title>
@@ -602,9 +582,7 @@ Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/980742
 <id>https://ai-daily-intelligence.pages.dev/#2026-08-17</id>
 <updated>2026-08-17T17:00:00+05:30</updated>
 <published>2026-08-17T17:00:00+05:30</published>
-<content type="text">DFM Mimir v1: An Open HRM Delivering Frontier Performance; TabSOM: A tabular-to-image encoding method based on; and DeaMoE: Efficient MoE Structure for Fast Small-Batch
-
-Ranked stories: DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B Parameters Using Only Permissible Post-Training Data; TabSOM: A tabular-to-image encoding method based on self-organizing maps; DeaMoE: Efficient MoE Structure for Fast Small-Batch Decoding; Intern-S2-Preview: Scientific Agentic Foundation Model; Generating Benchmark Health Data Using a Tabular Diffusion Transformer</content>
+<content type="text">Ranked stories: DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B Parameters Using Only Permissible Post-Training Data; TabSOM: A tabular-to-image encoding method based on self-organizing maps; DeaMoE: Efficient MoE Structure for Fast Small-Batch Decoding; Intern-S2-Preview: Scientific Agentic Foundation Model; Generating Benchmark Health Data Using a Tabular Diffusion Transformer</content>
 </entry>
 <entry>
 <title>DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B Parameters Using Only Permissible Post-Training Data</title>
@@ -612,7 +590,7 @@ Ranked stories: DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B 
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-1-07ecd886950b</id>
 <updated>2026-08-17T17:00:00+05:30</updated>
 <published>2026-08-17T17:00:00+05:30</published>
-<content type="text">Current large language model development relies on massive, often non-permissible datasets, creating a high barrier for researchers committed to open-source and ethically sourced data. We introduce Mimir v1, a 1-billion-parameter language model based on the Hierarchical Reasoning Model (HRM) architecture, that is trained from scratch and delivers highly competitive performance for English and set…
+<content type="text">Current large language model development relies on massive, often non-permissible datasets, creating a high barrier for researchers committed to open-source and ethically sourced data.
 
 Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.13517)</content>
 </entry>
@@ -642,7 +620,7 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.14385)</content>
 <id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-4-5fb73676b78b</id>
 <updated>2026-08-17T17:00:00+05:30</updated>
 <published>2026-08-17T17:00:00+05:30</published>
-<content type="text">Scientific discovery increasingly requires AI systems that can reason over scientific evidence of heterogeneous modalities, interact with scientific tools and environments, and sustain progress across long task horizons. We present Intern-S2-Preview, a series of scientific agentic foundation models designed to support multimodal scientific understanding, reasoning, generation, and long-horizon ta…
+<content type="text">Scientific discovery increasingly requires AI systems that can reason over scientific evidence of heterogeneous modalities, interact with scientific tools and environments, and sustain progress across long task horizons.
 
 Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.13505)</content>
 </entry>

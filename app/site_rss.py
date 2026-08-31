@@ -6,11 +6,13 @@ This is RSS *out* (subscribers), not inbound source collection.
 
 from __future__ import annotations
 
+import re
 from datetime import date, datetime, time, tzinfo, timezone
 from email.utils import format_datetime
 from hashlib import sha1
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 from xml.sax.saxutils import escape
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
@@ -18,11 +20,15 @@ PUBLIC_SITE_URL = "https://ai-daily-intelligence.pages.dev"
 FEED_PATH = "/feed.xml"
 RSS_ALIAS_PATH = "/rss.xml"
 ATOM_PATH = "/atom.xml"
+XSL_PATH = "/feed.xsl"
 FEED_DAYS = 14
 CHANNEL_TITLE = "AI Daily Intelligence"
 CHANNEL_DESCRIPTION = (
     "Today’s ranked AI briefing: the stories that actually moved, and why they matter."
 )
+_PLACEHOLDER_WHY = re.compile(r"^not stated in the source\.?$", re.IGNORECASE)
+_GOOGLE_NEWS_HOST = re.compile(r"(^|\.)news\.google\.", re.IGNORECASE)
+_XSL_SOURCE = Path(__file__).with_name("feed.xsl")
 
 
 def _ist() -> tzinfo:
@@ -38,16 +44,22 @@ def write_public_feeds(
     *,
     generated_at: datetime | None = None,
 ) -> dict[str, int]:
-    """Write feed.xml, rss.xml (duplicate), and atom.xml into the site root."""
+    """Write feed.xml, rss.xml (duplicate), atom.xml, and feed.xsl into the site root."""
     root = Path(site_dir)
     root.mkdir(parents=True, exist_ok=True)
     built = generated_at or datetime.now(timezone.utc)
     rss = build_rss(reports, generated_at=built)
     atom = build_atom(reports, generated_at=built)
+    xsl = _feed_xsl()
     (root / "feed.xml").write_text(rss, encoding="utf-8")
     (root / "rss.xml").write_text(rss, encoding="utf-8")
     (root / "atom.xml").write_text(atom, encoding="utf-8")
-    return {"rss_bytes": len(rss.encode("utf-8")), "atom_bytes": len(atom.encode("utf-8"))}
+    (root / "feed.xsl").write_text(xsl, encoding="utf-8")
+    return {
+        "rss_bytes": len(rss.encode("utf-8")),
+        "atom_bytes": len(atom.encode("utf-8")),
+        "xsl_bytes": len(xsl.encode("utf-8")),
+    }
 
 
 def build_rss(
@@ -61,6 +73,7 @@ def build_rss(
     self_url = f"{PUBLIC_SITE_URL}{FEED_PATH}"
     parts = [
         '<?xml version="1.0" encoding="UTF-8"?>',
+        f'<?xml-stylesheet type="text/xsl" href="{XSL_PATH}"?>',
         '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
         "<channel>",
         f"<title>{_xml(CHANNEL_TITLE)}</title>",
@@ -112,15 +125,9 @@ def _feed_items(reports: list[dict[str, Any]]) -> list[dict[str, Any]]:
         edition_when = _edition_datetime(date_key)
         edition_url = f"{PUBLIC_SITE_URL}/#{date_key}"
         briefing = row.get("briefing") if isinstance(row.get("briefing"), dict) else {}
-        lede = str(briefing.get("lede") or row.get("preview") or "").strip()
         stories = _ranked_stories(briefing)
         headlines = [story["title"] for story in stories[:8]]
-        summary_bits = [lede] if lede else []
-        if headlines:
-            summary_bits.append("Ranked stories: " + "; ".join(headlines))
-        description = "\n\n".join(part for part in summary_bits if part) or (
-            "The day’s ranked AI stories, in one sitting."
-        )
+        description = _edition_description(headlines)
         items.append(
             {
                 "kind": "edition",
@@ -136,12 +143,8 @@ def _feed_items(reports: list[dict[str, Any]]) -> list[dict[str, Any]]:
         )
         for index, story in enumerate(stories, start=1):
             source_url = story["source_url"] or edition_url
-            why = story["why"]
-            source_line = ""
-            if story["source_name"]:
-                source_line = f"Source: {story['source_name']}"
-                if story["source_url"]:
-                    source_line += f" ({story['source_url']})"
+            why = story["why"] or story["title"]
+            source_line = _source_line(story["source_name"], source_url)
             description = "\n\n".join(part for part in (why, source_line) if part)
             items.append(
                 {
@@ -151,7 +154,7 @@ def _feed_items(reports: list[dict[str, Any]]) -> list[dict[str, Any]]:
                     "guid": _story_guid(date_key, index, story["title"], source_url),
                     "guid_permalink": False,
                     "pub": story["published_at"] or edition_when,
-                    "description": description or why or story["title"],
+                    "description": description,
                     "source_name": story["source_name"] or CHANNEL_TITLE,
                     "source_url": source_url,
                 }
@@ -188,19 +191,18 @@ def _ranked_stories(briefing: dict[str, Any]) -> list[dict[str, str | datetime |
         if key in seen:
             return
         seen.add(key)
-        why = str(
-            raw.get("why_it_matters")
-            or raw.get("summary")
-            or raw.get("body")
-            or raw.get("key_contribution")
-            or ""
-        ).strip()
+        why = _story_why(raw, title)
         stories.append(
             {
                 "title": title,
                 "why": why,
                 "source_name": str(raw.get("source_name") or "").strip(),
-                "source_url": str(raw.get("source_url") or "").strip(),
+                "source_url": _prefer_article_url(
+                    raw.get("canonical_url"),
+                    raw.get("url"),
+                    raw.get("article_url"),
+                    raw.get("source_url"),
+                ),
                 "published_at": _parse_timestamp(raw.get("published_at")),
             }
         )
@@ -222,6 +224,89 @@ def _ranked_stories(briefing: dict[str, Any]) -> list[dict[str, str | datetime |
 def _story_guid(date_key: str, index: int, title: str, url: str) -> str:
     digest = sha1(f"{date_key}|{index}|{title}|{url}".encode("utf-8")).hexdigest()[:12]
     return f"tag:ai-daily-intelligence.pages.dev,{date_key}:story-{index}-{digest}"
+
+
+def _edition_description(headlines: list[str]) -> str:
+    """Full ranked headlines only — never a mid-word clipped lede."""
+    complete = [title for title in headlines if title]
+    if complete:
+        return "Ranked stories: " + "; ".join(complete)
+    return "The day’s ranked AI stories, in one sitting."
+
+
+def _story_why(raw: dict[str, Any], title: str) -> str:
+    """Prefer a real summary; never emit the unimplemented placeholder."""
+    for key in ("why_it_matters", "summary", "body", "key_contribution", "problem"):
+        text = _usable_prose(raw.get(key))
+        if text:
+            return text
+    return title
+
+
+def _usable_prose(value: Any) -> str:
+    text = " ".join(str(value or "").split())
+    if not text or _PLACEHOLDER_WHY.match(text):
+        return ""
+    return _end_on_complete_phrase(text)
+
+
+def _end_on_complete_phrase(text: str) -> str:
+    """If a summary was already clipped, stop on a full sentence or word — never mid-word."""
+    stripped = text.strip()
+    if stripped.endswith("..."):
+        body = stripped[:-3].rstrip()
+    elif stripped.endswith("…"):
+        body = stripped[:-1].rstrip()
+    else:
+        return stripped
+    for sep in (". ", "! ", "? "):
+        idx = body.rfind(sep)
+        if idx >= 24:
+            return body[: idx + 1]
+    parts = body.split()
+    while parts and len(parts[-1].strip(".,;:—-")) <= 3:
+        parts.pop()
+    if not parts:
+        return stripped
+    return " ".join(parts).rstrip(".,;:—-") + "…"
+
+
+def _prefer_article_url(*candidates: Any) -> str:
+    """Publisher URL first; Google News wrapper only if that is all we have."""
+    urls = [str(value or "").strip() for value in candidates if str(value or "").strip()]
+    for url in urls:
+        if not _is_google_news_url(url):
+            return url
+    return urls[0] if urls else ""
+
+
+def _is_google_news_url(url: str) -> bool:
+    host = urlsplit(url).netloc.lower()
+    return bool(host and _GOOGLE_NEWS_HOST.search(host))
+
+
+def _source_line(source_name: str, source_url: str) -> str:
+    name = str(source_name or "").strip()
+    if not name:
+        return ""
+    visible = _visible_source_url(source_url)
+    if visible:
+        return f"Source: {name} ({visible})"
+    return f"Source: {name}"
+
+
+def _visible_source_url(url: str) -> str:
+    """Keep <link> as the real URL; do not dump Google News wrappers into body text."""
+    text = str(url or "").strip()
+    if not text or _is_google_news_url(text) or len(text) > 180:
+        return ""
+    return text
+
+
+def _feed_xsl() -> str:
+    if _XSL_SOURCE.is_file():
+        return _XSL_SOURCE.read_text(encoding="utf-8")
+    return _FALLBACK_XSL
 
 
 def _rss_item(item: dict[str, Any]) -> list[str]:
@@ -296,3 +381,30 @@ def _iso8601(value: datetime) -> str:
 
 def _xml(text: str) -> str:
     return escape(str(text or ""), {"\"": "&quot;", "'": "&apos;"})
+
+
+_FALLBACK_XSL = """<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="html" encoding="UTF-8" indent="yes"/>
+  <xsl:template match="/rss/channel">
+    <html lang="en">
+      <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title><xsl:value-of select="title"/></title>
+      </head>
+      <body>
+        <h1><xsl:value-of select="title"/></h1>
+        <p><xsl:value-of select="lastBuildDate"/></p>
+        <xsl:for-each select="item">
+          <article>
+            <h2><a href="{link}"><xsl:value-of select="title"/></a></h2>
+            <p><xsl:value-of select="pubDate"/></p>
+            <p><xsl:value-of select="description"/></p>
+          </article>
+        </xsl:for-each>
+      </body>
+    </html>
+  </xsl:template>
+</xsl:stylesheet>
+"""

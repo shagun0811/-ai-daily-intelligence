@@ -65,9 +65,12 @@ def test_export_writes_json_and_copies_report_files(db_session, tmp_path: Path) 
     assert payload["reports"][0]["briefing"]["title"] == "AI Daily Intelligence"
     feed = (out / "feed.xml").read_text(encoding="utf-8")
     assert feed.startswith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
+    assert '<?xml-stylesheet type="text/xsl" href="/feed.xsl"?>' in feed
     assert "<rss version=\"2.0\"" in feed
     assert (out / "rss.xml").read_text(encoding="utf-8") == feed
     assert (out / "atom.xml").is_file()
+    assert (out / "feed.xsl").is_file()
+    assert "xsl:stylesheet" in (out / "feed.xsl").read_text(encoding="utf-8")
 
 
 def _write_report(db_session, tmp_path: Path, day: date, title: str) -> Path:
