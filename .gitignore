@@ -33,6 +33,7 @@ data/embeddings/*
 data/reports/*
 !data/reports/.gitkeep
 data/*.lock
+data/cache/
 site/data/
 site/files/
 

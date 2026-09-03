@@ -4,7 +4,7 @@ Automated daily AI intelligence collection, ranking, and reporting.
 
 **Current status: local pipeline plus a Cloudflare Pages site for going live.**
 
-The pipeline still runs on your machine. The public UI is a **static site** in `site/`, which Cloudflare Pages can host. Streamlit is no longer the live dashboard. Each report also writes an infographic, story cards, and a short GIF briefing from the same text — no paid image or video APIs.
+The pipeline still runs on your machine. The public UI is a **static site** in `site/`, which Cloudflare Pages can host. Streamlit is no longer the live dashboard. Each report also writes an infographic, story cards, a short GIF, and a local MP4 briefing (ffmpeg when available) from the same text — no paid image or video APIs.
 
 ---
 
@@ -18,7 +18,7 @@ The pipeline still runs on your machine. The public UI is a **static site** in `
 - Cloudflare Pages static briefing site (Phase 7 live UI)
 - Daily schedule at 17:00 IST: local APScheduler + GitHub Actions (Phase 8)
 - Hardened text pipeline: isolated stages, incremental clustering, extra tests (Phase 9)
-- Infographic, story cards, and GIF briefing generated from the daily text report
+- Infographic, story cards, GIF, and MP4 briefing generated from the daily text report (GIF if ffmpeg is missing)
 - Cloudflare Pages static site (replaces Streamlit for going live)
 
 ---
@@ -28,7 +28,7 @@ The pipeline still runs on your machine. The public UI is a **static site** in `
 ```powershell
 cd C:\Users\KIIT0001\Desktop\ai-daily-intelligence
 .\.venv\Scripts\Activate.ps1
-pip install pydantic pydantic-settings SQLAlchemy python-dotenv PyYAML python-dateutil pytest requests feedparser beautifulsoup4 lxml trafilatura numpy Jinja2 reportlab streamlit pandas APScheduler pillow
+pip install pydantic pydantic-settings SQLAlchemy python-dotenv PyYAML python-dateutil pytest requests feedparser beautifulsoup4 lxml trafilatura numpy Jinja2 reportlab streamlit pandas APScheduler pillow imageio-ffmpeg
 ```
 
 ---

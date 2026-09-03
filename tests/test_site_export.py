@@ -224,10 +224,10 @@ def test_export_hydrates_briefing_from_on_disk_markdown(db_session, tmp_path: Pa
 
 def test_archive_page_is_a_day_reader() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "briefing-20260827c.js").read_text(encoding="utf-8")
-    css = (PROJECT_ROOT / "site" / "briefing-20260827c.css").read_text(encoding="utf-8")
-    assert 'href="./briefing-20260827c.css"' in html
-    assert 'src="./briefing-20260827c.js"' in html
+    js = (PROJECT_ROOT / "site" / "briefing-20260903.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260903.css").read_text(encoding="utf-8")
+    assert 'href="./briefing-20260903.css"' in html
+    assert 'src="./briefing-20260903.js"' in html
     assert 'id="briefing"' in html
     assert 'id="date-strip"' in html
     assert 'id="prev-day"' in html
@@ -235,6 +235,9 @@ def test_archive_page_is_a_day_reader() -> None:
     assert 'id="open-archive"' in html
     assert 'id="download-pdf"' in html
     assert 'id="download-pdf-hero"' in html
+    assert 'id="watch-video"' in html
+    assert 'id="watch-video-hero"' in html
+    assert "Watch / Download video" in html
     assert 'id="rss-feed"' in html
     assert 'rel="alternate" type="application/rss+xml"' in html
     assert "https://ai-daily-intelligence.pages.dev/feed.xml" in html
@@ -245,6 +248,8 @@ def test_archive_page_is_a_day_reader() -> None:
     assert "function renderBriefing" in js
     assert "function layoutBriefing" in js
     assert "function renderDownloads" in js
+    assert "files.mp4" in js
+    assert "briefing-video" in js
     assert "function bindRssCopy" in js
     assert "Save this briefing" in js
     assert "Download all" in js
@@ -256,8 +261,8 @@ def test_archive_page_is_a_day_reader() -> None:
 
 def test_paid_reader_opens_today_not_item_dump() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "briefing-20260827c.js").read_text(encoding="utf-8")
-    css = (PROJECT_ROOT / "site" / "briefing-20260827c.css").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "briefing-20260903.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260903.css").read_text(encoding="utf-8")
     assert 'id="item-list"' not in html
     assert 'data-tab="items"' not in html
     assert "Today’s briefing" in html or "Today's briefing" in html
@@ -292,6 +297,33 @@ def test_export_generates_missing_pdf_from_markdown(db_session, tmp_path: Path) 
     assert report["files"]["pdf"].endswith("ai-daily-intelligence-2026-08-26.pdf")
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
     assert "Download PDF" in html
-    js = (PROJECT_ROOT / "site" / "briefing-20260827c.js").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "briefing-20260903.js").read_text(encoding="utf-8")
     assert "files.pdf" in js
+    assert "files.mp4" in js
+
+
+def test_export_copies_mp4_and_omits_missing_video(db_session, tmp_path: Path) -> None:
+    md = tmp_path / "ai-daily-intelligence-2026-08-17.md"
+    md.write_text("# AI Daily Intelligence\n", encoding="utf-8")
+    mp4 = tmp_path / "ai-daily-intelligence-2026-08-17-briefing.mp4"
+    mp4.write_bytes(b"\x00\x00\x00\x18ftypmp42" + b"0" * 64)
+    db_session.add(
+        DailyReport(
+            report_date=date(2026, 8, 17),
+            title="AI Daily Intelligence",
+            markdown_content="# AI Daily Intelligence\n",
+            markdown_path=str(md),
+            stats_json={"selected": 1, "candidates": 4, "mp4_path": str(mp4)},
+        )
+    )
+    db_session.flush()
+
+    out = tmp_path / "site"
+    summary = export_public_site(db_session, site_dir=out)
+    assert not summary.errors
+    payload = json.loads((out / "data" / "dashboard.json").read_text(encoding="utf-8"))
+    files = payload["reports"][0]["files"]
+    assert files["mp4"].endswith("ai-daily-intelligence-2026-08-17-briefing.mp4")
+    assert (out / files["mp4"]).is_file()
+    assert "video" not in files
 

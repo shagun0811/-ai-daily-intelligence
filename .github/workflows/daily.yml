@@ -24,6 +24,7 @@ jobs:
       PYTHONUNBUFFERED: "1"
       TZ: Asia/Kolkata
       HTTP_TIMEOUT_SECONDS: "30"
+      ADI_FETCH_FFMPEG: "true"
     steps:
       - uses: actions/checkout@v4
 
@@ -44,6 +45,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          ffmpeg -version | head -n 1
 
       - name: Install dependencies
         run: pip install -r requirements-ci.txt
@@ -80,6 +87,13 @@ jobs:
           if "<item>" not in body:
               raise SystemExit("site/feed.xml has no <item> entries")
           print(f"rss_bytes={feed.stat().st_size} rss_items={body.count('<item>')}")
+          files_dir = Path("site/files") / today
+          mp4 = files_dir / f"ai-daily-intelligence-{today}-briefing.mp4"
+          gif = files_dir / f"ai-daily-intelligence-{today}-briefing.gif"
+          print(f"mp4={mp4.is_file()} bytes={mp4.stat().st_size if mp4.is_file() else 0}")
+          print(f"gif={gif.is_file()} bytes={gif.stat().st_size if gif.is_file() else 0}")
+          if not mp4.is_file() and not gif.is_file():
+              print("warning: no briefing video or GIF for today (job continues)")
           PY
 
       - uses: actions/setup-node@v4

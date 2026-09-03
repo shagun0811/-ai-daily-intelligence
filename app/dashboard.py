@@ -292,6 +292,7 @@ def _reports_tab(reports: list[dict]) -> None:
         visual = st.columns(3)
         infographic_bytes = read_report_bytes(files.get("infographic") or stats.get("infographic_path"))
         video_bytes = read_report_bytes(files.get("video") or stats.get("video_path"))
+        mp4_bytes = read_report_bytes(files.get("mp4") or stats.get("mp4_path"))
         if infographic_bytes:
             visual[0].download_button(
                 "Infographic",
@@ -302,7 +303,17 @@ def _reports_tab(reports: list[dict]) -> None:
                 width="stretch",
             )
             st.image(infographic_bytes, caption="Daily infographic", width="stretch")
-        if video_bytes:
+        if mp4_bytes:
+            visual[1].download_button(
+                "Watch / Download video",
+                data=mp4_bytes,
+                file_name=f"ai-daily-intelligence-{report['report_date']}-briefing.mp4",
+                mime="video/mp4",
+                key=f"mp4-{report['id']}",
+                width="stretch",
+            )
+            visual[1].video(mp4_bytes)
+        elif video_bytes:
             visual[1].download_button(
                 "Video (GIF)",
                 data=video_bytes,

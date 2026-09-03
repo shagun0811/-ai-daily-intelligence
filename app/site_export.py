@@ -35,6 +35,7 @@ _LEGACY_NAMES = {
     "pdf": "report.pdf",
     "infographic": "report-infographic.png",
     "video": "report-briefing.gif",
+    "mp4": "report-briefing.mp4",
 }
 
 _EXEC_ITEM = re.compile(r"^\d+\.\s+\*\*(.+?)\*\*\s+[—–-]\s+(.*)$")
@@ -141,6 +142,8 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
             folder = files_dir / date_key
             _hydrate_briefing(row, folder)
             if _ensure_day_pdf(folder, date_key, row):
+                copied += 1
+            if _ensure_day_video(folder, date_key, row, generate=_should_generate_video(date_key, public_reports)):
                 copied += 1
             zip_url = _write_day_zip(folder, date_key)
             if zip_url:
@@ -496,6 +499,87 @@ def _ensure_day_pdf(folder: Path, date_key: str, row: dict[str, Any]) -> bool:
     return True
 
 
+def _should_generate_video(date_key: str, public_reports: list[dict[str, Any]]) -> bool:
+    """Rebuild MP4 for today and the newest archive day so 1am/5pm always refresh it."""
+    today = _today_iso()
+    latest = str((public_reports[0] or {}).get("report_date") or "") if public_reports else ""
+    return date_key in {today, latest}
+
+
+def _ensure_day_video(folder: Path, date_key: str, row: dict[str, Any], *, generate: bool) -> bool:
+    """Copy or encode the day's MP4. Missing ffmpeg leaves the GIF; never fails export."""
+    names = _public_filenames(date_key)
+    mp4_name = names["mp4"]
+    gif_name = names["video"]
+    folder.mkdir(parents=True, exist_ok=True)
+    files = dict(row.get("files") or {})
+    mp4_target = folder / mp4_name
+    gif_target = folder / gif_name
+    created = False
+
+    if gif_target.is_file() and gif_target.stat().st_size > 0:
+        files["video"] = f"files/{date_key}/{gif_name}"
+
+    if mp4_target.is_file() and mp4_target.stat().st_size > 32:
+        files["mp4"] = f"files/{date_key}/{mp4_name}"
+        row["files"] = files
+        return False
+
+    source = PROJECT_ROOT / "data" / "reports" / mp4_name
+    if source.is_file() and source.stat().st_size > 32:
+        shutil.copy2(source, mp4_target)
+        files["mp4"] = f"files/{date_key}/{mp4_name}"
+        row["files"] = files
+        return True
+
+    if not generate:
+        row["files"] = files
+        return False
+
+    briefing = row.get("briefing") if isinstance(row.get("briefing"), dict) else {}
+    if not (briefing.get("executive") or briefing.get("sections")):
+        markdown = _read_site_markdown(folder, date_key)
+        if markdown.strip():
+            briefing = parse_briefing(markdown)
+    if not (briefing.get("executive") or briefing.get("sections") or briefing.get("watch")):
+        row["files"] = files
+        return False
+
+    try:
+        from PIL import Image
+
+        from app.media.video import build_slides, encode_mp4
+
+        document = _document_from_briefing(date_key, briefing, row.get("stats") or {})
+        infographic = None
+        info_path = folder / names["infographic"]
+        if info_path.is_file():
+            infographic = Image.open(info_path)
+        slides = build_slides(document, infographic_image=infographic)
+        encoded = encode_mp4(slides, mp4_target)
+        if infographic is not None:
+            infographic.close()
+        if encoded is not None and encoded.is_file() and encoded.stat().st_size > 32:
+            files["mp4"] = f"files/{date_key}/{mp4_name}"
+            created = True
+        if not gif_target.is_file():
+            from app.media.builder import write_media_pack
+
+            bundle = write_media_pack(document, out_dir=folder, stem=f"ai-daily-intelligence-{date_key}")
+            if bundle.video_path and Path(bundle.video_path).is_file():
+                files["video"] = f"files/{date_key}/{gif_name}"
+                created = True
+            if bundle.mp4_path and Path(bundle.mp4_path).is_file() and "mp4" not in files:
+                files["mp4"] = f"files/{date_key}/{mp4_name}"
+                created = True
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("could not write video for %s: %s", date_key, exc)
+        row["files"] = files
+        return False
+    row["files"] = files
+    return created
+
+
 def _document_from_briefing(date_key: str, briefing: dict[str, Any], stats: dict[str, Any]):
     from app.report.models import DailyReportDocument, ReportItem
 
@@ -579,6 +663,7 @@ def _public_filenames(date_key: str) -> dict[str, str]:
         "pdf": f"{prefix}.pdf",
         "infographic": f"{prefix}-infographic.png",
         "video": f"{prefix}-briefing.gif",
+        "mp4": f"{prefix}-briefing.mp4",
     }
 
 
@@ -647,7 +732,10 @@ def _files_from_site_folder(dest: Path) -> dict[str, Any]:
     public: dict[str, Any] = {}
     date_key = dest.name
     for label, filename in _public_filenames(date_key).items():
-        for candidate in (filename, _LEGACY_NAMES[label]):
+        candidates = [filename]
+        if label in _LEGACY_NAMES:
+            candidates.append(_LEGACY_NAMES[label])
+        for candidate in candidates:
             if (dest / candidate).is_file():
                 public[label] = f"files/{date_key}/{candidate}"
                 break

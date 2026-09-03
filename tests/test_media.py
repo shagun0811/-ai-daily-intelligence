@@ -6,6 +6,7 @@ from datetime import date
 from pathlib import Path
 
 from app.media.builder import write_media_pack
+from app.media.video import build_slides
 from app.report.models import DailyReportDocument, ReportItem
 
 
@@ -23,8 +24,8 @@ def _item(title: str, **fields) -> ReportItem:
     )
 
 
-def test_media_pack_writes_infographic_cards_and_gif(tmp_path: Path) -> None:
-    document = DailyReportDocument(
+def _sample_document() -> DailyReportDocument:
+    return DailyReportDocument(
         report_date=date(2026, 8, 17),
         executive=[
             _item("Open-weights language model release", article_id=1),
@@ -48,7 +49,10 @@ def test_media_pack_writes_infographic_cards_and_gif(tmp_path: Path) -> None:
         sources=[("Google AI Blog", "https://blog.google/example")],
         stats={"selected": 2, "candidates": 8, "flagged": 0},
     )
-    bundle = write_media_pack(document, out_dir=tmp_path, stem="ai-daily-intelligence-2026-08-17")
+
+
+def test_media_pack_writes_infographic_cards_and_gif(tmp_path: Path) -> None:
+    bundle = write_media_pack(_sample_document(), out_dir=tmp_path, stem="ai-daily-intelligence-2026-08-17")
     assert not bundle.errors
     infographic = Path(bundle.infographic_path or "")
     video = Path(bundle.video_path or "")
@@ -60,6 +64,22 @@ def test_media_pack_writes_infographic_cards_and_gif(tmp_path: Path) -> None:
     assert video.read_bytes()[:6] in {b"GIF87a", b"GIF89a"}
 
 
+def test_media_pack_writes_mp4_or_gif_with_slides(tmp_path: Path) -> None:
+    document = _sample_document()
+    slides = build_slides(document)
+    assert len(slides) >= 4
+    bundle = write_media_pack(document, out_dir=tmp_path, stem="ai-daily-intelligence-2026-08-17")
+    assert not bundle.errors
+    assert bundle.slide_count >= 4
+    gif = Path(bundle.video_path or "")
+    assert gif.is_file()
+    assert gif.read_bytes()[:6] in {b"GIF87a", b"GIF89a"}
+    if bundle.mp4_path:
+        mp4 = Path(bundle.mp4_path)
+        assert mp4.is_file()
+        assert mp4.read_bytes()[4:8] == b"ftyp"
+
+
 def test_empty_report_still_writes_infographic_and_video(tmp_path: Path) -> None:
     document = DailyReportDocument(report_date=date(2026, 8, 18), stats={"selected": 0, "candidates": 0})
     bundle = write_media_pack(document, out_dir=tmp_path, stem="empty-day")
@@ -67,3 +87,4 @@ def test_empty_report_still_writes_infographic_and_video(tmp_path: Path) -> None
     assert Path(bundle.infographic_path or "").is_file()
     assert Path(bundle.video_path or "").is_file()
     assert bundle.card_paths == []
+    assert bundle.slide_count >= 2

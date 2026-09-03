@@ -1,6 +1,8 @@
-"""Build infographic, story cards, and a short briefing video (GIF) from the text report.
+"""Build infographic, story cards, GIF, and a short briefing MP4 from the text report.
 
-Uses Pillow only. No paid image/video APIs and no LLM.
+Uses Pillow for stills. MP4 needs local ffmpeg (GitHub Actions installs it).
+If ffmpeg is missing the GIF still writes and the job does not fail.
+No paid image/video APIs and no LLM.
 """
 
 from __future__ import annotations
@@ -13,6 +15,7 @@ from PIL import Image, ImageDraw
 
 from app.config.logging import STAGE_REPORT, get_logger, log_stage
 from app.media.draw import ACCENT, BG, BAR_TRACK, GOLD, MUTED, PANEL, TEXT, TITLE, load_font, wrap_text
+from app.media.video import build_slides, encode_mp4
 from app.report.models import DailyReportDocument, ReportItem
 
 logger = get_logger(__name__)
@@ -27,6 +30,8 @@ class MediaBundle:
     infographic_path: str | None = None
     card_paths: list[str] = field(default_factory=list)
     video_path: str | None = None
+    mp4_path: str | None = None
+    slide_count: int = 0
     errors: list[str] = field(default_factory=list)
 
     def as_stats(self) -> dict:
@@ -34,11 +39,13 @@ class MediaBundle:
             "infographic_path": self.infographic_path,
             "card_paths": self.card_paths,
             "video_path": self.video_path,
+            "mp4_path": self.mp4_path,
+            "slide_count": self.slide_count,
         }
 
 
 def write_media_pack(document: DailyReportDocument, *, out_dir: Path, stem: str) -> MediaBundle:
-    """Write infographic PNG, story-card PNGs, and a looping briefing GIF."""
+    """Write infographic PNG, story-card PNGs, looping GIF, and MP4 when ffmpeg exists."""
     out_dir.mkdir(parents=True, exist_ok=True)
     bundle = MediaBundle()
     try:
@@ -55,24 +62,34 @@ def write_media_pack(document: DailyReportDocument, *, out_dir: Path, stem: str)
             bundle.card_paths.append(str(path))
             cards.append(image)
 
-        frames = _video_frames(document, infographic_image=infographic_image, cards=cards)
+        slides = build_slides(document, infographic_image=infographic_image)
+        bundle.slide_count = len(slides)
+
+        gif_frames = _gif_frames(document, infographic_image=infographic_image, cards=cards)
         video = out_dir / f"{stem}-briefing.gif"
-        frames[0].save(
+        gif_frames[0].save(
             video,
             save_all=True,
-            append_images=frames[1:],
+            append_images=gif_frames[1:],
             duration=1800,
             loop=0,
             optimize=True,
         )
         bundle.video_path = str(video)
+
+        mp4 = encode_mp4(slides, out_dir / f"{stem}-briefing.mp4")
+        if mp4 is not None:
+            bundle.mp4_path = str(mp4)
+
         log_stage(
             logger,
             STAGE_REPORT,
-            "media infographic=%s cards=%s video=%s",
+            "media infographic=%s cards=%s gif=%s mp4=%s slides=%s",
             infographic.name,
             len(bundle.card_paths),
             video.name,
+            Path(bundle.mp4_path).name if bundle.mp4_path else "-",
+            bundle.slide_count,
         )
     except Exception as exc:  # noqa: BLE001
         bundle.errors.append(str(exc))
@@ -192,7 +209,7 @@ def _render_end_card() -> Image.Image:
     return image
 
 
-def _video_frames(
+def _gif_frames(
     document: DailyReportDocument,
     *,
     infographic_image: Image.Image,

@@ -10,7 +10,7 @@
   <script>
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
-  <link rel="stylesheet" href="./briefing-20260827c.css">
+  <link rel="stylesheet" href="./briefing-20260903.css">
 </head>
 <body>
   <a class="skip" href="#briefing">Skip to briefing</a>
@@ -24,6 +24,10 @@
         <a id="download-pdf" class="download-pdf" hidden>
           <span class="label-full">Download PDF</span>
           <span class="label-short">PDF</span>
+        </a>
+        <a id="watch-video" class="watch-video" hidden>
+          <span class="label-full">Watch / Download video</span>
+          <span class="label-short">Video</span>
         </a>
         <a id="rss-feed" class="rss-feed" href="./feed.xml" title="https://ai-daily-intelligence.pages.dev/feed.xml">RSS</a>
         <button type="button" id="open-archive" aria-expanded="false" aria-controls="archive-panel">Archive</button>
@@ -41,6 +45,7 @@
       <ol class="rank-strip" id="rank-strip" hidden></ol>
       <div class="issue-downloads" id="issue-downloads" hidden>
         <a id="download-pdf-hero" class="download-pdf-primary" hidden>Download PDF</a>
+        <a id="watch-video-hero" class="watch-video-primary" hidden>Watch / Download video</a>
         <details class="save-more" id="save-more" hidden>
           <summary>More formats</summary>
           <div class="save-links" id="save-more-links"></div>
@@ -69,6 +74,6 @@
     <p id="error" class="error hidden"></p>
   </main>
 
-  <script src="./briefing-20260827c.js"></script>
+  <script src="./briefing-20260903.js"></script>
 </body>
 </html>
