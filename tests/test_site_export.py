@@ -224,10 +224,10 @@ def test_export_hydrates_briefing_from_on_disk_markdown(db_session, tmp_path: Pa
 
 def test_archive_page_is_a_day_reader() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "briefing-20260903.js").read_text(encoding="utf-8")
-    css = (PROJECT_ROOT / "site" / "briefing-20260903.css").read_text(encoding="utf-8")
-    assert 'href="./briefing-20260903.css"' in html
-    assert 'src="./briefing-20260903.js"' in html
+    js = (PROJECT_ROOT / "site" / "briefing-20260904.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260904.css").read_text(encoding="utf-8")
+    assert 'href="./briefing-20260904.css"' in html
+    assert 'src="./briefing-20260904.js"' in html
     assert 'id="briefing"' in html
     assert 'id="date-strip"' in html
     assert 'id="prev-day"' in html
@@ -237,7 +237,7 @@ def test_archive_page_is_a_day_reader() -> None:
     assert 'id="download-pdf-hero"' in html
     assert 'id="watch-video"' in html
     assert 'id="watch-video-hero"' in html
-    assert "Watch / Download video" in html
+    assert "Watch video" in html
     assert 'id="rss-feed"' in html
     assert 'rel="alternate" type="application/rss+xml"' in html
     assert "https://ai-daily-intelligence.pages.dev/feed.xml" in html
@@ -250,6 +250,7 @@ def test_archive_page_is_a_day_reader() -> None:
     assert "function renderDownloads" in js
     assert "files.mp4" in js
     assert "briefing-video" in js
+    assert "Download MP4" in js
     assert "function bindRssCopy" in js
     assert "Save this briefing" in js
     assert "Download all" in js
@@ -257,12 +258,14 @@ def test_archive_page_is_a_day_reader() -> None:
     assert "date-strip" in css
     assert "download-pdf-primary" in css
     assert ".rss-feed" in css
+    assert "video-block" in css
+    assert "gallery-video" in css
 
 
 def test_paid_reader_opens_today_not_item_dump() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "briefing-20260903.js").read_text(encoding="utf-8")
-    css = (PROJECT_ROOT / "site" / "briefing-20260903.css").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "briefing-20260904.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260904.css").read_text(encoding="utf-8")
     assert 'id="item-list"' not in html
     assert 'data-tab="items"' not in html
     assert "Today’s briefing" in html or "Today's briefing" in html
@@ -297,7 +300,7 @@ def test_export_generates_missing_pdf_from_markdown(db_session, tmp_path: Path) 
     assert report["files"]["pdf"].endswith("ai-daily-intelligence-2026-08-26.pdf")
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
     assert "Download PDF" in html
-    js = (PROJECT_ROOT / "site" / "briefing-20260903.js").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "briefing-20260904.js").read_text(encoding="utf-8")
     assert "files.pdf" in js
     assert "files.mp4" in js
 
@@ -326,4 +329,34 @@ def test_export_copies_mp4_and_omits_missing_video(db_session, tmp_path: Path) -
     assert files["mp4"].endswith("ai-daily-intelligence-2026-08-17-briefing.mp4")
     assert (out / files["mp4"]).is_file()
     assert "video" not in files
+
+
+def test_export_encodes_mp4_for_archive_days_missing_video(monkeypatch, db_session, tmp_path: Path) -> None:
+    encoded: list[str] = []
+
+    def fake_encode(slides, dest, allow_download=None):
+        path = Path(dest)
+        path.write_bytes(b"\x00\x00\x00\x18ftypmp42" + b"0" * 64)
+        encoded.append(str(path))
+        return path
+
+    monkeypatch.setattr("app.media.video.encode_mp4", fake_encode)
+    out = tmp_path / "site"
+    for day in ("2026-08-17", "2026-08-18"):
+        folder = out / "files" / day
+        folder.mkdir(parents=True)
+        (folder / f"ai-daily-intelligence-{day}.md").write_text(
+            _SAMPLE_MARKDOWN.replace("2026-08-26", day),
+            encoding="utf-8",
+        )
+
+    summary = export_public_site(db_session, site_dir=out)
+    assert not summary.errors
+    assert any("2026-08-17" in path for path in encoded)
+    assert any("2026-08-18" in path for path in encoded)
+    payload = json.loads((out / "data" / "dashboard.json").read_text(encoding="utf-8"))
+    by_date = {row["report_date"]: row for row in payload["reports"]}
+    assert by_date["2026-08-17"]["files"]["mp4"].endswith("ai-daily-intelligence-2026-08-17-briefing.mp4")
+    assert by_date["2026-08-18"]["files"]["mp4"].endswith("ai-daily-intelligence-2026-08-18-briefing.mp4")
+    assert payload["today"]
 

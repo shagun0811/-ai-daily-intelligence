@@ -25,11 +25,12 @@ from app.report.models import DailyReportDocument, ReportItem
 logger = get_logger(__name__)
 
 SLIDE_SIZE = (1280, 720)
-TITLE_MS = 4000
-STORY_MS = 5000
+TITLE_MS = 3500
+STORY_MS = 5500
 INFOGRAPHIC_MS = 4000
-END_MS = 3000
+END_MS = 3500
 MAX_STORIES = 5
+PUBLIC_SITE = "ai-daily-intelligence.pages.dev"
 
 _CACHE_DIR = PROJECT_ROOT / "data" / "cache" / "ffmpeg"
 _WIN_FFMPEG_ZIPS = (
@@ -101,10 +102,10 @@ def find_ffmpeg(*, allow_download: bool = False) -> str | None:
     cached = _cached_ffmpeg()
     if cached:
         return str(cached)
+    bundled = _imageio_ffmpeg()
+    if bundled:
+        return bundled
     if allow_download:
-        bundled = _imageio_ffmpeg()
-        if bundled:
-            return bundled
         downloaded = _download_ffmpeg()
         if downloaded:
             return str(downloaded)
@@ -197,7 +198,7 @@ def _run_ffmpeg(ffmpeg: str, concat: Path, dest: Path) -> bool:
                 cwd=str(concat.parent),
                 capture_output=True,
                 text=True,
-                timeout=120,
+                timeout=180,
                 check=False,
             )
         except (OSError, subprocess.SubprocessError) as exc:
@@ -229,9 +230,11 @@ def _render_title_slide(document: DailyReportDocument) -> Image.Image:
     draw.text((96, 220), "AI Daily Intelligence", font=title, fill=TITLE)
     draw.text((96, 310), document.report_date.isoformat(), font=body, fill=GOLD)
     n = len(document.executive[:MAX_STORIES])
-    label = f"{n} top stor{'y' if n == 1 else 'ies'} · about 30 seconds" if n else "Today's briefing"
+    seconds = 8 + n * 6
+    label = f"{n} top stor{'y' if n == 1 else 'ies'} · about {seconds} seconds" if n else "Today's briefing"
     draw.text((96, 390), label, font=body, fill=TEXT)
-    draw.text((96, height - 120), "Local text slides · no paid video API", font=small, fill=MUTED)
+    draw.text((96, height - 140), PUBLIC_SITE, font=small, fill=GOLD)
+    draw.text((96, height - 100), "Local slides · no paid video API · no voiceover", font=small, fill=MUTED)
     return image
 
 
@@ -273,9 +276,13 @@ def _render_end_slide(document: DailyReportDocument) -> Image.Image:
     draw.rounded_rectangle((48, 48, width - 48, height - 48), radius=32, fill=PANEL)
     title = load_font(48)
     body = load_font(26)
-    draw.text((96, 250), "That's the briefing.", font=title, fill=TITLE)
-    draw.text((96, 330), "Headlines and why they matter — sources are in the PDF.", font=body, fill=TEXT)
-    draw.text((96, 400), document.report_date.isoformat(), font=body, fill=GOLD)
+    small = load_font(24)
+    draw.text((96, 210), "That's the briefing.", font=title, fill=TITLE)
+    draw.text((96, 290), "Headlines and why they matter.", font=body, fill=TEXT)
+    draw.text((96, 340), "Sources, ranks, and the PDF live on the site.", font=body, fill=TEXT)
+    draw.text((96, 430), PUBLIC_SITE, font=body, fill=GOLD)
+    draw.text((96, 490), document.report_date.isoformat(), font=small, fill=MUTED)
+    draw.text((96, height - 120), "AI Daily Intelligence", font=small, fill=ACCENT)
     return image
 
 

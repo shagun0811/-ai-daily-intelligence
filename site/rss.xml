@@ -6,8 +6,66 @@
 <link>https://ai-daily-intelligence.pages.dev</link>
 <description>Today’s ranked AI briefing: the stories that actually moved, and why they matter.</description>
 <language>en</language>
-<lastBuildDate>Mon, 31 Aug 2026 13:45:50 +0000</lastBuildDate>
+<lastBuildDate>Thu, 03 Sep 2026 19:10:45 +0000</lastBuildDate>
 <atom:link href="https://ai-daily-intelligence.pages.dev/feed.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title>AI Daily Intelligence — 2026-09-04</title>
+<link>https://ai-daily-intelligence.pages.dev/#2026-09-04</link>
+<guid isPermaLink="true">https://ai-daily-intelligence.pages.dev/#2026-09-04</guid>
+<pubDate>Fri, 04 Sep 2026 17:00:00 +0530</pubDate>
+<description>Ranked stories: OpenAI hails ‘new era of artificial general intelligence’ with Astra model release - theguardian.com; Nvidia buying AI startup that was hacked by rogue OpenAI agents - KRON4; Proactive cyber defense for governments and enterprises; ChatGPT, Grok, and Claude all went down at the same time; Nvidia launches free tool that links idle computers into a personal AI data center</description>
+<source url="https://ai-daily-intelligence.pages.dev/#2026-09-04">AI Daily Intelligence</source>
+</item>
+<item>
+<title>OpenAI hails ‘new era of artificial general intelligence’ with Astra model release - theguardian.com</title>
+<link>https://news.google.com/rss/articles/CBMipgFBVV95cUxPb3FfMUQ1dXBYcXVnWUlNVW5kd01IM2VnNW9FdTQtemgxamtIYnRLVWNlS1FkZVdlam1HYXJFRmpITnNTTlhtSi1NNXMzREVxVnhlTXh4MUFfNTREYWxieXNUYkV4MzFhT0EySm4zbkFISHFyQURHVDBKWEZaNDZiQmRKU1pPbG5xOXR5WExVVFJxOVlvbm84eVZMQ0ctT1oyaWRCWVlR?oc=5</link>
+<guid isPermaLink="false">tag:ai-daily-intelligence.pages.dev,2026-09-04:story-1-06d940318ff8</guid>
+<pubDate>Thu, 03 Sep 2026 00:00:00 +0530</pubDate>
+<description>OpenAI hails ‘new era of artificial general intelligence’ with Astra model release theguardian.com
+
+Source: Google News AI</description>
+<source url="https://news.google.com/rss/articles/CBMipgFBVV95cUxPb3FfMUQ1dXBYcXVnWUlNVW5kd01IM2VnNW9FdTQtemgxamtIYnRLVWNlS1FkZVdlam1HYXJFRmpITnNTTlhtSi1NNXMzREVxVnhlTXh4MUFfNTREYWxieXNUYkV4MzFhT0EySm4zbkFISHFyQURHVDBKWEZaNDZiQmRKU1pPbG5xOXR5WExVVFJxOVlvbm84eVZMQ0ctT1oyaWRCWVlR?oc=5">Google News AI</source>
+</item>
+<item>
+<title>Nvidia buying AI startup that was hacked by rogue OpenAI agents - KRON4</title>
+<link>https://news.google.com/rss/articles/CBMiqAFBVV95cUxNVmlZR0Z2NlNRNU4zb3J6dDRzbTROVkJ6U0tiWUU3b3RkeXh1Q2JsbE5zVHE0bEExRndTYzZ5b0VCVWh6SXFCSURWM1hwOWRLTVFuNDdJRDBPVXlpdUdZVEc1eTVlYzU3OFluLUMyR0lRRDhWdXBOcy1BX2s3N1JvMU5sazQxc3pTZHE0NDZWb3FENkY2R0lvTjZmWkVlMlVYZUdQNXMxNTPSAa4BQVVfeXFMTm5tS3JYYUpzeVFFSWdQckFkVTZ4c2V1dTdHUncxNGp4Z2xHUGZqU0kyLU5aNnp5R2F4Nk5YU3dHX3pCNXdob0N2UU5XdGZ4WS1GMFE5SjRMZmRZWXQtbXhUaFFJSW9MZEpVZ05IOGFGNVFad0lhZzJfbVIyQ2FUdm1sZnJ5dUUxSVJpZFdGZThlRmF6aXlEM2tRaTN0S2sxcHJnelI3NEZJYll1MVdB?oc=5</link>
+<guid isPermaLink="false">tag:ai-daily-intelligence.pages.dev,2026-09-04:story-2-8681a6e4780e</guid>
+<pubDate>Thu, 03 Sep 2026 00:00:00 +0530</pubDate>
+<description>Nvidia buying AI startup that was hacked by rogue OpenAI agents - KRON4
+
+Source: Google News AI</description>
+<source url="https://news.google.com/rss/articles/CBMiqAFBVV95cUxNVmlZR0Z2NlNRNU4zb3J6dDRzbTROVkJ6U0tiWUU3b3RkeXh1Q2JsbE5zVHE0bEExRndTYzZ5b0VCVWh6SXFCSURWM1hwOWRLTVFuNDdJRDBPVXlpdUdZVEc1eTVlYzU3OFluLUMyR0lRRDhWdXBOcy1BX2s3N1JvMU5sazQxc3pTZHE0NDZWb3FENkY2R0lvTjZmWkVlMlVYZUdQNXMxNTPSAa4BQVVfeXFMTm5tS3JYYUpzeVFFSWdQckFkVTZ4c2V1dTdHUncxNGp4Z2xHUGZqU0kyLU5aNnp5R2F4Nk5YU3dHX3pCNXdob0N2UU5XdGZ4WS1GMFE5SjRMZmRZWXQtbXhUaFFJSW9MZEpVZ05IOGFGNVFad0lhZzJfbVIyQ2FUdm1sZnJ5dUUxSVJpZFdGZThlRmF6aXlEM2tRaTN0S2sxcHJnelI3NEZJYll1MVdB?oc=5">Google News AI</source>
+</item>
+<item>
+<title>Proactive cyber defense for governments and enterprises</title>
+<link>https://blog.google/innovation-and-ai/technology/safety-security/fairwind-program/</link>
+<guid isPermaLink="false">tag:ai-daily-intelligence.pages.dev,2026-09-04:story-3-1b600836bf67</guid>
+<pubDate>Wed, 02 Sep 2026 00:00:00 +0530</pubDate>
+<description>Proactive cyber defense for governments and enterprises Defenders wanting to use advanced AI have faced a difficult dilemma: adopt enormous frontier models that could be expensive to deploy and difficult to control across enterprise codebases, or turn to smaller open-weight models that might struggle with complex vulnerability remediation and require teams to build their own tooling and infrastru…
+
+Source: Google AI Blog (https://blog.google/innovation-and-ai/technology/safety-security/fairwind-program/)</description>
+<source url="https://blog.google/innovation-and-ai/technology/safety-security/fairwind-program/">Google AI Blog</source>
+</item>
+<item>
+<title>ChatGPT, Grok, and Claude all went down at the same time</title>
+<link>https://www.theverge.com/ai-artificial-intelligence/989503/chatgpt-grok-claude-outage-down</link>
+<guid isPermaLink="false">tag:ai-daily-intelligence.pages.dev,2026-09-04:story-4-38dc4259d05b</guid>
+<pubDate>Thu, 03 Sep 2026 00:00:00 +0530</pubDate>
+<description>OpenAI&apos;s ChatGPT, xAI&apos;s Grok, and Anthropic&apos;s Claude are back online after they all began experiencing issues around the same time on Thursday.
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/989503/chatgpt-grok-claude-outage-down)</description>
+<source url="https://www.theverge.com/ai-artificial-intelligence/989503/chatgpt-grok-claude-outage-down">The Verge AI</source>
+</item>
+<item>
+<title>Nvidia launches free tool that links idle computers into a personal AI data center</title>
+<link>https://www.theverge.com/ai-artificial-intelligence/989435/nvidia-pair-personal-ai-router-home-local-llm-compute-tool-rtx-macbook</link>
+<guid isPermaLink="false">tag:ai-daily-intelligence.pages.dev,2026-09-04:story-5-9cccb61ec426</guid>
+<pubDate>Thu, 03 Sep 2026 00:00:00 +0530</pubDate>
+<description>Nvidia is announcing its new Personal AI Router (PAIR), a free tool that syncs up your home computers for tackling local AI inference tasks with tools like Ollama and LM Studio. Let&apos;s get the obvious thing out of the way, despite what its name might imply: PAIR is not a hardware router.
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/989435/nvidia-pair-personal-ai-router-home-local-llm-compute-tool-rtx-macbook)</description>
+<source url="https://www.theverge.com/ai-artificial-intelligence/989435/nvidia-pair-personal-ai-router-home-local-llm-compute-tool-rtx-macbook">The Verge AI</source>
+</item>
 <item>
 <title>AI Daily Intelligence — 2026-08-27</title>
 <link>https://ai-daily-intelligence.pages.dev/#2026-08-27</link>

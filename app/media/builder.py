@@ -77,7 +77,7 @@ def write_media_pack(document: DailyReportDocument, *, out_dir: Path, stem: str)
         )
         bundle.video_path = str(video)
 
-        mp4 = encode_mp4(slides, out_dir / f"{stem}-briefing.mp4")
+        mp4 = encode_mp4(slides, out_dir / f"{stem}-briefing.mp4", allow_download=True)
         if mp4 is not None:
             bundle.mp4_path = str(mp4)
 

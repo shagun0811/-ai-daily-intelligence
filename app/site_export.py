@@ -15,7 +15,6 @@ from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from sqlalchemy.orm import Session
 
@@ -23,6 +22,7 @@ from app.config.logging import STAGE_REPORT, get_logger, log_stage
 from app.config.settings import PROJECT_ROOT
 from app.dashboard_data import dashboard_stats, filter_options, list_reports, search_items
 from app.site_rss import write_public_feeds
+from app.utils.dates import today_ist
 
 logger = get_logger(__name__)
 
@@ -51,6 +51,7 @@ class SiteExportSummary:
     items: int = 0
     reports: int = 0
     files_copied: int = 0
+    dates: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
 
     def as_text(self) -> str:
@@ -143,7 +144,12 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
             _hydrate_briefing(row, folder)
             if _ensure_day_pdf(folder, date_key, row):
                 copied += 1
-            if _ensure_day_video(folder, date_key, row, generate=_should_generate_video(date_key, public_reports)):
+            if _ensure_day_video(
+                folder,
+                date_key,
+                row,
+                generate=_should_generate_video(date_key, public_reports, folder),
+            ):
                 copied += 1
             zip_url = _write_day_zip(folder, date_key)
             if zip_url:
@@ -180,6 +186,7 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
         summary.items = len(payload["items"])
         summary.reports = len(public_reports)
         summary.files_copied = copied
+        summary.dates = [str(row.get("report_date") or "") for row in public_reports]
         log_stage(
             logger,
             STAGE_REPORT,
@@ -408,11 +415,7 @@ def _clip_lede_title(title: str, limit: int = 58) -> str:
 
 
 def _today_iso() -> str:
-    try:
-        zone = ZoneInfo("Asia/Kolkata")
-    except ZoneInfoNotFoundError:
-        zone = timezone.utc
-    return datetime.now(zone).date().isoformat()
+    return today_ist().isoformat()
 
 
 def _preview_text(markdown: str, limit: int = 4000) -> str:
@@ -499,11 +502,20 @@ def _ensure_day_pdf(folder: Path, date_key: str, row: dict[str, Any]) -> bool:
     return True
 
 
-def _should_generate_video(date_key: str, public_reports: list[dict[str, Any]]) -> bool:
-    """Rebuild MP4 for today and the newest archive day so 1am/5pm always refresh it."""
+def _should_generate_video(
+    date_key: str,
+    public_reports: list[dict[str, Any]],
+    folder: Path | None = None,
+) -> bool:
+    """Encode MP4 for today, the latest edition, and archive days that still lack video."""
     today = _today_iso()
     latest = str((public_reports[0] or {}).get("report_date") or "") if public_reports else ""
-    return date_key in {today, latest}
+    if date_key in {today, latest}:
+        return True
+    if folder is None:
+        return False
+    mp4 = folder / _public_filenames(date_key)["mp4"]
+    return not (mp4.is_file() and mp4.stat().st_size > 32)
 
 
 def _ensure_day_video(folder: Path, date_key: str, row: dict[str, Any], *, generate: bool) -> bool:
@@ -556,7 +568,7 @@ def _ensure_day_video(folder: Path, date_key: str, row: dict[str, Any], *, gener
         if info_path.is_file():
             infographic = Image.open(info_path)
         slides = build_slides(document, infographic_image=infographic)
-        encoded = encode_mp4(slides, mp4_target)
+        encoded = encode_mp4(slides, mp4_target, allow_download=True)
         if infographic is not None:
             infographic.close()
         if encoded is not None and encoded.is_file() and encoded.stat().st_size > 32:

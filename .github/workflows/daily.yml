@@ -20,6 +20,7 @@ jobs:
       EMBEDDING_PROVIDER: mock
       EXTRACT_FULL_TEXT: "false"
       SCHEDULER_ENABLED: "false"
+      SCHEDULER_TIMEZONE: Asia/Kolkata
       CLOUDFLARE_AUTO_DEPLOY: "false"
       PYTHONUNBUFFERED: "1"
       TZ: Asia/Kolkata

@@ -6,7 +6,7 @@ from datetime import date
 from pathlib import Path
 
 from app.media.builder import write_media_pack
-from app.media.video import build_slides
+from app.media.video import PUBLIC_SITE, build_slides, encode_mp4
 from app.report.models import DailyReportDocument, ReportItem
 
 
@@ -88,3 +88,33 @@ def test_empty_report_still_writes_infographic_and_video(tmp_path: Path) -> None
     assert Path(bundle.video_path or "").is_file()
     assert bundle.card_paths == []
     assert bundle.slide_count >= 2
+
+
+def test_slides_include_title_stories_and_end_card() -> None:
+    slides = build_slides(_sample_document())
+    assert len(slides) == 4
+    images = [image for image, _duration in slides]
+    durations = [duration for _image, duration in slides]
+    assert all(image.size == (1280, 720) for image in images)
+    assert durations[0] >= 3000
+    assert durations[1] >= 5000
+    assert durations[-1] >= 3000
+    assert images[-1].mode == "RGB"
+    assert PUBLIC_SITE == "ai-daily-intelligence.pages.dev"
+
+
+def test_encode_mp4_returns_none_without_ffmpeg(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr("app.media.video.find_ffmpeg", lambda allow_download=False: None)
+    dest = tmp_path / "briefing.mp4"
+    assert encode_mp4(build_slides(_sample_document()), dest) is None
+    assert not dest.exists()
+
+
+def test_encode_mp4_writes_file_when_ffmpeg_available(tmp_path: Path) -> None:
+    dest = tmp_path / "briefing.mp4"
+    path = encode_mp4(build_slides(_sample_document()), dest, allow_download=True)
+    if path is None:
+        return
+    assert dest.is_file()
+    assert dest.stat().st_size > 32
+    assert dest.read_bytes()[4:8] == b"ftyp"
