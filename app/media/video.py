@@ -2,7 +2,7 @@
 
 Uses local ffmpeg when it is on PATH (GitHub Actions installs it). If ffmpeg is
 missing, the caller keeps the GIF fallback — this module never raises for that.
-No paid video APIs and no TTS.
+Optional free neural narration is muxed in a second pass. No paid video APIs.
 """
 
 from __future__ import annotations
@@ -90,6 +90,160 @@ def encode_mp4(
             log_stage(logger, STAGE_REPORT, "mp4 wrote %s slides=%s", dest.name, len(slides))
             return dest
     return None
+
+
+def mux_narration(video: Path, audio: Path, dest: Path) -> Path | None:
+    """Lay free TTS audio onto an existing MP4. Returns dest, or None on failure."""
+    video = Path(video)
+    audio = Path(audio)
+    dest = Path(dest)
+    if not video.is_file() or video.stat().st_size < 32:
+        return None
+    if not audio.is_file() or audio.stat().st_size < 32:
+        return None
+    ffmpeg = find_ffmpeg(allow_download=True)
+    if not ffmpeg:
+        log_stage(logger, STAGE_REPORT, "mux skipped: ffmpeg not found")
+        return None
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_name(f"{dest.stem}.narrated{dest.suffix}")
+    if tmp.resolve() == dest.resolve() or tmp.resolve() == video.resolve():
+        tmp = dest.with_name(f"{dest.stem}.mux{dest.suffix}")
+    recipes = (
+        [
+            "-fflags",
+            "+genpts",
+            "-stream_loop",
+            "-1",
+            "-i",
+            str(video),
+            "-i",
+            str(audio),
+            "-map",
+            "0:v:0",
+            "-map",
+            "1:a:0",
+            "-c:v",
+            "copy",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "128k",
+            "-shortest",
+            "-movflags",
+            "+faststart",
+        ],
+        [
+            "-fflags",
+            "+genpts",
+            "-stream_loop",
+            "-1",
+            "-i",
+            str(video),
+            "-i",
+            str(audio),
+            "-map",
+            "0:v:0",
+            "-map",
+            "1:a:0",
+            "-c:v",
+            "libx264",
+            "-pix_fmt",
+            "yuv420p",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "128k",
+            "-shortest",
+            "-movflags",
+            "+faststart",
+        ],
+    )
+    for extra in recipes:
+        if tmp.exists():
+            tmp.unlink(missing_ok=True)
+        command = [ffmpeg, "-y", *extra, str(tmp)]
+        try:
+            completed = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                timeout=180,
+                check=False,
+            )
+        except (OSError, subprocess.SubprocessError) as exc:
+            log_stage(logger, STAGE_REPORT, "mux spawn failed error=%s", exc, level=30)
+            continue
+        if completed.returncode == 0 and tmp.is_file() and tmp.stat().st_size > 32:
+            if dest.exists() and dest.resolve() != tmp.resolve():
+                dest.unlink(missing_ok=True)
+            tmp.replace(dest)
+            log_stage(logger, STAGE_REPORT, "mux wrote %s", dest.name)
+            return dest
+        log_stage(
+            logger,
+            STAGE_REPORT,
+            "mux recipe failed code=%s",
+            completed.returncode,
+            level=30,
+        )
+    tmp.unlink(missing_ok=True)
+    return None
+
+
+def mp4_has_audio(path: Path) -> bool:
+    """True when the MP4 already has an audio stream."""
+    ffmpeg = find_ffmpeg(allow_download=False)
+    if not ffmpeg or not Path(path).is_file():
+        return False
+    ffprobe = _ffprobe_from_ffmpeg(ffmpeg)
+    if ffprobe:
+        try:
+            completed = subprocess.run(
+                [
+                    ffprobe,
+                    "-v",
+                    "error",
+                    "-select_streams",
+                    "a",
+                    "-show_entries",
+                    "stream=codec_type",
+                    "-of",
+                    "csv=p=0",
+                    str(path),
+                ],
+                capture_output=True,
+                text=True,
+                timeout=20,
+                check=False,
+            )
+        except (OSError, subprocess.SubprocessError):
+            completed = None
+        if completed is not None and "audio" in (completed.stdout or "").lower():
+            return True
+    try:
+        probe = subprocess.run(
+            [ffmpeg, "-i", str(path)],
+            capture_output=True,
+            text=True,
+            timeout=20,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return False
+    blob = f"{probe.stdout or ''}{probe.stderr or ''}".lower()
+    return "audio:" in blob
+
+
+def _ffprobe_from_ffmpeg(ffmpeg: str) -> str | None:
+    path = Path(ffmpeg)
+    names = ("ffprobe.exe", "ffprobe") if os.name == "nt" else ("ffprobe",)
+    for name in names:
+        candidate = path.with_name(name)
+        if candidate.is_file():
+            return str(candidate)
+    which = shutil.which("ffprobe") or shutil.which("ffprobe.exe")
+    return which
 
 
 def find_ffmpeg(*, allow_download: bool = False) -> str | None:
@@ -234,7 +388,7 @@ def _render_title_slide(document: DailyReportDocument) -> Image.Image:
     label = f"{n} top stor{'y' if n == 1 else 'ies'} · about {seconds} seconds" if n else "Today's briefing"
     draw.text((96, 390), label, font=body, fill=TEXT)
     draw.text((96, height - 140), PUBLIC_SITE, font=small, fill=GOLD)
-    draw.text((96, height - 100), "Local slides · no paid video API · no voiceover", font=small, fill=MUTED)
+    draw.text((96, height - 100), "Local slides · free neural voice · no paid API", font=small, fill=MUTED)
     return image
 
 

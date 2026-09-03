@@ -3,6 +3,16 @@
   Accept-Ranges: bytes
   Cache-Control: public, max-age=86400
 
+/files/*.mp3
+  Content-Type: audio/mpeg
+  Accept-Ranges: bytes
+  Cache-Control: public, max-age=86400
+
+/files/*.m4a
+  Content-Type: audio/mp4
+  Accept-Ranges: bytes
+  Cache-Control: public, max-age=86400
+
 /
   Cache-Control: public, max-age=0, must-revalidate
 

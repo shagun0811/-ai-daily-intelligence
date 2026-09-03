@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI Daily Intelligence</title>
-  <meta name="description" content="Today’s ranked AI briefing: the stories that actually moved, and why they matter.">
+  <meta name="description" content="What moved in AI today: one lead story, then the rest of the ranked briefing.">
   <link rel="alternate" type="application/rss+xml" title="AI Daily Intelligence" href="https://ai-daily-intelligence.pages.dev/feed.xml">
   <link rel="alternate" type="application/atom+xml" title="AI Daily Intelligence (Atom)" href="https://ai-daily-intelligence.pages.dev/atom.xml">
   <script>
@@ -17,41 +17,55 @@
   <header class="masthead">
     <div class="masthead-inner">
       <a class="brand" href="./" id="brand-home">
-        <span class="brand-kicker">Daily briefing</span>
+        <span class="brand-kicker">What moved in AI today</span>
         <span class="brand-name">AI Daily Intelligence</span>
       </a>
-      <nav class="masthead-actions" aria-label="Edition">
-        <a id="download-pdf" class="download-pdf" hidden>
-          <span class="label-full">Download PDF</span>
+      <nav class="masthead-actions" aria-label="Utilities">
+        <a id="listen-now" class="listen-now" href="#listen-player" hidden>
+          <span class="label-full">Listen</span>
+          <span class="label-short">Listen</span>
+        </a>
+        <a id="download-pdf" class="ghost-action" hidden>
+          <span class="label-full">PDF</span>
           <span class="label-short">PDF</span>
         </a>
-        <a id="watch-video" class="watch-video" hidden>
-          <span class="label-full">Watch video</span>
-          <span class="label-short">Watch</span>
+        <a id="watch-video" class="ghost-action" hidden>
+          <span class="label-full">Video</span>
+          <span class="label-short">Video</span>
         </a>
-        <a id="rss-feed" class="rss-feed" href="./feed.xml" title="https://ai-daily-intelligence.pages.dev/feed.xml">RSS</a>
-        <button type="button" id="open-archive" aria-expanded="false" aria-controls="archive-panel">Archive</button>
-        <button type="button" id="theme-toggle" aria-label="Switch color theme">Dark</button>
+        <a id="rss-feed" class="ghost-action" href="./feed.xml" title="https://ai-daily-intelligence.pages.dev/feed.xml">RSS</a>
+        <button type="button" id="open-archive" class="ghost-action" aria-expanded="false" aria-controls="archive-panel">Archive</button>
+        <button type="button" id="theme-toggle" class="ghost-action" aria-label="Switch color theme">Dark</button>
       </nav>
     </div>
   </header>
 
   <main class="page">
     <section class="issue-head">
-      <p class="kicker" id="issue-kicker">Today’s briefing</p>
+      <p class="kicker" id="issue-kicker">What moved in AI today</p>
       <h1 id="issue-date">Loading the briefing…</h1>
-      <p class="lead-headline" id="lead-headline" hidden></p>
       <p class="dek" id="issue-dek"></p>
-      <ol class="rank-strip" id="rank-strip" hidden></ol>
-      <div class="issue-downloads" id="issue-downloads" hidden>
-        <a id="download-pdf-hero" class="download-pdf-primary" hidden>Download PDF</a>
-        <a id="watch-video-hero" class="watch-video-primary" hidden>Watch video</a>
+      <div id="listen-player" class="listen-player" hidden>
+        <button type="button" id="listen-toggle" class="listen-play" aria-label="Play today’s briefing">
+          <span id="listen-icon" aria-hidden="true">▶</span>
+        </button>
+        <div class="listen-copy">
+          <strong id="listen-label">Listen to today’s briefing</strong>
+          <span class="listen-times"><span id="listen-current">0:00</span> / <span id="listen-duration">0:00</span></span>
+        </div>
+        <input id="listen-seek" class="listen-seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Briefing progress">
+        <a id="listen-download" class="listen-download" hidden>Download audio</a>
+        <audio id="briefing-audio" preload="metadata"></audio>
+      </div>
+      <div class="issue-actions" id="issue-downloads" hidden>
+        <a id="download-pdf-hero" class="text-action" hidden>Download PDF</a>
+        <a id="watch-video-hero" class="text-action" hidden>Watch video</a>
         <details class="save-more" id="save-more" hidden>
           <summary>More formats</summary>
           <div class="save-links" id="save-more-links"></div>
         </details>
       </div>
-      <div class="day-nav">
+      <div class="day-nav quiet-nav">
         <button type="button" id="prev-day" aria-label="Previous day">‹</button>
         <div id="date-strip" class="date-strip" role="listbox" aria-label="Days with a briefing"></div>
         <button type="button" id="next-day" aria-label="Next day">›</button>

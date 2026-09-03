@@ -17,6 +17,7 @@ async function main() {
     syncHash();
   });
   bindRssCopy();
+  bindListenPlayer();
   applyHash();
   window.addEventListener("hashchange", () => {
     applyHash();
@@ -136,20 +137,11 @@ function renderChrome() {
   const isToday = selected === today;
   document.getElementById("prev-day").disabled = index <= 0;
   document.getElementById("next-day").disabled = index < 0 || index >= dates.length - 1;
-  const layout = briefingHasContent(report?.briefing) ? layoutBriefing(report.briefing, selected) : { hero: [] };
-  const lead = layout.hero[0];
-  document.getElementById("issue-kicker").textContent = isToday ? "Today’s briefing" : "From the archive";
+  document.getElementById("issue-kicker").textContent = isToday ? "What moved in AI today" : "From the archive";
   document.getElementById("issue-date").textContent = selected ? formatLongDate(selected) : "Pick a day";
-  const leadEl = document.getElementById("lead-headline");
-  if (leadEl) {
-    leadEl.textContent = lead?.title || "";
-    leadEl.hidden = !lead?.title;
-  }
-  document.getElementById("issue-dek").textContent = lead
-    ? clip(lead.why_it_matters || lead.summary || dekFor(report, isToday), 200)
-    : dekFor(report, isToday);
-  renderRankStrip(layout.hero);
-  renderDownloads(report);
+  document.getElementById("issue-dek").textContent = dekFor(report, isToday);
+  renderDownloads(report, isToday);
+  renderListen(report, isToday);
   document.getElementById("open-archive").setAttribute("aria-expanded", String(state.archiveOpen));
   const panel = document.getElementById("archive-panel");
   panel.classList.toggle("hidden", !state.archiveOpen);
@@ -164,11 +156,11 @@ function renderChrome() {
 
 function dekFor(report, isToday) {
   const briefing = report?.briefing || {};
+  if (briefing.lede) return briefing.lede;
   const titles = uniqueHero(briefing.executive || []).map((item) => clip(item.title || "", 56));
   if (titles.length >= 3) return `${titles[0]}; ${titles[1]}; and ${titles[2]}`;
   if (titles.length === 2) return `${titles[0]}, and ${titles[1]}`;
   if (titles.length === 1) return titles[0];
-  if (briefing.lede) return briefing.lede;
   return isToday
     ? "What moved in AI today, ranked by why it matters."
     : "Open a day to read that morning’s briefing.";
@@ -341,20 +333,6 @@ function isSubstanceStory(item) {
   return ["product launch", "model release", "open weights", "generally available", "self-improving", "ai agent", "agentic", "gemini", "enterprise api", "api access", "benchmark", "ai safety"].some((term) => text.includes(term));
 }
 
-function renderRankStrip(hero) {
-  const strip = document.getElementById("rank-strip");
-  if (!strip) return;
-  if (!hero.length) {
-    strip.hidden = true;
-    strip.innerHTML = "";
-    return;
-  }
-  strip.hidden = false;
-  strip.innerHTML = hero.slice(0, 3).map((item, index) => (
-    `<li><span class="rank">${index + 1}</span><span class="rank-title">${escapeHtml(clip(item.title || "", 78))}</span></li>`
-  )).join("");
-}
-
 function uniqueHero(items, max = 5) {
   const out = [];
   items.forEach((item) => {
@@ -391,14 +369,19 @@ function usefulWatch(item) {
 
 function renderEdition(report, layout) {
   const parts = [editionMeta(report)];
-  if (layout.hero.length) {
-    parts.push(`<section class="hero-grid">${layout.hero.map((item, index) => heroCard(item, index)).join("")}</section>`);
+  const lead = layout.hero[0];
+  const secondary = layout.hero.slice(1, 5);
+  if (lead) {
+    parts.push(leadStory(lead));
+  }
+  if (secondary.length) {
+    parts.push(`<section class="secondary-grid">${secondary.map((item, index) => heroCard(item, index + 1)).join("")}</section>`);
   }
   if (layout.more.length) {
-    parts.push(`<section class="section"><h2>Also today</h2><div class="story-list">${layout.more.map(storyRow).join("")}</div></section>`);
+    parts.push(`<section class="section compact-list"><h2>Also today</h2><div class="story-list">${layout.more.map(storyRow).join("")}</div></section>`);
   }
   if (layout.research.length) {
-    parts.push(`<section class="section research"><h2>Research</h2><p class="lede-note">Papers worth a scan, after the news.</p><div class="story-list">${layout.research.map((item) => storyRow(item, true)).join("")}</div></section>`);
+    parts.push(`<section class="section research"><h2>Research</h2><p class="lede-note">Papers last — a short scan after the news.</p><div class="story-list">${layout.research.map((item) => storyRow(item, true)).join("")}</div></section>`);
   }
   if (layout.watch.length) {
     parts.push(`<section class="section"><h2>What to watch</h2><ul class="watch-list">${layout.watch.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>`);
@@ -419,12 +402,22 @@ function editionMeta(report) {
   return `<p class="edition-meta">${isToday ? "Today’s edition" : "Archive edition"} · ${escapeHtml(count)}${read ? ` · ${read} min read` : ""}</p>`;
 }
 
+function leadStory(item) {
+  const why = clip(item.why_it_matters || item.summary || item.body || "", 420);
+  return `<article class="lead-story">
+    <p class="hero-kicker">#1 · Lead story</p>
+    <h2>${escapeHtml(item.title || "")}</h2>
+    <p class="hero-source">${sourceInner(item)}</p>
+    ${why ? `<p class="hero-why"><span class="why-label">Why it matters</span>${escapeHtml(why)}</p>` : ""}
+  </article>`;
+}
+
 function heroCard(item, index) {
   const rank = String(index + 1);
-  const why = clip(item.why_it_matters || item.summary || item.body || "", index === 0 ? 340 : 220);
-  return `<article class="hero-card${index === 0 ? " lead" : ""}">
+  const why = clip(item.why_it_matters || item.summary || item.body || "", 220);
+  return `<article class="hero-card">
     <div class="hero-index" aria-hidden="true">${rank}</div>
-    <p class="hero-kicker">${index === 0 ? "Lead story" : `Story ${rank}`}</p>
+    <p class="hero-kicker">Story ${rank}</p>
     <h2>${escapeHtml(item.title || "")}</h2>
     <p class="hero-source">${sourceInner(item)}</p>
     ${why ? `<p class="hero-why"><span class="why-label">Why it matters</span>${escapeHtml(why)}</p>` : ""}
@@ -472,18 +465,20 @@ function renderGallery(report) {
       </div>`
     : "";
   if (!player && !images.length && !cards.length) return "";
-  return `<section class="gallery">
-    <h2>Visual recap</h2>
-    <p class="lede-note">Illustrated from this edition — supporting the text, not replacing it.</p>
+  return `<details class="gallery">
+    <summary>
+      <h2>Visual recap</h2>
+      <p class="lede-note">Illustrated from this edition — supporting the text, not replacing it.</p>
+    </summary>
     <div class="gallery-grid">
       ${player}
       ${images.map(([href, alt]) => `<img src="./${escapeHtml(href)}" alt="${escapeHtml(alt)}">`).join("")}
       ${cards.length ? `<div class="cards-row">${cards.slice(0, 5).map((href, index) => `<img src="./${escapeHtml(href)}" alt="Story card ${index + 1}">`).join("")}</div>` : ""}
     </div>
-  </section>`;
+  </details>`;
 }
 
-function renderDownloads(report) {
+function renderDownloads(report, isToday) {
   const files = (report && report.files) || {};
   const pdf = files.pdf;
   const mp4 = files.mp4;
@@ -491,6 +486,7 @@ function renderDownloads(report) {
     ["Markdown", files.markdown],
     ["HTML", files.html],
     ["Download video", files.mp4],
+    ["Download audio", files.audio],
     ["Download all", files.zip],
   ].filter((entry) => entry[1]);
   const masthead = document.getElementById("download-pdf");
@@ -521,6 +517,8 @@ function renderDownloads(report) {
       el.removeAttribute("download");
       el.setAttribute("aria-label", `Watch this day’s briefing video`);
       el.onclick = (event) => {
+        const gallery = document.querySelector("details.gallery");
+        if (gallery) gallery.open = true;
         const player = document.getElementById("briefing-video");
         if (!player) return;
         event.preventDefault();
@@ -540,11 +538,128 @@ function renderDownloads(report) {
   if (row) row.hidden = !pdf && !mp4 && extras.length === 0;
 }
 
+function bindListenPlayer() {
+  const audio = document.getElementById("briefing-audio");
+  const toggle = document.getElementById("listen-toggle");
+  const seek = document.getElementById("listen-seek");
+  const masthead = document.getElementById("listen-now");
+  if (!audio || audio.dataset.bound === "1") return;
+  audio.dataset.bound = "1";
+  const sync = () => {
+    const icon = document.getElementById("listen-icon");
+    const playing = !audio.paused && !audio.ended;
+    if (icon) icon.textContent = playing ? "❚❚" : "▶";
+    if (toggle) toggle.setAttribute("aria-label", playing ? "Pause briefing" : "Play today’s briefing");
+    if (masthead) masthead.classList.toggle("playing", playing);
+    const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+    const current = audio.currentTime || 0;
+    const currentEl = document.getElementById("listen-current");
+    const durationEl = document.getElementById("listen-duration");
+    if (currentEl) currentEl.textContent = formatClock(current);
+    if (durationEl) durationEl.textContent = duration ? formatClock(duration) : "0:00";
+    if (seek && duration && seek.dataset.dragging !== "1") {
+      seek.value = String(Math.round((current / duration) * 1000));
+    }
+  };
+  toggle?.addEventListener("click", () => {
+    if (!audio.src) return;
+    if (audio.paused) {
+      const video = document.getElementById("briefing-video");
+      if (video && !video.paused) video.pause();
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  });
+  masthead?.addEventListener("click", (event) => {
+    event.preventDefault();
+    const dock = document.getElementById("listen-player");
+    if (dock && !dock.hidden && typeof dock.scrollIntoView === "function") {
+      dock.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    if (!audio.src) return;
+    if (audio.paused) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  });
+  audio.addEventListener("timeupdate", sync);
+  audio.addEventListener("loadedmetadata", sync);
+  audio.addEventListener("play", sync);
+  audio.addEventListener("pause", sync);
+  audio.addEventListener("ended", sync);
+  document.addEventListener("play", (event) => {
+    if (event.target && event.target.id === "briefing-video") audio.pause();
+  }, true);
+  seek?.addEventListener("pointerdown", () => { seek.dataset.dragging = "1"; });
+  seek?.addEventListener("pointerup", () => { seek.dataset.dragging = "0"; });
+  seek?.addEventListener("input", () => {
+    const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+    if (!duration) return;
+    audio.currentTime = (Number(seek.value) / 1000) * duration;
+  });
+}
+
+function renderListen(report, isToday) {
+  const files = (report && report.files) || {};
+  const href = files.audio;
+  const dock = document.getElementById("listen-player");
+  const audio = document.getElementById("briefing-audio");
+  const masthead = document.getElementById("listen-now");
+  const label = document.getElementById("listen-label");
+  const download = document.getElementById("listen-download");
+  const caption = isToday ? "Listen to today’s briefing" : "Listen to this briefing";
+  if (label) label.textContent = caption;
+  if (!href || !audio || !dock) {
+    if (dock) dock.hidden = true;
+    if (masthead) masthead.hidden = true;
+    if (audio) {
+      audio.pause();
+      audio.removeAttribute("src");
+    }
+    return;
+  }
+  const next = `./${href}`;
+  const current = audio.getAttribute("src") || "";
+  if (current !== next) {
+    audio.pause();
+    audio.src = next;
+    audio.load();
+    const seek = document.getElementById("listen-seek");
+    if (seek) seek.value = "0";
+    const currentEl = document.getElementById("listen-current");
+    if (currentEl) currentEl.textContent = "0:00";
+    const durationEl = document.getElementById("listen-duration");
+    if (durationEl) durationEl.textContent = "0:00";
+  }
+  dock.hidden = false;
+  if (masthead) {
+    masthead.href = "#listen-player";
+    masthead.setAttribute("aria-label", caption);
+    masthead.hidden = false;
+  }
+  if (download) {
+    const filename = href.split("/").pop() || "briefing.mp3";
+    download.href = next;
+    download.setAttribute("download", filename);
+    download.hidden = false;
+  }
+}
+
+function formatClock(seconds) {
+  const total = Math.max(0, Math.floor(seconds || 0));
+  const mins = Math.floor(total / 60);
+  const secs = String(total % 60).padStart(2, "0");
+  return `${mins}:${secs}`;
+}
+
 function renderSave(report) {
   const files = report.files || {};
   const links = [
     ["PDF", files.pdf],
     ["Download video", files.mp4],
+    ["Download audio", files.audio],
     ["Markdown", files.markdown],
     ["HTML", files.html],
     ["Download all", files.zip],

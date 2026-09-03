@@ -36,6 +36,7 @@ _LEGACY_NAMES = {
     "infographic": "report-infographic.png",
     "video": "report-briefing.gif",
     "mp4": "report-briefing.mp4",
+    "audio": "report-briefing.mp3",
 }
 
 _EXEC_ITEM = re.compile(r"^\d+\.\s+\*\*(.+?)\*\*\s+[—–-]\s+(.*)$")
@@ -144,12 +145,21 @@ def export_public_site(session: Session, site_dir: Path | None = None) -> SiteEx
             _hydrate_briefing(row, folder)
             if _ensure_day_pdf(folder, date_key, row):
                 copied += 1
+            if _ensure_day_audio(
+                folder,
+                date_key,
+                row,
+                generate=_should_generate_audio(date_key, public_reports),
+            ):
+                copied += 1
             if _ensure_day_video(
                 folder,
                 date_key,
                 row,
                 generate=_should_generate_video(date_key, public_reports, folder),
             ):
+                copied += 1
+            if _mux_day_audio(folder, date_key, row):
                 copied += 1
             zip_url = _write_day_zip(folder, date_key)
             if zip_url:
@@ -518,6 +528,83 @@ def _should_generate_video(
     return not (mp4.is_file() and mp4.stat().st_size > 32)
 
 
+def _should_generate_audio(date_key: str, public_reports: list[dict[str, Any]]) -> bool:
+    """Synthesize MP3 for today and the latest edition only (TTS hits the network)."""
+    today = _today_iso()
+    latest = str((public_reports[0] or {}).get("report_date") or "") if public_reports else ""
+    return date_key in {today, latest}
+
+
+def _ensure_day_audio(folder: Path, date_key: str, row: dict[str, Any], *, generate: bool) -> bool:
+    """Copy or synthesize the day's MP3. Missing TTS never fails export."""
+    filename = _public_filenames(date_key)["audio"]
+    target = folder / filename
+    files = dict(row.get("files") or {})
+    folder.mkdir(parents=True, exist_ok=True)
+    if target.is_file() and target.stat().st_size > 32:
+        files["audio"] = f"files/{date_key}/{filename}"
+        row["files"] = files
+        return False
+    source = PROJECT_ROOT / "data" / "reports" / filename
+    if source.is_file() and source.stat().st_size > 32:
+        shutil.copy2(source, target)
+        files["audio"] = f"files/{date_key}/{filename}"
+        row["files"] = files
+        return True
+    if not generate:
+        row["files"] = files
+        return False
+    briefing = row.get("briefing") if isinstance(row.get("briefing"), dict) else {}
+    if not (briefing.get("executive") or briefing.get("sections")):
+        markdown = _read_site_markdown(folder, date_key)
+        if markdown.strip():
+            briefing = parse_briefing(markdown)
+    if not (briefing.get("executive") or briefing.get("sections") or briefing.get("watch")):
+        row["files"] = files
+        return False
+    try:
+        from app.media.audio import write_briefing_audio
+
+        document = _document_from_briefing(date_key, briefing, row.get("stats") or {})
+        written = write_briefing_audio(document, target)
+        if written is not None and written.is_file() and written.stat().st_size > 32:
+            files["audio"] = f"files/{date_key}/{filename}"
+            row["files"] = files
+            return True
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("could not write audio for %s: %s", date_key, exc)
+    row["files"] = files
+    return False
+
+
+def _mux_day_audio(folder: Path, date_key: str, row: dict[str, Any]) -> bool:
+    """Attach narration to the day's MP4 when both files exist and the video is silent."""
+    names = _public_filenames(date_key)
+    audio = folder / names["audio"]
+    mp4 = folder / names["mp4"]
+    files = dict(row.get("files") or {})
+    if audio.is_file() and audio.stat().st_size > 32:
+        files["audio"] = f"files/{date_key}/{names['audio']}"
+    if not (audio.is_file() and audio.stat().st_size > 32 and mp4.is_file() and mp4.stat().st_size > 32):
+        row["files"] = files
+        return False
+    try:
+        from app.media.video import mp4_has_audio, mux_narration
+
+        if mp4_has_audio(mp4):
+            row["files"] = files
+            return False
+        muxed = mux_narration(mp4, audio, mp4)
+        if muxed is not None and muxed.is_file() and muxed.stat().st_size > 32:
+            files["mp4"] = f"files/{date_key}/{names['mp4']}"
+            row["files"] = files
+            return True
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("could not mux audio for %s: %s", date_key, exc)
+    row["files"] = files
+    return False
+
+
 def _ensure_day_video(folder: Path, date_key: str, row: dict[str, Any], *, generate: bool) -> bool:
     """Copy or encode the day's MP4. Missing ffmpeg leaves the GIF; never fails export."""
     names = _public_filenames(date_key)
@@ -676,6 +763,7 @@ def _public_filenames(date_key: str) -> dict[str, str]:
         "infographic": f"{prefix}-infographic.png",
         "video": f"{prefix}-briefing.gif",
         "mp4": f"{prefix}-briefing.mp4",
+        "audio": f"{prefix}-briefing.mp3",
     }
 
 

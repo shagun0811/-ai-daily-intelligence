@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import date
 from pathlib import Path
 
+from app.media.audio import DEFAULT_VOICE, build_briefing_script, synthesize_audio
 from app.media.builder import write_media_pack
 from app.media.video import PUBLIC_SITE, build_slides, encode_mp4
 from app.report.models import DailyReportDocument, ReportItem
@@ -118,3 +119,43 @@ def test_encode_mp4_writes_file_when_ffmpeg_available(tmp_path: Path) -> None:
     assert dest.is_file()
     assert dest.stat().st_size > 32
     assert dest.read_bytes()[4:8] == b"ftyp"
+
+
+def test_briefing_script_covers_top_stories_and_why() -> None:
+    script = build_briefing_script(_sample_document())
+    assert "August" in script
+    assert "2026" in script
+    assert "Open-weights language model release" in script
+    assert "Retrieval method for agentic RAG" in script
+    assert "Why it matters" in script
+    assert "It changes how teams ship models." in script
+    assert script.lower().startswith("this is the ai daily intelligence briefing")
+    assert DEFAULT_VOICE.endswith("Neural")
+
+
+def test_synthesize_audio_writes_file_or_skips_cleanly(tmp_path, monkeypatch) -> None:
+    dest = tmp_path / "briefing.mp3"
+
+    class _FakeCommunicate:
+        def __init__(self, text, voice, rate="-8%"):
+            self.text = text
+            self.voice = voice
+
+        async def save(self, path):
+            Path(path).write_bytes(b"ID3" + b"\x00" * 80)
+
+    class _FakeEdge:
+        Communicate = _FakeCommunicate
+
+    monkeypatch.setattr("app.media.audio._load_edge_tts", lambda: _FakeEdge)
+    monkeypatch.setattr("app.media.audio._tts_enabled", lambda: True)
+    written = synthesize_audio("This is the briefing for Friday.", dest, enabled=True)
+    assert written is not None
+    assert written.is_file()
+    assert written.stat().st_size > 32
+
+    monkeypatch.setattr("app.media.audio._load_edge_tts", lambda: None)
+    missing = tmp_path / "missing.mp3"
+    assert synthesize_audio("This is the briefing for Friday.", missing, enabled=True) is None
+    assert not missing.exists()
+

@@ -39,6 +39,7 @@ class ReportSummary:
     infographic_path: str | None = None
     video_path: str | None = None
     mp4_path: str | None = None
+    audio_path: str | None = None
     card_paths: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
 
@@ -56,6 +57,7 @@ class ReportSummary:
             f"Story cards: {len(self.card_paths)}",
             f"Video: {self.video_path}",
             f"MP4: {self.mp4_path}",
+            f"Audio: {self.audio_path}",
         ]
         if self.errors:
             lines.append("Errors:")
@@ -189,6 +191,7 @@ class ReportGenerator:
         summary.infographic_path = media.infographic_path
         summary.video_path = media.video_path
         summary.mp4_path = media.mp4_path
+        summary.audio_path = media.audio_path
         summary.card_paths = list(media.card_paths)
         status = PipelineRunStatus.PARTIAL if summary.errors else PipelineRunStatus.SUCCESS
         self.repo.finish_pipeline_run(
@@ -206,13 +209,14 @@ class ReportGenerator:
         log_stage(
             logger,
             STAGE_REPORT,
-            "wrote md=%s html=%s pdf=%s infographic=%s gif=%s mp4=%s selected=%s",
+            "wrote md=%s html=%s pdf=%s infographic=%s gif=%s mp4=%s audio=%s selected=%s",
             markdown_path.name,
             html_path.name,
             pdf_path.name,
             Path(media.infographic_path).name if media.infographic_path else "-",
             Path(media.video_path).name if media.video_path else "-",
             Path(media.mp4_path).name if media.mp4_path else "-",
+            Path(media.audio_path).name if media.audio_path else "-",
             summary.selected,
         )
         return summary

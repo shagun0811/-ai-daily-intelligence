@@ -238,6 +238,9 @@ def test_archive_page_is_a_day_reader() -> None:
     assert 'id="watch-video"' in html
     assert 'id="watch-video-hero"' in html
     assert "Watch video" in html
+    assert 'id="listen-player"' in html
+    assert 'id="listen-toggle"' in html
+    assert "Listen to today’s briefing" in html or "Listen to today's briefing" in html
     assert 'id="rss-feed"' in html
     assert 'rel="alternate" type="application/rss+xml"' in html
     assert "https://ai-daily-intelligence.pages.dev/feed.xml" in html
@@ -248,15 +251,18 @@ def test_archive_page_is_a_day_reader() -> None:
     assert "function renderBriefing" in js
     assert "function layoutBriefing" in js
     assert "function renderDownloads" in js
+    assert "function renderListen" in js
     assert "files.mp4" in js
+    assert "files.audio" in js
     assert "briefing-video" in js
+    assert "briefing-audio" in js
     assert "Download MP4" in js
     assert "function bindRssCopy" in js
     assert "Save this briefing" in js
     assert "Download all" in js
-    assert "hero-card" in css
+    assert "lead-story" in css
+    assert "listen-player" in css
     assert "date-strip" in css
-    assert "download-pdf-primary" in css
     assert ".rss-feed" in css
     assert "video-block" in css
     assert "gallery-video" in css
@@ -268,17 +274,18 @@ def test_paid_reader_opens_today_not_item_dump() -> None:
     css = (PROJECT_ROOT / "site" / "briefing-20260904.css").read_text(encoding="utf-8")
     assert 'id="item-list"' not in html
     assert 'data-tab="items"' not in html
-    assert "Today’s briefing" in html or "Today's briefing" in html
-    assert 'id="lead-headline"' in html
-    assert 'id="rank-strip"' in html
+    assert "Today’s briefing" in html or "Today's briefing" in html or "What moved in AI today" in html
+    assert 'id="issue-dek"' in html
+    assert 'id="listen-player"' in html
     assert "Archive" in html
     assert "Download PDF" in html
     assert 'id="download-pdf"' in html
     assert 'id="rss-feed"' in html
     assert "Lead story" in js
     assert "isStaleForHero" in js
+    assert "lead-story" in css
+    assert "listen-player" in css
     assert "hero-index" in css
-    assert "rank-strip" in css
     assert "local text pipeline" not in js.lower()
     assert "wrangler" not in js.lower()
     assert "python scripts/" not in js.lower()
@@ -303,6 +310,7 @@ def test_export_generates_missing_pdf_from_markdown(db_session, tmp_path: Path) 
     js = (PROJECT_ROOT / "site" / "briefing-20260904.js").read_text(encoding="utf-8")
     assert "files.pdf" in js
     assert "files.mp4" in js
+    assert "files.audio" in js
 
 
 def test_export_copies_mp4_and_omits_missing_video(db_session, tmp_path: Path) -> None:
@@ -359,4 +367,30 @@ def test_export_encodes_mp4_for_archive_days_missing_video(monkeypatch, db_sessi
     assert by_date["2026-08-17"]["files"]["mp4"].endswith("ai-daily-intelligence-2026-08-17-briefing.mp4")
     assert by_date["2026-08-18"]["files"]["mp4"].endswith("ai-daily-intelligence-2026-08-18-briefing.mp4")
     assert payload["today"]
+
+
+def test_export_copies_audio_and_omits_missing_listen(db_session, tmp_path: Path) -> None:
+    md = tmp_path / "ai-daily-intelligence-2026-08-17.md"
+    md.write_text("# AI Daily Intelligence\n", encoding="utf-8")
+    audio = tmp_path / "ai-daily-intelligence-2026-08-17-briefing.mp3"
+    audio.write_bytes(b"ID3" + b"\x00" * 64)
+    db_session.add(
+        DailyReport(
+            report_date=date(2026, 8, 17),
+            title="AI Daily Intelligence",
+            markdown_content="# AI Daily Intelligence\n",
+            markdown_path=str(md),
+            stats_json={"selected": 1, "candidates": 4, "audio_path": str(audio)},
+        )
+    )
+    db_session.flush()
+
+    out = tmp_path / "site"
+    summary = export_public_site(db_session, site_dir=out)
+    assert not summary.errors
+    payload = json.loads((out / "data" / "dashboard.json").read_text(encoding="utf-8"))
+    files = payload["reports"][0]["files"]
+    assert files["audio"].endswith("ai-daily-intelligence-2026-08-17-briefing.mp3")
+    assert (out / files["audio"]).is_file()
+
 

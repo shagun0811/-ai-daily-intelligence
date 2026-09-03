@@ -1,8 +1,8 @@
-"""Build infographic, story cards, GIF, and a short briefing MP4 from the text report.
+"""Build infographic, story cards, GIF, MP4, and free neural audio from the text report.
 
 Uses Pillow for stills. MP4 needs local ffmpeg (GitHub Actions installs it).
-If ffmpeg is missing the GIF still writes and the job does not fail.
-No paid image/video APIs and no LLM.
+Audio uses edge-tts (no API key). If either tool is missing the job does not fail.
+No paid image/video/voice APIs and no LLM.
 """
 
 from __future__ import annotations
@@ -15,7 +15,8 @@ from PIL import Image, ImageDraw
 
 from app.config.logging import STAGE_REPORT, get_logger, log_stage
 from app.media.draw import ACCENT, BG, BAR_TRACK, GOLD, MUTED, PANEL, TEXT, TITLE, load_font, wrap_text
-from app.media.video import build_slides, encode_mp4
+from app.media.audio import write_briefing_audio
+from app.media.video import build_slides, encode_mp4, mux_narration
 from app.report.models import DailyReportDocument, ReportItem
 
 logger = get_logger(__name__)
@@ -31,6 +32,7 @@ class MediaBundle:
     card_paths: list[str] = field(default_factory=list)
     video_path: str | None = None
     mp4_path: str | None = None
+    audio_path: str | None = None
     slide_count: int = 0
     errors: list[str] = field(default_factory=list)
 
@@ -40,12 +42,13 @@ class MediaBundle:
             "card_paths": self.card_paths,
             "video_path": self.video_path,
             "mp4_path": self.mp4_path,
+            "audio_path": self.audio_path,
             "slide_count": self.slide_count,
         }
 
 
 def write_media_pack(document: DailyReportDocument, *, out_dir: Path, stem: str) -> MediaBundle:
-    """Write infographic PNG, story-card PNGs, looping GIF, and MP4 when ffmpeg exists."""
+    """Write infographic PNG, story-card PNGs, looping GIF, MP4, and MP3 when tools exist."""
     out_dir.mkdir(parents=True, exist_ok=True)
     bundle = MediaBundle()
     try:
@@ -81,14 +84,23 @@ def write_media_pack(document: DailyReportDocument, *, out_dir: Path, stem: str)
         if mp4 is not None:
             bundle.mp4_path = str(mp4)
 
+        audio = write_briefing_audio(document, out_dir / f"{stem}-briefing.mp3")
+        if audio is not None:
+            bundle.audio_path = str(audio)
+            if bundle.mp4_path:
+                muxed = mux_narration(Path(bundle.mp4_path), audio, Path(bundle.mp4_path))
+                if muxed is not None:
+                    bundle.mp4_path = str(muxed)
+
         log_stage(
             logger,
             STAGE_REPORT,
-            "media infographic=%s cards=%s gif=%s mp4=%s slides=%s",
+            "media infographic=%s cards=%s gif=%s mp4=%s audio=%s slides=%s",
             infographic.name,
             len(bundle.card_paths),
             video.name,
             Path(bundle.mp4_path).name if bundle.mp4_path else "-",
+            Path(bundle.audio_path).name if bundle.audio_path else "-",
             bundle.slide_count,
         )
     except Exception as exc:  # noqa: BLE001

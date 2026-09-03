@@ -211,6 +211,7 @@ def _existing_files(report: DailyReport) -> dict[str, Any]:
     infographic = stats.get("infographic_path")
     video = stats.get("video_path")
     mp4 = stats.get("mp4_path")
+    audio = stats.get("audio_path")
     cards = [path for path in (stats.get("card_paths") or []) if path and Path(path).is_file()]
     if report.markdown_path:
         parent = Path(report.markdown_path).parent
@@ -218,6 +219,7 @@ def _existing_files(report: DailyReport) -> dict[str, Any]:
         infographic = infographic or str(parent / f"{stem}-infographic.png")
         video = video or str(parent / f"{stem}-briefing.gif")
         mp4 = mp4 or str(parent / f"{stem}-briefing.mp4")
+        audio = audio or str(parent / f"{stem}-briefing.mp3")
         if not cards:
             cards = [str(path) for path in sorted(parent.glob(f"{stem}-card-*.png"))]
     if infographic and Path(infographic).is_file():
@@ -226,6 +228,8 @@ def _existing_files(report: DailyReport) -> dict[str, Any]:
         files["video"] = video
     if mp4 and Path(mp4).is_file():
         files["mp4"] = mp4
+    if audio and Path(audio).is_file():
+        files["audio"] = audio
     if cards:
         files["cards"] = cards
     return files
