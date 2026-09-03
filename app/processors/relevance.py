@@ -22,6 +22,30 @@ def _clamp(value: float) -> float:
     return max(0.0, min(10.0, value))
 
 
+_HERO_CATEGORIES = {"PRODUCT", "MODEL_RELEASE", "SAFETY", "POLICY", "BENCHMARK"}
+
+
+def matches_terms(text: str, terms: list[str]) -> bool:
+    blob = _norm(text)
+    return any(_norm(term) in blob for term in terms if term)
+
+
+def is_gossip_text(text: str, taxonomy: TaxonomyConfig | None = None) -> bool:
+    taxonomy = taxonomy or load_taxonomy()
+    return matches_terms(text, taxonomy.relevance.gossip_terms)
+
+
+def has_hero_substance(
+    text: str,
+    category: str = "",
+    taxonomy: TaxonomyConfig | None = None,
+) -> bool:
+    taxonomy = taxonomy or load_taxonomy()
+    if (category or "").upper() in _HERO_CATEGORIES:
+        return True
+    return matches_terms(text, taxonomy.relevance.hero_terms)
+
+
 @dataclass(frozen=True)
 class RelevanceResult:
     score: float
@@ -57,6 +81,9 @@ def score_relevance(
         if _norm(term) in text:
             score -= 2.5
             reasons.append(f"noise:{term}")
+    if is_gossip_text(text, taxonomy) and not has_hero_substance(text, taxonomy=taxonomy):
+        score -= taxonomy.relevance.gossip_penalty
+        reasons.append("gossip")
     for term in taxonomy.relevance.niche_terms:
         if _norm(term) in text:
             score -= 3.0

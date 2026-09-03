@@ -16,6 +16,7 @@ from app.processors.summarizer import Summarizer
 from app.report.generator import ReportGenerator
 from app.site_deploy import deploy_public_site
 from app.site_export import export_public_site
+from app.utils.dates import today_ist
 
 logger = get_logger(__name__)
 
@@ -95,6 +96,7 @@ def _run_stage(outcome: PipelineOutcome, *, name: str, field_name: str, fn: _Sta
 
 def _publish_site(session: Session) -> object:
     export = export_public_site(session)
+    _require_today_edition(export)
     deploy = deploy_public_site()
 
     class _Combined:
@@ -107,3 +109,19 @@ def _publish_site(session: Session) -> object:
             return "\n".join(part for part in (export.as_text(), deploy.as_text()) if part)
 
     return _Combined()
+
+
+def _require_today_edition(export: object) -> None:
+    """A new IST calendar day must publish even if the SQLite cache is stale."""
+    dates = getattr(export, "dates", None)
+    if dates is None:
+        return
+    today = today_ist().isoformat()
+    found = {str(item) for item in dates}
+    if today in found:
+        return
+    message = f"today's briefing {today} is missing from export; have {list(dates)}"
+    errors = getattr(export, "errors", None)
+    if isinstance(errors, list):
+        errors.append(message)
+    log_stage(logger, STAGE_REPORT, message, level=40)

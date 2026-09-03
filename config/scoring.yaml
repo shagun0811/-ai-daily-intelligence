@@ -1,5 +1,8 @@
 # Explainable importance scoring. Weights must sum to 1.0.
 # Do not hard-code these values in processors.
+# Briefing order is not this 0–10 total: ranker.py down-ranks podcasts,
+# Decoder recaps, and org-chart politics so they cannot occupy hero 1–3
+# when product, model, or concrete research news exists.
 
 weights:
   recency: 0.25

@@ -9,6 +9,7 @@ import unicodedata
 from app.database.enums import ClusterMemberRole
 from app.database.models import Article
 from app.llm.prompts import schema_for
+from app.processors.relevance import has_hero_substance, is_gossip_text
 from app.report.models import DailyReportDocument, ReportItem
 from app.report.validator import ValidationResult
 
@@ -16,6 +17,8 @@ HERO_MAX_AGE_DAYS = 4
 REUSE_NEWS_MAX_AGE_DAYS = 2
 PAPER_MAX_AGE_DAYS = 3
 BRIEFING_MAX_AGE_DAYS = 7
+GOSSIP_RANK_PENALTY = 3.5
+SUBSTANCE_RANK_BONUS = 0.9
 
 
 def latest_summary(article: Article) -> dict | None:
@@ -89,6 +92,10 @@ def ranking_score(item: ReportItem, report_date: date | None = None) -> float:
         score -= 1.8
     else:
         score += 1.25
+    if is_soft_news(item):
+        score -= GOSSIP_RANK_PENALTY
+    elif not is_paper and has_report_substance(item):
+        score += SUBSTANCE_RANK_BONUS
     if report_date is None:
         return score
     age = age_days(item, report_date)
@@ -111,6 +118,37 @@ def ranking_score(item: ReportItem, report_date: date | None = None) -> float:
     return score
 
 
+def item_blob(item: ReportItem) -> str:
+    return " ".join(
+        [
+            item.title or "",
+            item.summary or "",
+            item.why_it_matters or "",
+            item.source_name or "",
+            item.source_url or "",
+        ]
+    )
+
+
+def has_report_substance(item: ReportItem) -> bool:
+    return has_hero_substance(item_blob(item), item.category or "")
+
+
+def is_soft_news(item: ReportItem) -> bool:
+    """Podcasts, org-chart politics, and management gossip without product/research."""
+    if item.schema_name == "research":
+        return False
+    return is_gossip_text(item_blob(item)) and not has_report_substance(item)
+
+
+def pack_rank(items: list[ReportItem], report_date: date | None = None) -> list[ReportItem]:
+    """Substance news leads; podcast/org-chart items stay in the pack but not #1."""
+    ranked = sorted(items, key=lambda item: ranking_score(item, report_date), reverse=True)
+    hard = [item for item in ranked if not is_soft_news(item)]
+    soft = [item for item in ranked if is_soft_news(item)]
+    return hard + soft
+
+
 def mix_for_report(
     items: list[ReportItem],
     *,
@@ -121,7 +159,7 @@ def mix_for_report(
 ) -> list[ReportItem]:
     """Fill the briefing with current news first; keep only a few fresh papers."""
     blocked = blocked_ids or set()
-    ranked = sorted(items, key=lambda item: ranking_score(item, report_date), reverse=True)
+    ranked = pack_rank(items, report_date)
     news = [item for item in ranked if item.schema_name != "research"]
     papers = [item for item in ranked if item.schema_name == "research"]
 
@@ -135,6 +173,13 @@ def mix_for_report(
         if item.article_id in blocked and _reuse_news(item, report_date)
     ]
     selected_news = _dedupe_titles(unreported_news + reuse_news)
+    if not selected_news:
+        gap_fill = [
+            item
+            for item in news
+            if item.article_id in blocked and _within_age(item, report_date, BRIEFING_MAX_AGE_DAYS)
+        ]
+        selected_news = _dedupe_titles(gap_fill)
     unreported_papers = _dedupe_titles([item for item in papers if item.article_id not in blocked])
     if not selected_news and not unreported_papers:
         unreported_papers = [
@@ -150,7 +195,7 @@ def mix_for_report(
     leftover = max(0, cap - len(selected))
     if leftover:
         selected.extend(selected_news[news_take : news_take + leftover])
-    selected.sort(key=lambda item: ranking_score(item, report_date), reverse=True)
+    selected = pack_rank(selected, report_date)
     return selected[:cap]
 
 
@@ -188,7 +233,7 @@ def build_document(
     max_watch: int = 5,
     max_exec_papers: int = 0,
 ) -> DailyReportDocument:
-    ranked = sorted(items, key=lambda item: ranking_score(item, report_date), reverse=True)
+    ranked = pack_rank(items, report_date)
     others = [item for item in ranked if item.schema_name != "research"]
     papers = [item for item in ranked if item.schema_name == "research"]
     hero_pool = _dedupe_titles(

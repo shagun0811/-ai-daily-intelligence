@@ -10,7 +10,12 @@ from pydantic import BaseModel, Field
 from app.config.yaml_loader import ScoringConfig, load_scoring
 from app.database.enums import ClusterMemberRole, ItemKind
 from app.database.models import Article
-from app.processors.relevance import RelevanceResult, score_relevance
+from app.processors.relevance import (
+    RelevanceResult,
+    has_hero_substance,
+    is_gossip_text,
+    score_relevance,
+)
 
 
 def _clamp(value: float) -> float:
@@ -73,6 +78,8 @@ def technical_score(article: Article, text: str) -> float:
         "dataset",
         "latency",
         "training",
+        "self-improving",
+        "agentic",
     )
     score += sum(0.6 for term in terms if term in text)
     return _clamp(score)
@@ -89,6 +96,8 @@ def industry_score(article: Article, text: str, category: str) -> float:
     score += sum(0.5 for term in terms if term in text)
     if is_paper:
         score -= 1.0
+    if is_gossip_text(text) and not has_hero_substance(text, category):
+        score -= 2.2
     return _clamp(score)
 
 

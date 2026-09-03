@@ -16,7 +16,7 @@ from app.processors.intelligence import IntelligenceProcessor
 from app.processors.summarizer import Summarizer
 from app.report.generator import ReportGenerator
 from app.report.models import ReportItem
-from app.report.ranker import build_document, mix_for_report
+from app.report.ranker import build_document, mix_for_report, ranking_score
 from app.report.validator import extract_numbers, validate_item
 from app.utils.hashing import content_hash
 
@@ -43,17 +43,29 @@ def _article(db_session, *, source_name: str, title: str, url: str, text: str, *
     return article
 
 
-def _item(*, article_id: int, title: str, schema_name: str, score: float, published_at: str | None = None) -> ReportItem:
+def _item(
+    *,
+    article_id: int,
+    title: str,
+    schema_name: str,
+    score: float,
+    published_at: str | None = None,
+    summary: str = "summary",
+    why_it_matters: str = "why",
+    category: str = "OTHER",
+    source_url: str | None = None,
+) -> ReportItem:
     return ReportItem(
         article_id=article_id,
         title=title,
-        summary="summary",
-        why_it_matters="why",
+        summary=summary,
+        why_it_matters=why_it_matters,
         source_name="Example",
-        source_url=f"https://example.com/{article_id}",
+        source_url=source_url or f"https://example.com/{article_id}",
         published_at=published_at,
         score=score,
         schema_name=schema_name,
+        category=category,
     )
 
 
@@ -107,6 +119,51 @@ def test_fresh_news_is_reused_so_a_new_day_is_not_empty() -> None:
     document = build_document(mixed, report_date=date(2026, 8, 27), stats={"selected": len(mixed)})
     assert document.executive
     assert document.executive[0].title == "OpenAI chip results"
+
+
+def test_decoder_org_chart_ranks_below_product_and_research() -> None:
+    gossip = _item(
+        article_id=1,
+        title="OpenAI’s executive exodus has one big winner",
+        schema_name="news",
+        score=9.4,
+        published_at="2026-08-27",
+        summary=(
+            "Today on Decoder, Hayden Field on org chart changes at OpenAI "
+            "and how they consolidate power under the company president."
+        ),
+        source_url="https://www.theverge.com/podcast/985332/openai-executive-exodus",
+    )
+    product = _item(
+        article_id=2,
+        title="Google Gemini launches Workspace API access for enterprise",
+        schema_name="company",
+        score=6.8,
+        published_at="2026-08-27",
+        summary="Product launch. Generally available Gemini API for Workspace enterprise customers.",
+        category="PRODUCT",
+    )
+    research = _item(
+        article_id=3,
+        title="An Anthropic researcher just gave us a peek at self-improving AI",
+        schema_name="news",
+        score=7.0,
+        published_at="2026-08-28",
+        summary="Given 10 benchmarks, automated systems improved misaligned behaviors without degrading performance.",
+    )
+    report_date = date(2026, 8, 29)
+    assert ranking_score(product, report_date) > ranking_score(gossip, report_date)
+    assert ranking_score(research, report_date) > ranking_score(gossip, report_date)
+
+    mixed = mix_for_report([gossip, product, research], cap=8, report_date=report_date)
+    titles = [item.title for item in mixed]
+    assert titles[0] != gossip.title
+    assert gossip.title in titles
+    document = build_document(mixed, report_date=report_date, stats={"selected": len(mixed)})
+    assert document.executive[0].title != gossip.title
+    assert document.executive[0].title in {product.title, research.title}
+    packed = {item.title for item in document.executive + document.developments + document.industry}
+    assert gossip.title in packed
 
 
 def test_old_product_post_stays_out_of_hero() -> None:
@@ -431,3 +488,16 @@ def test_previously_reported_ids_backfill_published_when_stats_lack_ids(db_sessi
     db_session.flush()
     used = Repository(db_session).previously_reported_article_ids(before_date=date(2026, 8, 17))
     assert article.id in used
+
+
+def test_gap_day_reuses_week_old_news_when_rss_is_empty() -> None:
+    old = _item(
+        article_id=1,
+        title="Official large language model release with open weights",
+        schema_name="news",
+        score=8.4,
+        published_at="2026-08-28",
+    )
+    mixed = mix_for_report([old], cap=8, blocked_ids={1}, report_date=date(2026, 9, 4))
+    assert mixed
+    assert mixed[0].title == old.title

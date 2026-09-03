@@ -54,6 +54,34 @@ relevance:
     - subscribe to our newsletter
     - seating chart
     - sports score
+  gossip_penalty: 1.5
+  # Down-rank only. These stay in the pack; they must not lead the briefing.
+  gossip_terms:
+    - decoder
+    - podcast
+    - org chart
+    - executive exodus
+    - consolidate power
+    - who reports to
+    - reporting structure
+    - management shuffle
+    - management shakeup
+    - executive shuffle
+    - power struggle
+  hero_terms:
+    - product launch
+    - model release
+    - open weights
+    - generally available
+    - self-improving
+    - ai agent
+    - agentic
+    - gemini
+    - enterprise api
+    - api access
+    - benchmark
+    - ai safety
+    - eu ai act
   niche_terms:
     - helmholtz
     - resonator

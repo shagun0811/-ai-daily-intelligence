@@ -18,6 +18,7 @@ def test_default_settings_are_free_first() -> None:
     assert settings.llm_model == "qwen3:4b"
     assert "openai" not in settings.llm_provider.lower()
     assert settings.scheduler_enabled is False
+    assert settings.scheduler_timezone == "Asia/Kolkata"
     assert 0 < settings.semantic_duplicate_threshold <= 1
 
 
@@ -78,3 +79,11 @@ def test_load_yaml_rejects_missing_file(tmp_path) -> None:
 
     with pytest.raises(FileNotFoundError):
         load_yaml(tmp_path / "missing.yaml")
+
+
+def test_edition_calendar_day_is_ist() -> None:
+    from app.utils.dates import today_ist
+
+    day = today_ist()
+    assert day.isoformat() == str(day)
+    assert len(day.isoformat()) == 10

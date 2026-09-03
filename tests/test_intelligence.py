@@ -97,6 +97,37 @@ def test_dinner_party_post_is_low_relevance(db_session) -> None:
     assert relevance.score < 4.0
 
 
+def test_decoder_org_chart_scores_below_gemini_product(db_session) -> None:
+    gossip = _article(
+        db_session,
+        source_name="The Verge AI",
+        title="OpenAI’s executive exodus has one big winner",
+        url="https://www.theverge.com/podcast/985332/openai-executive-exodus",
+        text=(
+            "Today on Decoder, Hayden Field covers org chart changes at OpenAI "
+            "and how they consolidate power around ChatGPT. "
+            "A large language model company story about who reports to whom."
+        ),
+    )
+    product = _article(
+        db_session,
+        source_name="Google AI Blog",
+        title="Google Gemini launches Workspace API access for enterprise",
+        url="https://blog.google/gemini-workspace-api",
+        text=(
+            "Product launch. Gemini generally available with API access for "
+            "Workspace enterprise customers. Open weights large language model checkpoint."
+        ),
+    )
+    gossip_rel = score_relevance(gossip)
+    product_rel = score_relevance(product)
+    assert gossip_rel.relevant is True
+    assert product_rel.score > gossip_rel.score
+    gossip_score = score_article(gossip, category="NEWS")
+    product_score = score_article(product, category="PRODUCT")
+    assert product_score.weighted_total > gossip_score.weighted_total
+
+
 def test_recency_decays_and_weights_are_from_config() -> None:
     scoring = load_scoring()
     assert abs(scoring.weights.total() - 1.0) < 1e-9

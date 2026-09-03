@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import date
 from pathlib import Path
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
@@ -21,6 +20,7 @@ from app.report.html import render_html
 from app.report.markdown import render_markdown
 from app.report.pdf import write_pdf
 from app.report.ranker import build_document, is_supporting, latest_summary, mix_for_report, to_report_item
+from app.utils.dates import today_ist
 from app.report.validator import validate_item
 
 logger = get_logger(__name__)
@@ -233,12 +233,7 @@ class ReportGenerator:
         return blocked
 
     def _today(self) -> date:
-        name = self.settings.scheduler_timezone or "UTC"
-        try:
-            zone = ZoneInfo(name)
-        except ZoneInfoNotFoundError:
-            zone = timezone.utc
-        return datetime.now(zone).date()
+        return today_ist()
 
     def _candidates(self) -> list[Article]:
         stmt = (

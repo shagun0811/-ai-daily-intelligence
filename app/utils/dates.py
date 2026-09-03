@@ -2,12 +2,24 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from time import struct_time
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from dateutil import parser as date_parser
 
 ParserError = getattr(date_parser, "ParserError", ValueError)
+
+IST_ZONE_NAME = "Asia/Kolkata"
+
+
+def today_ist() -> date:
+    """Edition calendar day. Always Asia/Kolkata, not the runner's UTC date."""
+    try:
+        zone = ZoneInfo(IST_ZONE_NAME)
+    except ZoneInfoNotFoundError:
+        zone = timezone.utc
+    return datetime.now(zone).date()
 
 
 def parse_datetime(value: str | datetime | struct_time | None) -> datetime | None:

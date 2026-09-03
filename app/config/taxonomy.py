@@ -19,6 +19,9 @@ class RelevanceTaxonomy(BaseModel):
     strong_terms: list[str] = Field(default_factory=list)
     weak_terms: list[str] = Field(default_factory=list)
     noise_terms: list[str] = Field(default_factory=list)
+    gossip_terms: list[str] = Field(default_factory=list)
+    gossip_penalty: float = 1.5
+    hero_terms: list[str] = Field(default_factory=list)
     niche_terms: list[str] = Field(default_factory=list)
 
 
