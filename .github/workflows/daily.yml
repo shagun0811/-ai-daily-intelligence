@@ -26,6 +26,7 @@ jobs:
       TZ: Asia/Kolkata
       HTTP_TIMEOUT_SECONDS: "30"
       ADI_FETCH_FFMPEG: "true"
+      ADI_USE_ARCHIVE_SEED: "true"
     steps:
       - uses: actions/checkout@v4
 
@@ -100,6 +101,13 @@ jobs:
           if not audio.is_file():
               print("warning: no briefing audio for today (Listen will be hidden; job continues)")
           PY
+
+      - name: Merge previous archive so deploy cannot wipe older days
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ADI_MERGE_LIVE_ARCHIVE: "false"
+          ADI_MERGE_GITHUB_ARTIFACT: "true"
+        run: python scripts/merge_site_archive.py
 
       - uses: actions/setup-node@v4
         with:

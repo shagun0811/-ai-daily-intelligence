@@ -11,7 +11,7 @@ from pathlib import Path
 
 from app.config.logging import STAGE_REPORT, get_logger, log_stage
 from app.config.settings import PROJECT_ROOT, get_settings
-from app.site_export import SITE_DIR
+from app.site_export import SITE_DIR, ingest_live_archive
 
 logger = get_logger(__name__)
 
@@ -50,6 +50,13 @@ def deploy_public_site(site_dir: Path | None = None) -> SiteDeploySummary:
     if not (root / "index.html").is_file():
         summary.errors.append(f"missing index.html in {root}")
         return summary
+
+    try:
+        restored = ingest_live_archive(root)
+        if restored:
+            log_stage(logger, STAGE_REPORT, "merged live archive days=%s", ",".join(restored))
+    except Exception as exc:  # noqa: BLE001
+        log_stage(logger, STAGE_REPORT, "live archive merge skipped error=%s", exc, level=30)
 
     npx = shutil.which("npx.cmd") or shutil.which("npx")
     if not npx:

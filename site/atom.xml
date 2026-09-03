@@ -4,7 +4,7 @@
 <link href="https://ai-daily-intelligence.pages.dev/" rel="alternate" type="text/html"/>
 <link href="https://ai-daily-intelligence.pages.dev/atom.xml" rel="self" type="application/atom+xml"/>
 <id>https://ai-daily-intelligence.pages.dev/</id>
-<updated>2026-09-03T19:10:45.477165+00:00</updated>
+<updated>2026-09-03T20:15:26.674086+00:00</updated>
 <subtitle>Today’s ranked AI briefing: the stories that actually moved, and why they matter.</subtitle>
 <entry>
 <title>AI Daily Intelligence — 2026-09-04</title>
@@ -63,6 +63,402 @@ Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/989503
 <content type="text">Nvidia is announcing its new Personal AI Router (PAIR), a free tool that syncs up your home computers for tackling local AI inference tasks with tools like Ollama and LM Studio. Let&apos;s get the obvious thing out of the way, despite what its name might imply: PAIR is not a hardware router.
 
 Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/989435/nvidia-pair-personal-ai-router-home-local-llm-compute-tool-rtx-macbook)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-09-03</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-09-03" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-09-03</id>
+<updated>2026-09-03T17:00:00+05:30</updated>
+<published>2026-09-03T17:00:00+05:30</published>
+<content type="text">Ranked stories: OpenAI accused of ‘aiding and abetting’ Tumbler Ridge mass shooting in dozens of new lawsuits; Anthropic introduces zero-retention AI safety monitoring for enterprises - csoonline.com; The Trump administration is supporting OpenAI in the NYT copyright lawsuit; Accessing OpenAI models on Amazon Bedrock from Australia with global cross-Region inference - Amazon Web Services (AWS); OpenAI’s new reasoning technique alarms AI safety experts</content>
+</entry>
+<entry>
+<title>OpenAI accused of ‘aiding and abetting’ Tumbler Ridge mass shooting in dozens of new lawsuits</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/988261/openai-tumbler-ridge-shooting-lawsuit-aiding-abetting" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-03:story-1-890aa5c4672b</id>
+<updated>2026-09-02T00:00:00+05:30</updated>
+<published>2026-09-02T00:00:00+05:30</published>
+<content type="text">OpenAI and its CEO Sam Altman are facing 30 new lawsuits that accuse them of providing &quot;substantial assistance and encouragement&quot; to the suspect in Canada&apos;s Tumbler Ridge school shooting, as reported earlier by TechCrunch . The new wave of lawsuits was filed in a California federal court on Wednesday by the students, teachers, and the principal in the school at the time of the shooting.
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/988261/openai-tumbler-ridge-shooting-lawsuit-aiding-abetting)</content>
+</entry>
+<entry>
+<title>Anthropic introduces zero-retention AI safety monitoring for enterprises - csoonline.com</title>
+<link href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxNcW5BSndNZUtKb1dKeENtQzJ5XzN0enBxaURRRldjaldpem9VM1pFR2tiRzVsbzJIMHZTVmV5NlFuZXh0VkVSUFFzZEVuLVQ4dUlmNWFzc2F1SEJXRk5CWVZsR1N6S3JKNXg2WVdIc1ZrUlFvWGhyWWJKUVpHWFlJNE1WcjMxR21BOHFEV01PclpPczZqMGZHYWNDZG9tX21MNXN6V3BRcTlTMS1qbXh1bldVckM4RS02UmlR?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-03:story-2-3124a0171bb6</id>
+<updated>2026-09-02T00:00:00+05:30</updated>
+<published>2026-09-02T00:00:00+05:30</published>
+<content type="text">Anthropic introduces zero-retention AI safety monitoring for enterprises csoonline.com
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>The Trump administration is supporting OpenAI in the NYT copyright lawsuit</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/988344/trump-administration-new-york-times-openai-lawsuit" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-03:story-3-9d1543370efb</id>
+<updated>2026-09-02T00:00:00+05:30</updated>
+<published>2026-09-02T00:00:00+05:30</published>
+<content type="text">The Trump administration has intervened in The New York Times&apos; copyright lawsuit against OpenAI, making an argument in favor of the AI lab. The landmark lawsuit, filed in December 2023 , alleging that OpenAI unlawfully trained its AI systems on articles from The New York Times and seeks to recoup &quot;billions of dollars&quot; in damages from both Microsoft and OpenAI.
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/988344/trump-administration-new-york-times-openai-lawsuit)</content>
+</entry>
+<entry>
+<title>Accessing OpenAI models on Amazon Bedrock from Australia with global cross-Region inference - Amazon Web Services (AWS)</title>
+<link href="https://news.google.com/rss/articles/CBMi3wFBVV95cUxNVTJjWG9UblhrQzZ4TWtrZS1fWmhhM2t4YXhObHk5T2tZZVhaMzA1Nno4Y016S3BNYlV1Q3FvdldLY19uZUNmalFFalpzRHlSS0VSank3dVNZZllwSEJsTWM5UEpvaDJhc05BNXdFT3pHZENfcHpveUZ0VnhtRmFzdHZsRHZMbTc0Q0VnNFJRUlphSnY2elhwTjZZSnU5NUw0MklhbFFlZGNHZERXU2o1Y1ltNkcyQnlLeHFpcjEzMlBJNHpzbTNUWnNpTnMxOFhua2RxRS1jSnJIQy1Lc0xn?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-03:story-4-af9010a99e97</id>
+<updated>2026-09-02T00:00:00+05:30</updated>
+<published>2026-09-02T00:00:00+05:30</published>
+<content type="text">Accessing OpenAI models on Amazon Bedrock from Australia with global cross-Region inference Amazon Web Services (AWS)
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>OpenAI’s new reasoning technique alarms AI safety experts</title>
+<link href="https://techcrunch.com/2026/09/02/openais-new-reasoning-technique-alarms-ai-safety-experts/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-03:story-5-1d646f2c9906</id>
+<updated>2026-09-02T00:00:00+05:30</updated>
+<published>2026-09-02T00:00:00+05:30</published>
+<content type="text">OpenAI’s new Astra model will use “recurrent depth,” a technique that allows the model to operate outside of the sequential thinking that characterizes most reasoning models.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/09/02/openais-new-reasoning-technique-alarms-ai-safety-experts/)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-09-02</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-09-02" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-09-02</id>
+<updated>2026-09-02T17:00:00+05:30</updated>
+<published>2026-09-02T17:00:00+05:30</published>
+<content type="text">Ranked stories: OpenAI accused of ‘aiding and abetting’ Tumbler Ridge mass shooting in dozens of new lawsuits; OpenAI delayed its new model’s development after the Hugging Face hack; Anthropic introduces zero-retention AI safety monitoring for enterprises - csoonline.com; How law firm Gilbert + Tobin governs and scales AI with OpenAI; The rise of AI ‘civilizations’ and the fall of corporate responsibility</content>
+</entry>
+<entry>
+<title>OpenAI accused of ‘aiding and abetting’ Tumbler Ridge mass shooting in dozens of new lawsuits</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/988261/openai-tumbler-ridge-shooting-lawsuit-aiding-abetting" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-02:story-1-74f5185a685e</id>
+<updated>2026-09-02T00:00:00+05:30</updated>
+<published>2026-09-02T00:00:00+05:30</published>
+<content type="text">OpenAI and its CEO Sam Altman are facing 30 new lawsuits that accuse them of providing &quot;substantial assistance and encouragement&quot; to the suspect in Canada&apos;s Tumbler Ridge school shooting, as reported earlier by TechCrunch . The new wave of lawsuits was filed in a California federal court on Wednesday by the students, teachers, and the principal in the school at the time of the shooting.
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/988261/openai-tumbler-ridge-shooting-lawsuit-aiding-abetting)</content>
+</entry>
+<entry>
+<title>OpenAI delayed its new model’s development after the Hugging Face hack</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/987695/openai-astra-unreleased-model-cybersecurity-delay" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-02:story-2-eb7281b722ad</id>
+<updated>2026-09-01T00:00:00+05:30</updated>
+<published>2026-09-01T00:00:00+05:30</published>
+<content type="text">After an unreleased OpenAI model wreaked enough havoc to make international headlines, OpenAI delayed the development of a different unreleased model suite, Astra, in order to shore up its safety work, the company wrote Tuesday in a blog post.
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/987695/openai-astra-unreleased-model-cybersecurity-delay)</content>
+</entry>
+<entry>
+<title>Anthropic introduces zero-retention AI safety monitoring for enterprises - csoonline.com</title>
+<link href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxNcW5BSndNZUtKb1dKeENtQzJ5XzN0enBxaURRRldjaldpem9VM1pFR2tiRzVsbzJIMHZTVmV5NlFuZXh0VkVSUFFzZEVuLVQ4dUlmNWFzc2F1SEJXRk5CWVZsR1N6S3JKNXg2WVdIc1ZrUlFvWGhyWWJKUVpHWFlJNE1WcjMxR21BOHFEV01PclpPczZqMGZHYWNDZG9tX21MNXN6V3BRcTlTMS1qbXh1bldVckM4RS02UmlR?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-02:story-3-dfe02c27be24</id>
+<updated>2026-09-02T00:00:00+05:30</updated>
+<published>2026-09-02T00:00:00+05:30</published>
+<content type="text">Anthropic introduces zero-retention AI safety monitoring for enterprises csoonline.com
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>How law firm Gilbert + Tobin governs and scales AI with OpenAI</title>
+<link href="https://openai.com/index/gilbert-tobin" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-02:story-4-96b77715b996</id>
+<updated>2026-09-01T00:00:00+05:30</updated>
+<published>2026-09-01T00:00:00+05:30</published>
+<content type="text">See how Gilbert + Tobin combines CEO-led commitment, rigorous governance, and human accountability to scale ChatGPT Enterprise and Codex across the firm.
+
+Source: OpenAI News (https://openai.com/index/gilbert-tobin)</content>
+</entry>
+<entry>
+<title>The rise of AI ‘civilizations’ and the fall of corporate responsibility</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/987566/ai-civilizations-opeai-hugging-face-hack" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-02:story-5-705871f4f4ca</id>
+<updated>2026-09-01T00:00:00+05:30</updated>
+<published>2026-09-01T00:00:00+05:30</published>
+<content type="text">Depending on who you ask, developer platform Hugging Face was recently attacked by OpenAI - after it lost control of its own AI tools - or by a succession of AI &quot;civilizations.&quot; Welcome to the linguistic battlefield of AI safety, where word choices can shift responsibility for a massive cybersecurity incident from a company to the AI it built.
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/987566/ai-civilizations-opeai-hugging-face-hack)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-09-01</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-09-01" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-09-01</id>
+<updated>2026-09-01T17:00:00+05:30</updated>
+<published>2026-09-01T17:00:00+05:30</published>
+<content type="text">Ranked stories: The Pentagon now has its own version of ChatGPT and Grok; OpenAI supports California’s bill to advance youth AI safety; New York Governor Kathy Hochul thinks AI should be ‘less evil’; ChatGPT to face tougher regulation in the EU; China blasts Anthropic and sets tough terms for U.S.-China AI safety talks - Los Angeles Times</content>
+</entry>
+<entry>
+<title>The Pentagon now has its own version of ChatGPT and Grok</title>
+<link href="https://techcrunch.com/2026/08/31/the-pentagon-now-has-its-own-version-of-chatgpt-and-grok/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-01:story-1-88547a55896e</id>
+<updated>2026-08-31T00:00:00+05:30</updated>
+<published>2026-08-31T00:00:00+05:30</published>
+<content type="text">Versions of OpenAI&apos;s ChatGPT and SpaceXAI&apos;s Grok will join Google&apos;s Gemini on the Pentagon&apos;s central portal for AI tools.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/08/31/the-pentagon-now-has-its-own-version-of-chatgpt-and-grok/)</content>
+</entry>
+<entry>
+<title>OpenAI supports California’s bill to advance youth AI safety</title>
+<link href="https://openai.com/index/supporting-california-bill-advance-ai-youth-safety" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-01:story-2-c638a50132fb</id>
+<updated>2026-08-31T00:00:00+05:30</updated>
+<published>2026-08-31T00:00:00+05:30</published>
+<content type="text">OpenAI supports California SB 1119, advancing strong, age-appropriate AI safeguards for teens while preserving opportunities to learn, create, and explore.
+
+Source: OpenAI News (https://openai.com/index/supporting-california-bill-advance-ai-youth-safety)</content>
+</entry>
+<entry>
+<title>New York Governor Kathy Hochul thinks AI should be ‘less evil’</title>
+<link href="https://www.theverge.com/podcast/986661/ny-gov-kathy-hochul-ai-data-centers-ban-3d-printed-guns-flock-cameras" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-01:story-3-7a6b7e5e0d57</id>
+<updated>2026-08-31T00:00:00+05:30</updated>
+<published>2026-08-31T00:00:00+05:30</published>
+<content type="text">Today, I’m talking with New York Governor Kathy Hochul, and I’ll just warn you — this episode moves really fast. It’s an election year, after all, with a shocking amount of tech policy at stake, and Governor Hochul has taken strong positions on almost every major tech issue there is.
+
+Source: The Verge AI (https://www.theverge.com/podcast/986661/ny-gov-kathy-hochul-ai-data-centers-ban-3d-printed-guns-flock-cameras)</content>
+</entry>
+<entry>
+<title>ChatGPT to face tougher regulation in the EU</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-01:story-4-9bcfff7fc699</id>
+<updated>2026-08-31T00:00:00+05:30</updated>
+<published>2026-08-31T00:00:00+05:30</published>
+<content type="text">OpenAI will soon be held accountable for mitigating risks related to ChatGPT&apos;s impact on minors, user mental health, and the spread of illegal content in the European Union. That&apos;s because ChatGPT is now considered a Very Large Online Search Engine under the EU&apos;s Digital Services Act, a set of laws regulating major online services and platforms .
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa)</content>
+</entry>
+<entry>
+<title>China blasts Anthropic and sets tough terms for U.S.-China AI safety talks - Los Angeles Times</title>
+<link href="https://news.google.com/rss/articles/CBMiugFBVV95cUxPVFpJd0NrblNMQV9CNlFWUG1pTVNjcHU0dnp3akZUY0tDTkMtaDZwNkMtZlZybUdHYUQ0WE0yY1ZsQXJvZUFhaFFZM0ExZ2hkZFRnNzYtaXA1Ny1WMnR3VE8tNlg5THBVcVNXSkE2YkMyQXlsWDNCU1V0SUtTdkx2X1huMEkyU2tpdG5wVzcwbWppQVZjT0ZVdnJvd1dvN1Ayd0F0aURxcWplMzNDbDNRMGc4N0djbjNReXc?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-09-01:story-5-03e5090b662f</id>
+<updated>2026-08-31T00:00:00+05:30</updated>
+<published>2026-08-31T00:00:00+05:30</published>
+<content type="text">China blasts Anthropic and sets tough terms for U.S.-China AI safety talks Los Angeles Times
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-31</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-31" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-31</id>
+<updated>2026-08-31T17:00:00+05:30</updated>
+<published>2026-08-31T17:00:00+05:30</published>
+<content type="text">Ranked stories: New York Governor Kathy Hochul thinks AI should be ‘less evil’; ChatGPT to face tougher regulation in the EU; China blasts Anthropic and sets tough terms for U.S.-China AI safety talks - Los Angeles Times; Agentic Engineering Is Now Writing All the Code - StartupHub.ai; OpenAI wants California to strengthen its newly passed AI safety law - Mashable</content>
+</entry>
+<entry>
+<title>New York Governor Kathy Hochul thinks AI should be ‘less evil’</title>
+<link href="https://www.theverge.com/podcast/986661/ny-gov-kathy-hochul-ai-data-centers-ban-3d-printed-guns-flock-cameras" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-31:story-1-6409c39607ef</id>
+<updated>2026-08-31T00:00:00+05:30</updated>
+<published>2026-08-31T00:00:00+05:30</published>
+<content type="text">Today, I’m talking with New York Governor Kathy Hochul, and I’ll just warn you — this episode moves really fast. It’s an election year, after all, with a shocking amount of tech policy at stake, and Governor Hochul has taken strong positions on almost every major tech issue there is.
+
+Source: The Verge AI (https://www.theverge.com/podcast/986661/ny-gov-kathy-hochul-ai-data-centers-ban-3d-printed-guns-flock-cameras)</content>
+</entry>
+<entry>
+<title>ChatGPT to face tougher regulation in the EU</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-31:story-2-5dcca86abfbd</id>
+<updated>2026-08-31T00:00:00+05:30</updated>
+<published>2026-08-31T00:00:00+05:30</published>
+<content type="text">OpenAI will soon be held accountable for mitigating risks related to ChatGPT&apos;s impact on minors, user mental health, and the spread of illegal content in the European Union. That&apos;s because ChatGPT is now considered a Very Large Online Search Engine under the EU&apos;s Digital Services Act, a set of laws regulating major online services and platforms .
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa)</content>
+</entry>
+<entry>
+<title>China blasts Anthropic and sets tough terms for U.S.-China AI safety talks - Los Angeles Times</title>
+<link href="https://news.google.com/rss/articles/CBMiugFBVV95cUxPVFpJd0NrblNMQV9CNlFWUG1pTVNjcHU0dnp3akZUY0tDTkMtaDZwNkMtZlZybUdHYUQ0WE0yY1ZsQXJvZUFhaFFZM0ExZ2hkZFRnNzYtaXA1Ny1WMnR3VE8tNlg5THBVcVNXSkE2YkMyQXlsWDNCU1V0SUtTdkx2X1huMEkyU2tpdG5wVzcwbWppQVZjT0ZVdnJvd1dvN1Ayd0F0aURxcWplMzNDbDNRMGc4N0djbjNReXc?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-31:story-3-c12bef36c531</id>
+<updated>2026-08-31T00:00:00+05:30</updated>
+<published>2026-08-31T00:00:00+05:30</published>
+<content type="text">China blasts Anthropic and sets tough terms for U.S.-China AI safety talks Los Angeles Times
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>Agentic Engineering Is Now Writing All the Code - StartupHub.ai</title>
+<link href="https://news.google.com/rss/articles/CBMirwFBVV95cUxQVHlCbnJDcTNibWFmQkp4emF1RGFVY2xNSTdPSHlFUldhX2Q0bzJLVG5lUlAxRkNwNTMweUlPZ1VVcTd5cnVvQkllT08xbjRZMnVqRFd0UnFiUFk4SHZpTjhZcGhCSkVjTkFnam1RamxGU0ZJYnNvOEJmRHJ5NE5pY3NEanZWam1IeXZVa0FwbURpQkRNVWFCTFhPVU9DNFlrUE1rTEx2RHd5RGRxMm9B?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-31:story-4-f9b81162193c</id>
+<updated>2026-08-29T00:00:00+05:30</updated>
+<published>2026-08-29T00:00:00+05:30</published>
+<content type="text">Agentic Engineering Is Now Writing All the Code - StartupHub.ai
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>OpenAI wants California to strengthen its newly passed AI safety law - Mashable</title>
+<link href="https://news.google.com/rss/articles/CBMihwFBVV95cUxNU3kwUUdkQkoxeHZQajktMlZTSVpxMWhqMjFLUXowNEMzV2gyLXBHR3ViWkI2MGxwX3RlUVE4TjF3RlA1dFJFUFU3bUN3alRvWmF4bjFpQ1YtQlZwT2JtcFV1a3VXY29Ya3hYNWM3eTlFMUVOUjhScVZWS1V2U2RHU3lCT0l2TW8?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-31:story-5-bd26019f35b1</id>
+<updated>2026-08-29T00:00:00+05:30</updated>
+<published>2026-08-29T00:00:00+05:30</published>
+<content type="text">OpenAI wants California to strengthen its newly passed AI safety law - Mashable
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-30</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-30" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-30</id>
+<updated>2026-08-30T17:00:00+05:30</updated>
+<published>2026-08-30T17:00:00+05:30</published>
+<content type="text">Ranked stories: Agentic Engineering Is Now Writing All the Code - StartupHub.ai; OpenAI wants California to strengthen its newly passed AI safety law - Mashable; An Anthropic researcher just gave us a peek at self-improving AI; Anthropic’s new framework will let AI agents control hardware - Computerworld</content>
+</entry>
+<entry>
+<title>Agentic Engineering Is Now Writing All the Code - StartupHub.ai</title>
+<link href="https://news.google.com/rss/articles/CBMirwFBVV95cUxQVHlCbnJDcTNibWFmQkp4emF1RGFVY2xNSTdPSHlFUldhX2Q0bzJLVG5lUlAxRkNwNTMweUlPZ1VVcTd5cnVvQkllT08xbjRZMnVqRFd0UnFiUFk4SHZpTjhZcGhCSkVjTkFnam1RamxGU0ZJYnNvOEJmRHJ5NE5pY3NEanZWam1IeXZVa0FwbURpQkRNVWFCTFhPVU9DNFlrUE1rTEx2RHd5RGRxMm9B?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-30:story-1-19af5cba386e</id>
+<updated>2026-08-29T00:00:00+05:30</updated>
+<published>2026-08-29T00:00:00+05:30</published>
+<content type="text">Agentic Engineering Is Now Writing All the Code - StartupHub.ai
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>OpenAI wants California to strengthen its newly passed AI safety law - Mashable</title>
+<link href="https://news.google.com/rss/articles/CBMihwFBVV95cUxNU3kwUUdkQkoxeHZQajktMlZTSVpxMWhqMjFLUXowNEMzV2gyLXBHR3ViWkI2MGxwX3RlUVE4TjF3RlA1dFJFUFU3bUN3alRvWmF4bjFpQ1YtQlZwT2JtcFV1a3VXY29Ya3hYNWM3eTlFMUVOUjhScVZWS1V2U2RHU3lCT0l2TW8?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-30:story-2-7a34d655befa</id>
+<updated>2026-08-29T00:00:00+05:30</updated>
+<published>2026-08-29T00:00:00+05:30</published>
+<content type="text">OpenAI wants California to strengthen its newly passed AI safety law - Mashable
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>An Anthropic researcher just gave us a peek at self-improving AI</title>
+<link href="https://techcrunch.com/2026/08/28/an-anthropic-researcher-just-gave-us-a-peek-at-self-improving-ai/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-30:story-3-0dfff72a51ba</id>
+<updated>2026-08-28T00:00:00+05:30</updated>
+<published>2026-08-28T00:00:00+05:30</published>
+<content type="text">Given 10 benchmarks for specific misaligned behaviors, the automated systems were able to improve performance on every single one without degrading overall performance.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/08/28/an-anthropic-researcher-just-gave-us-a-peek-at-self-improving-ai/)</content>
+</entry>
+<entry>
+<title>Anthropic’s new framework will let AI agents control hardware - Computerworld</title>
+<link href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxQc1c5RE5HOUJ5Rlo0OXB3d0F0aVY3WFpqX29jcnAyblU1ZEs5Vy04MXpJNHNKeUprLXNOUlRpMkdPbmZkSVY1ZjVTU2pjM2J1d0VLQTc3b2lOU0dyWFZMVF93U285d1VGNE54UFdwb2wyWDZOV3JwdjdUbkJUVXIxRGNMWmtiR1g1cFZHcXN2ekJRZ0tPYlJXNHdfZzcyb085QUFwaU5sazhocVU?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-30:story-4-72a36937cda1</id>
+<updated>2026-08-28T00:00:00+05:30</updated>
+<published>2026-08-28T00:00:00+05:30</published>
+<content type="text">Anthropic’s new framework will let AI agents control hardware - Computerworld
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-29</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-29" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-29</id>
+<updated>2026-08-29T17:00:00+05:30</updated>
+<published>2026-08-29T17:00:00+05:30</published>
+<content type="text">Ranked stories: OpenAI’s executive exodus has one big winner; An Anthropic researcher just gave us a peek at self-improving AI; Anthropic’s new framework will let AI agents control hardware - Computerworld; Here’s all the times AI has gone rogue and hacked other companies; OpenAI to start showing ads on ChatGPT’s free and Go tiers in India</content>
+</entry>
+<entry>
+<title>OpenAI’s executive exodus has one big winner</title>
+<link href="https://www.theverge.com/podcast/985332/openai-greg-brockman-sam-altman-leader-executive-exodus" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-29:story-1-666e8161ab5e</id>
+<updated>2026-08-27T00:00:00+05:30</updated>
+<published>2026-08-27T00:00:00+05:30</published>
+<content type="text">Today on Decoder, I’m talking to Verge senior AI reporter Hayden Field about some pure Decoder bait: the seemingly-endless org chart changes at OpenAI, and how all of them seem to consolidate power under cofounder Greg Brockman, the company’s president.
+
+Source: The Verge AI (https://www.theverge.com/podcast/985332/openai-greg-brockman-sam-altman-leader-executive-exodus)</content>
+</entry>
+<entry>
+<title>An Anthropic researcher just gave us a peek at self-improving AI</title>
+<link href="https://techcrunch.com/2026/08/28/an-anthropic-researcher-just-gave-us-a-peek-at-self-improving-ai/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-29:story-2-f816cc88cf19</id>
+<updated>2026-08-28T00:00:00+05:30</updated>
+<published>2026-08-28T00:00:00+05:30</published>
+<content type="text">Given 10 benchmarks for specific misaligned behaviors, the automated systems were able to improve performance on every single one without degrading overall performance.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/08/28/an-anthropic-researcher-just-gave-us-a-peek-at-self-improving-ai/)</content>
+</entry>
+<entry>
+<title>Anthropic’s new framework will let AI agents control hardware - Computerworld</title>
+<link href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxQc1c5RE5HOUJ5Rlo0OXB3d0F0aVY3WFpqX29jcnAyblU1ZEs5Vy04MXpJNHNKeUprLXNOUlRpMkdPbmZkSVY1ZjVTU2pjM2J1d0VLQTc3b2lOU0dyWFZMVF93U285d1VGNE54UFdwb2wyWDZOV3JwdjdUbkJUVXIxRGNMWmtiR1g1cFZHcXN2ekJRZ0tPYlJXNHdfZzcyb085QUFwaU5sazhocVU?oc=5" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-29:story-3-6453066ba20d</id>
+<updated>2026-08-28T00:00:00+05:30</updated>
+<published>2026-08-28T00:00:00+05:30</published>
+<content type="text">Anthropic’s new framework will let AI agents control hardware - Computerworld
+
+Source: Google News AI</content>
+</entry>
+<entry>
+<title>Here’s all the times AI has gone rogue and hacked other companies</title>
+<link href="https://techcrunch.com/2026/08/27/heres-all-the-times-ai-has-gone-rogue-and-hacked-other-companies/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-29:story-4-b9fcbbf20ab1</id>
+<updated>2026-08-27T00:00:00+05:30</updated>
+<published>2026-08-27T00:00:00+05:30</published>
+<content type="text">A recap of all the incidents involving LLMs made by Anthropic, Meta, and OpenAI, which went rogue and attacked real companies and individuals on the internet.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/08/27/heres-all-the-times-ai-has-gone-rogue-and-hacked-other-companies/)</content>
+</entry>
+<entry>
+<title>OpenAI to start showing ads on ChatGPT’s free and Go tiers in India</title>
+<link href="https://techcrunch.com/2026/08/27/openai-to-start-showing-ads-on-chatgpts-free-and-go-tiers-in-india/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-29:story-5-efed9732f55c</id>
+<updated>2026-08-27T00:00:00+05:30</updated>
+<published>2026-08-27T00:00:00+05:30</published>
+<content type="text">OpenAI has more than 100 million weekly active ChatGPT users in India, a huge chunk of whom are on the free or the lower-priced Go tiers.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/08/27/openai-to-start-showing-ads-on-chatgpts-free-and-go-tiers-in-india/)</content>
+</entry>
+<entry>
+<title>AI Daily Intelligence — 2026-08-28</title>
+<link href="https://ai-daily-intelligence.pages.dev/#2026-08-28" rel="alternate"/>
+<id>https://ai-daily-intelligence.pages.dev/#2026-08-28</id>
+<updated>2026-08-28T17:00:00+05:30</updated>
+<published>2026-08-28T17:00:00+05:30</published>
+<content type="text">Ranked stories: OpenAI’s executive exodus has one big winner; OpenAI, Anthropic, Google, and 100 other companies call for action to defend against rogue AI; OpenAI to start showing ads on ChatGPT’s free and Go tiers in India; Anthropic and OpenAI are joining the AI stage at TechCrunch Disrupt 2026; OpenAI’s rogue AI model incident was worse than we thought</content>
+</entry>
+<entry>
+<title>OpenAI’s executive exodus has one big winner</title>
+<link href="https://www.theverge.com/podcast/985332/openai-greg-brockman-sam-altman-leader-executive-exodus" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-28:story-1-c14788adb1cd</id>
+<updated>2026-08-27T00:00:00+05:30</updated>
+<published>2026-08-27T00:00:00+05:30</published>
+<content type="text">Today on Decoder, I’m talking to Verge senior AI reporter Hayden Field about some pure Decoder bait: the seemingly-endless org chart changes at OpenAI, and how all of them seem to consolidate power under cofounder Greg Brockman, the company’s president.
+
+Source: The Verge AI (https://www.theverge.com/podcast/985332/openai-greg-brockman-sam-altman-leader-executive-exodus)</content>
+</entry>
+<entry>
+<title>OpenAI, Anthropic, Google, and 100 other companies call for action to defend against rogue AI</title>
+<link href="https://techcrunch.com/2026/08/27/openai-anthropic-google-and-100-other-companies-call-for-action-to-defend-against-rogue-ai/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-28:story-2-19202e11b5c8</id>
+<updated>2026-08-27T00:00:00+05:30</updated>
+<published>2026-08-27T00:00:00+05:30</published>
+<content type="text">Some of the world&apos;s largest tech companies and AI startups have come together to decry the current state of cybersecurity and to advertise a new solution that they say can ward off a new generation of cyber threats.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/08/27/openai-anthropic-google-and-100-other-companies-call-for-action-to-defend-against-rogue-ai/)</content>
+</entry>
+<entry>
+<title>OpenAI to start showing ads on ChatGPT’s free and Go tiers in India</title>
+<link href="https://techcrunch.com/2026/08/27/openai-to-start-showing-ads-on-chatgpts-free-and-go-tiers-in-india/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-28:story-3-76243a633ab2</id>
+<updated>2026-08-27T00:00:00+05:30</updated>
+<published>2026-08-27T00:00:00+05:30</published>
+<content type="text">OpenAI has more than 100 million weekly active ChatGPT users in India, a huge chunk of whom are on the free or the lower-priced Go tiers.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/08/27/openai-to-start-showing-ads-on-chatgpts-free-and-go-tiers-in-india/)</content>
+</entry>
+<entry>
+<title>Anthropic and OpenAI are joining the AI stage at TechCrunch Disrupt 2026</title>
+<link href="https://techcrunch.com/2026/08/27/anthropic-and-openai-are-joining-the-ai-stage-at-techcrunch-disrupt-2026/" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-28:story-4-3bf906025cdf</id>
+<updated>2026-08-27T00:00:00+05:30</updated>
+<published>2026-08-27T00:00:00+05:30</published>
+<content type="text">At TechCrunch Disrupt 2026, the AI Stage is back to dig into the single hottest topic in the community for the past few years, presented by Google for Startups.
+
+Source: TechCrunch AI (https://techcrunch.com/2026/08/27/anthropic-and-openai-are-joining-the-ai-stage-at-techcrunch-disrupt-2026/)</content>
+</entry>
+<entry>
+<title>OpenAI’s rogue AI model incident was worse than we thought</title>
+<link href="https://www.theverge.com/ai-artificial-intelligence/985385/openais-rogue-ai-model-hugging-face-cybersecurity-incident-reports-metr" rel="alternate"/>
+<id>tag:ai-daily-intelligence.pages.dev,2026-08-28:story-5-60e237092aff</id>
+<updated>2026-08-26T00:00:00+05:30</updated>
+<published>2026-08-26T00:00:00+05:30</published>
+<content type="text">OpenAI released a report breaking down how people use ChatGPT and who they are. | Image: The Verge In July, an unreleased OpenAI model broke out of a restricted environment, figured out how to get access to the internet, allowed AI agents to talk to each other using a secret &quot;message board,&quot; and hacked into the internal systems of a different AI lab, Hugging Face.
+
+Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/985385/openais-rogue-ai-model-hugging-face-cybersecurity-incident-reports-metr)</content>
 </entry>
 <entry>
 <title>AI Daily Intelligence — 2026-08-27</title>
@@ -401,295 +797,5 @@ Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.17965)</content>
 <content type="text">X-band SAR satellites (8-12 GHz) play a critical role in disaster response, environmental monitoring, and military intelligence. Yet, they lack robust physical-layer authentication (PLA), a security layer orthogonal to cryptographic solutions.
 
 Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20240)</content>
-</entry>
-<entry>
-<title>AI Daily Intelligence — 2026-08-21</title>
-<link href="https://ai-daily-intelligence.pages.dev/#2026-08-21" rel="alternate"/>
-<id>https://ai-daily-intelligence.pages.dev/#2026-08-21</id>
-<updated>2026-08-21T17:00:00+05:30</updated>
-<published>2026-08-21T17:00:00+05:30</published>
-<content type="text">Ranked stories: Explainable Transformer Models for Clinical Prediction Tasks on Structured Electronic Health Records; Prompt-Conditioned Channel Attention for Hierarchical Feature Modulation toward Anatomy-Agnostic Segmentation; Daedalus-150M: A Convolution-Attention Hybrid Designed for CPU Inference; AI4AI-Bench: Benchmarking LLM Agents in Algorithmic Design for Recursive Self-Improvement; Decoding silent reading from non-invasive EEG</content>
-</entry>
-<entry>
-<title>Explainable Transformer Models for Clinical Prediction Tasks on Structured Electronic Health Records</title>
-<link href="https://arxiv.org/abs/2608.20315" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-1-35e58c59c809</id>
-<updated>2026-08-21T17:00:00+05:30</updated>
-<published>2026-08-21T17:00:00+05:30</published>
-<content type="text">Predictive models over structured electronic health records (EHRs) remain central to machine learning for healthcare, but few have jointly emphasized quantitative laboratory information and interpretability with respect to input medical events.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20315)</content>
-</entry>
-<entry>
-<title>Prompt-Conditioned Channel Attention for Hierarchical Feature Modulation toward Anatomy-Agnostic Segmentation</title>
-<link href="https://arxiv.org/abs/2608.20229" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-2-8c3f33eff481</id>
-<updated>2026-08-21T17:00:00+05:30</updated>
-<published>2026-08-21T17:00:00+05:30</published>
-<content type="text">Anatomically plausible segmentation remains challenging because of low contrast, ambiguous boundaries, and modality-specific artifacts. Interactive segmentation has emerged as a promising strategy to guide feature extraction and improve localization, particularly in structurally ambiguous regions.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20229)</content>
-</entry>
-<entry>
-<title>Daedalus-150M: A Convolution-Attention Hybrid Designed for CPU Inference</title>
-<link href="https://arxiv.org/abs/2608.20210" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-3-f1257c5486da</id>
-<updated>2026-08-21T17:00:00+05:30</updated>
-<published>2026-08-21T17:00:00+05:30</published>
-<content type="text">Small language models are usually built like large ones and then squeezed onto a CPU afterwards. We did the opposite: we fixed the target first, one user, one token at a time, 4-bit weights, ordinary CPU, and chose the architecture to suit it.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20210)</content>
-</entry>
-<entry>
-<title>AI4AI-Bench: Benchmarking LLM Agents in Algorithmic Design for Recursive Self-Improvement</title>
-<link href="https://arxiv.org/abs/2608.20318" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-4-0718c61be2f0</id>
-<updated>2026-08-21T17:00:00+05:30</updated>
-<published>2026-08-21T17:00:00+05:30</published>
-<content type="text">Recursive self-improvement (RSI) asks whether an AI system can improve the process that produces AI systems, so that the next system inherits the improvement. That process is the training algorithm: a better objective or update rule improves the compute\mbox{-}capability exchange rate for every subsequent run, including the one that produces the next agent.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20318)</content>
-</entry>
-<entry>
-<title>Decoding silent reading from non-invasive EEG</title>
-<link href="https://arxiv.org/abs/2608.20186" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-21:story-5-a2452fee4229</id>
-<updated>2026-08-21T17:00:00+05:30</updated>
-<published>2026-08-21T17:00:00+05:30</published>
-<content type="text">Non-invasive decoding of inner speech faces a fundamental data problem: a corpus pairing brain activity with a person&apos;s spontaneous inner monologue cannot be collected, and the available proxy paradigms (cued repetitive and retrospectively reported generative inner speech) are slow to acquire, poorly time-locked, and subject compliance is unverifiable.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.20186)</content>
-</entry>
-<entry>
-<title>AI Daily Intelligence — 2026-08-20</title>
-<link href="https://ai-daily-intelligence.pages.dev/#2026-08-20" rel="alternate"/>
-<id>https://ai-daily-intelligence.pages.dev/#2026-08-20</id>
-<updated>2026-08-20T17:00:00+05:30</updated>
-<published>2026-08-20T17:00:00+05:30</published>
-<content type="text">Ranked stories: Pretraining Reusable Inference Across Views with Synthetic Task Priors; GS-VLA: Plug-and-Play Viewpoint Canonicalization for Frozen VLA Policies via Gaussian Splatting; Pre-Compiled Pipeline Shards for Distributed LLM Inference on Intel AI PC Fleets; ReWEIGH the Evidence: Calibrating Token-Level Ordinal Visual Evidence to Mitigate Hallucinations in Large Vision-Language Models; SCORE: Subject Coordinate Recovery for Label-Free Cross-Subject EEG-to-Image Retrieval</content>
-</entry>
-<entry>
-<title>Pretraining Reusable Inference Across Views with Synthetic Task Priors</title>
-<link href="https://arxiv.org/abs/2608.19115" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-20:story-1-1aa9b3c1c840</id>
-<updated>2026-08-20T17:00:00+05:30</updated>
-<published>2026-08-20T17:00:00+05:30</published>
-<content type="text">Modern pretrained encoders make representations from heterogeneous views increasingly reusable, but the procedure that determines view utility and combines evidence is still relearned for each downstream task. Consequently, knowledge about view relevance, complementarity, reliability, and missingness is repeatedly discarded rather than transferred across tasks.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19115)</content>
-</entry>
-<entry>
-<title>GS-VLA: Plug-and-Play Viewpoint Canonicalization for Frozen VLA Policies via Gaussian Splatting</title>
-<link href="https://arxiv.org/abs/2608.19066" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-20:story-2-78c1fff2ff93</id>
-<updated>2026-08-20T17:00:00+05:30</updated>
-<published>2026-08-20T17:00:00+05:30</published>
-<content type="text">This paper proposes a lightweight, plug-and-play framework that improves robustness to viewpoint shifts in Vision-Language-Action (VLA) policies without policy retraining. To our knowledge, this is the first approach to directly leverage 3D Gaussian-based novel-view synthesis for observation-space adaptation in VLA policies.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19066)</content>
-</entry>
-<entry>
-<title>Pre-Compiled Pipeline Shards for Distributed LLM Inference on Intel AI PC Fleets</title>
-<link href="https://arxiv.org/abs/2608.19147" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-20:story-3-3c06cf12070a</id>
-<updated>2026-08-20T17:00:00+05:30</updated>
-<published>2026-08-20T17:00:00+05:30</published>
-<content type="text">Modern Intel AI PCs ship capable integrated GPUs and NPUs with 16+ GB of unified memory, and they spend considerable time idle. That is not enough memory to fit a large model such as a 70B-parameter LLM.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19147)</content>
-</entry>
-<entry>
-<title>ReWEIGH the Evidence: Calibrating Token-Level Ordinal Visual Evidence to Mitigate Hallucinations in Large Vision-Language Models</title>
-<link href="https://arxiv.org/abs/2608.19075" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-20:story-4-ab15085e5238</id>
-<updated>2026-08-20T17:00:00+05:30</updated>
-<published>2026-08-20T17:00:00+05:30</published>
-<content type="text">Large vision-language models (LVLMs) often hallucinate, generating content that the input image does not support. Preventing such content during decoding calls for a candidate-specific measure of how strongly the image supports the token under consideration.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19075)</content>
-</entry>
-<entry>
-<title>SCORE: Subject Coordinate Recovery for Label-Free Cross-Subject EEG-to-Image Retrieval</title>
-<link href="https://arxiv.org/abs/2608.19134" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-20:story-5-c3781797ce43</id>
-<updated>2026-08-20T17:00:00+05:30</updated>
-<published>2026-08-20T17:00:00+05:30</published>
-<content type="text">Accurate visual decoding can reveal how the brain represents visual information and recover perceived content from neural signals such as electroencephalography (EEG), with potential for neural communication. However, current EEG-to-image retrieval methods perform far below their within-subject counterparts for new users without labeled calibration, limiting real-world deployment.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.19134)</content>
-</entry>
-<entry>
-<title>AI Daily Intelligence — 2026-08-19</title>
-<link href="https://ai-daily-intelligence.pages.dev/#2026-08-19" rel="alternate"/>
-<id>https://ai-daily-intelligence.pages.dev/#2026-08-19</id>
-<updated>2026-08-19T17:00:00+05:30</updated>
-<published>2026-08-19T17:00:00+05:30</published>
-<content type="text">Ranked stories: Meta AI is getting a Mac app; OpenAI lays out new security changes after its AI hacked Hugging Face; OpenAI hit the brakes. Now what?; Offering Zero Data Retention for frontier models; ScarfBench: Benchmarking AI Agents for Enterprise Java Framework Migration</content>
-</entry>
-<entry>
-<title>Meta AI is getting a Mac app</title>
-<link href="https://www.theverge.com/tech/982270/meta-ai-mac-app" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-1-2cd0103582a2</id>
-<updated>2026-08-19T17:00:00+05:30</updated>
-<published>2026-08-19T17:00:00+05:30</published>
-<content type="text">Meta AI can create content and make suggestions based on what it “sees” on your screen. | Image: Meta Meta is launching a new Mac app dedicated to its AI chatbot.
-
-Source: The Verge AI (https://www.theverge.com/tech/982270/meta-ai-mac-app)</content>
-</entry>
-<entry>
-<title>OpenAI lays out new security changes after its AI hacked Hugging Face</title>
-<link href="https://www.theverge.com/ai-artificial-intelligence/981640/openai-security-changes-ai-hugging-face-hack" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-2-8c6e4e5dd669</id>
-<updated>2026-08-19T17:00:00+05:30</updated>
-<published>2026-08-19T17:00:00+05:30</published>
-<content type="text">OpenAI is announcing security updates following the July news that its AI broke out of a sandboxed environment and accidentally hacked Hugging Face , including improvements to its research environments, monitoring, and alignment techniques.
-
-Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/981640/openai-security-changes-ai-hugging-face-hack)</content>
-</entry>
-<entry>
-<title>OpenAI hit the brakes. Now what?</title>
-<link href="https://www.theverge.com/ai-artificial-intelligence/982323/openai-hit-brakes-voluntary-pacing-ai" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-3-e2a1bfff91a9</id>
-<updated>2026-08-19T17:00:00+05:30</updated>
-<published>2026-08-19T17:00:00+05:30</published>
-<content type="text">With a looming IPO, intense competition from Anthropic, and Chinese and open-weight rivals nipping at its heels, OpenAI has plenty of reasons to move fast. Instead, it hit the brakes .
-
-Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/982323/openai-hit-brakes-voluntary-pacing-ai)</content>
-</entry>
-<entry>
-<title>Offering Zero Data Retention for frontier models</title>
-<link href="https://openai.com/index/our-commitment-to-zero-data-retention" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-4-144a06638d59</id>
-<updated>2026-08-19T17:00:00+05:30</updated>
-<published>2026-08-19T17:00:00+05:30</published>
-<content type="text">OpenAI reaffirms Zero Data Retention for eligible API customers and previews Private Safety Processing for advanced AI safety without compromising data privacy.
-
-Source: OpenAI News (https://openai.com/index/our-commitment-to-zero-data-retention)</content>
-</entry>
-<entry>
-<title>ScarfBench: Benchmarking AI Agents for Enterprise Java Framework Migration</title>
-<link href="https://huggingface.co/blog/ibm-research/scarfbench" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-19:story-5-b4870a9461ed</id>
-<updated>2026-08-19T17:00:00+05:30</updated>
-<published>2026-08-19T17:00:00+05:30</published>
-<content type="text">ScarfBench: Benchmarking AI Agents for Enterprise Java Framework Migration
-
-Source: Hugging Face Blog (https://huggingface.co/blog/ibm-research/scarfbench)</content>
-</entry>
-<entry>
-<title>AI Daily Intelligence — 2026-08-18</title>
-<link href="https://ai-daily-intelligence.pages.dev/#2026-08-18" rel="alternate"/>
-<id>https://ai-daily-intelligence.pages.dev/#2026-08-18</id>
-<updated>2026-08-18T17:00:00+05:30</updated>
-<published>2026-08-18T17:00:00+05:30</published>
-<content type="text">Ranked stories: OpenAI launches ChatGPT for Teens, promising a more age-appropriate chatbot - ABC News - Breaking News, Latest News and Videos; ChatGPT is getting a dedicated mode for teens; Rogue AI aren’t science fiction anymore; Google’s Pet Memory forgot who my cats are; ChatGPT’s Computer History tracks your clicks and keystrokes</content>
-</entry>
-<entry>
-<title>OpenAI launches ChatGPT for Teens, promising a more age-appropriate chatbot - ABC News - Breaking News, Latest News and Videos</title>
-<link href="https://news.google.com/rss/articles/CBMipAFBVV95cUxPODNVMmNOelM3amNTTjM2cDlOWlNJU0p6WEVmbUMzTXBFVzRySHJ4Ymo1SXU0TFZPSEViZTVWSk1KLXp2aUVaMHgyX2VQWGF3S0kwd2Jjc1Z5VDFzaHBOakN0MWRyRFJ3ZFkyTDZTbmNIZ3pfTUlVZDBKNnQzWUJmM0VlZnNwbVdRZGl6MElweVhlOUU2NGVtWWlBUHZqcjliYjI4Zg?oc=5" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-18:story-1-ad70711ca69d</id>
-<updated>2026-08-18T17:00:00+05:30</updated>
-<published>2026-08-18T17:00:00+05:30</published>
-<content type="text">OpenAI launches ChatGPT for Teens, promising a more age-appropriate chatbot ABC News - Breaking News, Latest News and Videos
-
-Source: Google News AI</content>
-</entry>
-<entry>
-<title>ChatGPT is getting a dedicated mode for teens</title>
-<link href="https://www.theverge.com/ai-artificial-intelligence/981333/openai-chatgpt-teen-mode" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-18:story-2-604f555aab35</id>
-<updated>2026-08-18T17:00:00+05:30</updated>
-<published>2026-08-18T17:00:00+05:30</published>
-<content type="text">ChatGPT for Teens includes safeguards and parental controls. | Image: OpenAI OpenAI is introducing a dedicated ChatGPT mode for teenagers, combining existing youth safeguards and new safety features under one roof.
-
-Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/981333/openai-chatgpt-teen-mode)</content>
-</entry>
-<entry>
-<title>Rogue AI aren’t science fiction anymore</title>
-<link href="https://www.theverge.com/column/980337/rogue-ai-science-fiction-openai" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-18:story-3-54b26915c6a6</id>
-<updated>2026-08-18T17:00:00+05:30</updated>
-<published>2026-08-18T17:00:00+05:30</published>
-<content type="text">This is The Stepback , a weekly newsletter breaking down one essential story from the tech world. For more on AI safety, follow Robert Hart .
-
-Source: The Verge AI (https://www.theverge.com/column/980337/rogue-ai-science-fiction-openai)</content>
-</entry>
-<entry>
-<title>Google’s Pet Memory forgot who my cats are</title>
-<link href="https://www.theverge.com/tech/981269/google-home-gemini-pet-memory-nest-camera-review" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-18:story-4-036a371ec889</id>
-<updated>2026-08-18T17:00:00+05:30</updated>
-<published>2026-08-18T17:00:00+05:30</published>
-<content type="text">One of the best things my smart home does is help me care for my pets , and security cameras are particularly useful for keeping track of my many critters. But the barrage of notifications they send often means I miss important ones.
-
-Source: The Verge AI (https://www.theverge.com/tech/981269/google-home-gemini-pet-memory-nest-camera-review)</content>
-</entry>
-<entry>
-<title>ChatGPT’s Computer History tracks your clicks and keystrokes</title>
-<link href="https://www.theverge.com/ai-artificial-intelligence/980742/chatgpts-computer-history-tracks-your-clicks-and-keystrokes" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-18:story-5-3f6a69611164</id>
-<updated>2026-08-18T17:00:00+05:30</updated>
-<published>2026-08-18T17:00:00+05:30</published>
-<content type="text">ChatGPT&apos;s desktop app on macOS has a new feature called Computer History that turns your actions into training data, learning how you work, suggesting automations, and even picking up tasks you left half done. It uses your activity to build a timeline that ChatGPT and Codex can reference when you make a request.
-
-Source: The Verge AI (https://www.theverge.com/ai-artificial-intelligence/980742/chatgpts-computer-history-tracks-your-clicks-and-keystrokes)</content>
-</entry>
-<entry>
-<title>AI Daily Intelligence — 2026-08-17</title>
-<link href="https://ai-daily-intelligence.pages.dev/#2026-08-17" rel="alternate"/>
-<id>https://ai-daily-intelligence.pages.dev/#2026-08-17</id>
-<updated>2026-08-17T17:00:00+05:30</updated>
-<published>2026-08-17T17:00:00+05:30</published>
-<content type="text">Ranked stories: DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B Parameters Using Only Permissible Post-Training Data; TabSOM: A tabular-to-image encoding method based on self-organizing maps; DeaMoE: Efficient MoE Structure for Fast Small-Batch Decoding; Intern-S2-Preview: Scientific Agentic Foundation Model; Generating Benchmark Health Data Using a Tabular Diffusion Transformer</content>
-</entry>
-<entry>
-<title>DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B Parameters Using Only Permissible Post-Training Data</title>
-<link href="https://arxiv.org/abs/2608.13517" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-1-07ecd886950b</id>
-<updated>2026-08-17T17:00:00+05:30</updated>
-<published>2026-08-17T17:00:00+05:30</published>
-<content type="text">Current large language model development relies on massive, often non-permissible datasets, creating a high barrier for researchers committed to open-source and ethically sourced data.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.13517)</content>
-</entry>
-<entry>
-<title>TabSOM: A tabular-to-image encoding method based on self-organizing maps</title>
-<link href="https://arxiv.org/abs/2608.13513" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-2-b033f349c9b5</id>
-<updated>2026-08-17T17:00:00+05:30</updated>
-<published>2026-08-17T17:00:00+05:30</published>
-<content type="text">Tabular-to-image methods have emerged as novel approaches to leverage the high predictive performance of convolutional neural networks and vision transformers. They convert tabular data into image representations, mapping each feature at a fixed pixel location derived from a dimensionality-reduction method (e.g., t-SNE, UMAP, PCA).
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.13513)</content>
-</entry>
-<entry>
-<title>DeaMoE: Efficient MoE Structure for Fast Small-Batch Decoding</title>
-<link href="https://arxiv.org/abs/2608.14385" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-3-1d32e736e5e2</id>
-<updated>2026-08-17T17:00:00+05:30</updated>
-<published>2026-08-17T17:00:00+05:30</published>
-<content type="text">Mixture-of-Experts (MoE) models have been widely adopted in real-time interactive applications such as coding assistants, real-time audio-video interaction systems. To meet the extremely low response latency requirements of these scenarios, practitioners commonly employ small-batch decoding, under which MoE inference becomes memory-bound and is severely bottlenecked by expert weight loading.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.14385)</content>
-</entry>
-<entry>
-<title>Intern-S2-Preview: Scientific Agentic Foundation Model</title>
-<link href="https://arxiv.org/abs/2608.13505" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-4-5fb73676b78b</id>
-<updated>2026-08-17T17:00:00+05:30</updated>
-<published>2026-08-17T17:00:00+05:30</published>
-<content type="text">Scientific discovery increasingly requires AI systems that can reason over scientific evidence of heterogeneous modalities, interact with scientific tools and environments, and sustain progress across long task horizons.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.13505)</content>
-</entry>
-<entry>
-<title>Generating Benchmark Health Data Using a Tabular Diffusion Transformer</title>
-<link href="https://arxiv.org/abs/2608.14496" rel="alternate"/>
-<id>tag:ai-daily-intelligence.pages.dev,2026-08-17:story-5-34e301c21979</id>
-<updated>2026-08-17T17:00:00+05:30</updated>
-<published>2026-08-17T17:00:00+05:30</published>
-<content type="text">Cross-Tabular Data Generation (CTDG) seeks to learn a generative model from multiple heterogeneous tables and produce new synthetic tabular datasets. However, existing synthetic tabular data generation methods are largely restricted to single-input-table scenarios and struggle to effectively handle multiple heterogeneous tables with diverse feature sets.
-
-Source: arXiv cs.AI / cs.LG / cs.CL (https://arxiv.org/abs/2608.14496)</content>
 </entry>
 </feed>

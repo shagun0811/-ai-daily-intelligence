@@ -17,6 +17,9 @@ from app.database.database import init_db, reset_engine, session_scope
 def disable_cloudflare_deploy(monkeypatch: pytest.MonkeyPatch) -> Generator[None, None, None]:
     """Tests never push to the live Cloudflare site unless they opt in."""
     monkeypatch.setenv("CLOUDFLARE_AUTO_DEPLOY", "false")
+    monkeypatch.setenv("ADI_MERGE_LIVE_ARCHIVE", "false")
+    monkeypatch.setenv("ADI_MERGE_GITHUB_ARTIFACT", "false")
+    monkeypatch.setenv("ADI_USE_ARCHIVE_SEED", "false")
     clear_settings_cache()
     yield
     clear_settings_cache()

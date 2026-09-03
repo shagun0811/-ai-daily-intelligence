@@ -7,10 +7,14 @@ This exporter writes JSON and copies daily files; it does not overwrite the read
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import unicodedata
+import urllib.error
+import urllib.request
 import zipfile
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -21,13 +25,14 @@ from sqlalchemy.orm import Session
 from app.config.logging import STAGE_REPORT, get_logger, log_stage
 from app.config.settings import PROJECT_ROOT
 from app.dashboard_data import dashboard_stats, filter_options, list_reports, search_items
-from app.site_rss import write_public_feeds
+from app.site_rss import PUBLIC_SITE_URL, write_public_feeds
 from app.utils.dates import today_ist
 
 logger = get_logger(__name__)
 
 SITE_DIR = PROJECT_ROOT / "site"
 ARCHIVE_START = date(2026, 8, 17)
+ARCHIVE_SEED = PROJECT_ROOT / "data" / "archive" / "history.json"
 
 _LEGACY_NAMES = {
     "markdown": "report.md",
@@ -736,22 +741,238 @@ def _is_archive_date(date_key: str) -> bool:
         return False
 
 
+def _env_enabled(name: str, default: bool = False) -> bool:
+    raw = os.environ.get(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() not in {"0", "false", "no", "off"}
+
+
+def _load_reports_payload(path: Path) -> list[dict[str, Any]]:
+    if not path.is_file():
+        return []
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    return [row for row in (payload.get("reports") or []) if isinstance(row, dict)]
+
+
+def _put_report(by_date: dict[str, dict[str, Any]], row: dict[str, Any], *, overwrite: bool) -> None:
+    date_key = str(row.get("report_date") or "")
+    if not date_key or not _is_archive_date(date_key):
+        return
+    previous = by_date.get(date_key)
+    if previous is not None and not overwrite:
+        return
+    incoming = dict(row)
+    if previous:
+        if not incoming.get("files") and previous.get("files"):
+            incoming["files"] = previous["files"]
+        if not incoming.get("preview") and previous.get("preview"):
+            incoming["preview"] = previous["preview"]
+        if not incoming.get("briefing") and previous.get("briefing"):
+            incoming["briefing"] = previous["briefing"]
+    by_date[date_key] = incoming
+
+
 def _load_archive(data_dir: Path) -> dict[str, dict[str, Any]]:
     """Keep previously exported reports so a new day does not wipe the archive."""
     by_date: dict[str, dict[str, Any]] = {}
-    for name in ("history.json", "dashboard.json"):
-        path = data_dir / name
-        if not path.is_file():
-            continue
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            continue
-        for row in payload.get("reports") or []:
-            date_key = str(row.get("report_date") or "")
-            if date_key and date_key not in by_date:
-                by_date[date_key] = row
+    if _env_enabled("ADI_USE_ARCHIVE_SEED", default=True):
+        for row in _load_reports_payload(ARCHIVE_SEED):
+            _put_report(by_date, row, overwrite=False)
+    for row in _load_reports_payload(data_dir / "history.json"):
+        _put_report(by_date, row, overwrite=True)
+    for row in _load_reports_payload(data_dir / "dashboard.json"):
+        _put_report(by_date, row, overwrite=False)
     return by_date
+
+
+def persist_public_archive(site_dir: Path, by_date: dict[str, dict[str, Any]] | None = None) -> list[str]:
+    """Rewrite history.json / dashboard.json / RSS from the merged archive. Never deletes files."""
+    root = Path(site_dir)
+    data_dir = root / "data"
+    files_dir = root / "files"
+    data_dir.mkdir(parents=True, exist_ok=True)
+    files_dir.mkdir(parents=True, exist_ok=True)
+    merged = dict(by_date or _load_archive(data_dir))
+    if files_dir.is_dir():
+        for folder in files_dir.iterdir():
+            if not folder.is_dir() or not _is_archive_date(folder.name):
+                continue
+            disk_files = _files_from_site_folder(folder)
+            zip_url = _write_day_zip(folder, folder.name)
+            if zip_url:
+                disk_files["zip"] = zip_url
+            existing = merged.get(folder.name)
+            if existing is None:
+                existing = {
+                    "id": None,
+                    "report_date": folder.name,
+                    "title": "AI Daily Intelligence",
+                    "stats": {},
+                    "preview": "",
+                    "files": disk_files,
+                }
+                merged[folder.name] = existing
+            elif disk_files:
+                files = dict(existing.get("files") or {})
+                files.update({key: value for key, value in disk_files.items() if value})
+                existing["files"] = files
+            _hydrate_briefing(existing, folder)
+    public_reports = sorted(
+        merged.values(),
+        key=lambda row: str(row.get("report_date") or ""),
+        reverse=True,
+    )
+    generated_at = datetime.now(timezone.utc)
+    extras: dict[str, Any] = {}
+    dashboard_path = data_dir / "dashboard.json"
+    if dashboard_path.is_file():
+        try:
+            extras = json.loads(dashboard_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            extras = {}
+    payload = {
+        "generated_at": generated_at.isoformat(),
+        "today": _today_iso(),
+        "stats": extras.get("stats") or {},
+        "options": extras.get("options") or {},
+        "items": extras.get("items") or [],
+        "archive_start": ARCHIVE_START.isoformat(),
+        "reports": public_reports,
+    }
+    history = {
+        "generated_at": generated_at.isoformat(),
+        "today": payload["today"],
+        "archive_start": ARCHIVE_START.isoformat(),
+        "count": len(public_reports),
+        "dates": [row.get("report_date") for row in public_reports],
+        "reports": public_reports,
+    }
+    dashboard_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    (data_dir / "history.json").write_text(
+        json.dumps(history, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    write_public_feeds(root, public_reports, generated_at=generated_at)
+    return [str(row.get("report_date") or "") for row in public_reports]
+
+
+def merge_archive_tree(dest: Path, source: Path) -> list[str]:
+    """Copy missing archive days from source into dest. Existing dest days always win."""
+    dest_root = Path(dest)
+    src_root = Path(source)
+    dest_files = dest_root / "files"
+    src_files = src_root / "files"
+    dest_files.mkdir(parents=True, exist_ok=True)
+    added: list[str] = []
+    if src_files.is_dir():
+        for folder in src_files.iterdir():
+            if not folder.is_dir() or not _is_archive_date(folder.name):
+                continue
+            target = dest_files / folder.name
+            target.mkdir(parents=True, exist_ok=True)
+            copied_any = False
+            for item in folder.iterdir():
+                if not item.is_file():
+                    continue
+                dest_item = target / item.name
+                if dest_item.is_file() and dest_item.stat().st_size > 0:
+                    continue
+                shutil.copy2(item, dest_item)
+                copied_any = True
+            if copied_any:
+                added.append(folder.name)
+    by_date = _load_archive(dest_root / "data")
+    for row in _load_reports_payload(src_root / "data" / "history.json"):
+        date_key = str(row.get("report_date") or "")
+        if date_key and date_key not in by_date:
+            _put_report(by_date, row, overwrite=False)
+            if date_key not in added:
+                added.append(date_key)
+    for row in _load_reports_payload(src_root / "data" / "dashboard.json"):
+        date_key = str(row.get("report_date") or "")
+        if date_key and date_key not in by_date:
+            _put_report(by_date, row, overwrite=False)
+            if date_key not in added:
+                added.append(date_key)
+    persist_public_archive(dest_root, by_date)
+    return sorted(set(added))
+
+
+def ingest_live_archive(
+    site_dir: Path,
+    *,
+    base_url: str = PUBLIC_SITE_URL,
+    get_bytes: Callable[[str], bytes] | None = None,
+) -> list[str]:
+    """Pull history + missing files from the live site. Failures are ignored (GHA gets 403)."""
+    if not _env_enabled("ADI_MERGE_LIVE_ARCHIVE", default=True):
+        return []
+    fetch = get_bytes or _http_get_bytes
+    dest = Path(site_dir)
+    try:
+        raw = fetch(f"{base_url.rstrip('/')}/data/history.json")
+        payload = json.loads(raw.decode("utf-8"))
+    except (OSError, urllib.error.URLError, TimeoutError, json.JSONDecodeError, UnicodeDecodeError, ValueError):
+        return []
+    reports = [row for row in (payload.get("reports") or []) if isinstance(row, dict)]
+    if not reports:
+        return []
+    dest_data = dest / "data"
+    dest_files = dest / "files"
+    dest_data.mkdir(parents=True, exist_ok=True)
+    dest_files.mkdir(parents=True, exist_ok=True)
+    by_date = _load_archive(dest_data)
+    added: list[str] = []
+    for row in reports:
+        date_key = str(row.get("report_date") or "")
+        if not date_key or not _is_archive_date(date_key):
+            continue
+        folder = dest_files / date_key
+        folder.mkdir(parents=True, exist_ok=True)
+        files = row.get("files") or {}
+        paths: list[str] = []
+        for value in files.values():
+            if isinstance(value, list):
+                paths.extend(str(item) for item in value)
+            elif value:
+                paths.append(str(value))
+        for relative in paths:
+            rel = relative.lstrip("/")
+            target = dest / rel
+            if target.is_file() and target.stat().st_size > 0:
+                continue
+            try:
+                blob = fetch(f"{base_url.rstrip('/')}/{rel}")
+            except (OSError, urllib.error.URLError, TimeoutError, ValueError):
+                continue
+            if not blob:
+                continue
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(blob)
+        if date_key not in by_date:
+            _put_report(by_date, row, overwrite=False)
+            added.append(date_key)
+    persist_public_archive(dest, by_date)
+    return sorted(set(added))
+
+
+def _http_get_bytes(url: str, timeout: float = 20) -> bytes:
+    req = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": "AIDailyIntelligenceAggregator/0.1 (+https://ai-daily-intelligence.pages.dev)",
+            "Accept": "*/*",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        status = int(getattr(resp, "status", 200) or 200)
+        if status >= 400:
+            raise OSError(f"HTTP {status} for {url}")
+        return resp.read()
 
 
 def _public_filenames(date_key: str) -> dict[str, str]:

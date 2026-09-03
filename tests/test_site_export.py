@@ -6,6 +6,8 @@ import json
 from datetime import date, datetime, timezone
 from pathlib import Path
 
+import pytest
+
 from app.config.settings import PROJECT_ROOT
 from app.database.enums import ProcessingStatus
 from app.database.models import DailyReport
@@ -124,6 +126,143 @@ def test_export_does_not_wipe_later_site_files(db_session, tmp_path: Path) -> No
     assert (out / "files" / "2026-08-18" / "ai-daily-intelligence-2026-08-18.md").is_file()
     assert (out / "files" / "2026-08-17" / "ai-daily-intelligence-2026-08-17.md").is_file()
     assert (out / "files" / "2026-08-18" / "ai-daily-intelligence-2026-08-18.zip").is_file()
+
+
+def test_merge_archive_tree_adds_missing_days_without_deleting_existing(tmp_path: Path) -> None:
+    from app.site_export import merge_archive_tree
+
+    dest = tmp_path / "live"
+    source = tmp_path / "artifact"
+    dest_day = dest / "files" / "2026-09-04"
+    dest_day.mkdir(parents=True)
+    (dest_day / "ai-daily-intelligence-2026-09-04.md").write_text("# today\n", encoding="utf-8")
+    (dest / "data").mkdir(parents=True)
+    (dest / "data" / "history.json").write_text(
+        json.dumps(
+            {
+                "dates": ["2026-09-04"],
+                "reports": [
+                    {
+                        "report_date": "2026-09-04",
+                        "title": "AI Daily Intelligence",
+                        "preview": "# today\n",
+                        "briefing": {"date": "2026-09-04", "title": "today"},
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    src_day = source / "files" / "2026-08-28"
+    src_day.mkdir(parents=True)
+    (src_day / "ai-daily-intelligence-2026-08-28.md").write_text(
+        "# AI Daily Intelligence\n\n**Date:** 2026-08-28\n\n## Executive Summary\n\n1. **OpenAI ads** — India.\n",
+        encoding="utf-8",
+    )
+    (source / "data").mkdir(parents=True)
+    (source / "data" / "history.json").write_text(
+        json.dumps(
+            {
+                "dates": ["2026-08-28"],
+                "reports": [
+                    {
+                        "report_date": "2026-08-28",
+                        "title": "AI Daily Intelligence",
+                        "preview": "OpenAI ads",
+                        "briefing": {"date": "2026-08-28", "title": "OpenAI ads"},
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    added = merge_archive_tree(dest, source)
+    assert "2026-08-28" in added
+    history = json.loads((dest / "data" / "history.json").read_text(encoding="utf-8"))
+    assert set(history["dates"]) == {"2026-09-04", "2026-08-28"}
+    assert (dest / "files" / "2026-09-04" / "ai-daily-intelligence-2026-09-04.md").read_text(
+        encoding="utf-8"
+    ) == "# today\n"
+    assert (dest / "files" / "2026-08-28" / "ai-daily-intelligence-2026-08-28.md").is_file()
+
+
+def test_export_keeps_committed_seed_days(
+    db_session, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    seed = tmp_path / "seed-history.json"
+    seed.write_text(
+        json.dumps(
+            {
+                "reports": [
+                    {
+                        "report_date": "2026-08-28",
+                        "title": "AI Daily Intelligence",
+                        "preview": "# 28 Aug briefing\n",
+                        "briefing": {"date": "2026-08-28", "title": "28 Aug briefing"},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("ADI_USE_ARCHIVE_SEED", "true")
+    monkeypatch.setattr("app.site_export.ARCHIVE_SEED", seed)
+    _write_report(db_session, tmp_path, date(2026, 9, 4), "AI Daily Intelligence 4 Sep")
+    out = tmp_path / "site"
+    summary = export_public_site(db_session, site_dir=out)
+    assert not summary.errors
+    history = json.loads((out / "data" / "history.json").read_text(encoding="utf-8"))
+    assert "2026-09-04" in history["dates"]
+    assert "2026-08-28" in history["dates"]
+
+
+def test_ingest_live_archive_fills_gap_from_remote_history(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from app.site_export import ingest_live_archive
+
+    dest = tmp_path / "site"
+    (dest / "files" / "2026-09-04").mkdir(parents=True)
+    (dest / "files" / "2026-09-04" / "today.md").write_text("today", encoding="utf-8")
+    (dest / "data").mkdir(parents=True)
+    (dest / "data" / "history.json").write_text(
+        json.dumps(
+            {
+                "dates": ["2026-09-04"],
+                "reports": [{"report_date": "2026-09-04", "title": "today"}],
+            }
+        ),
+        encoding="utf-8",
+    )
+    remote = {
+        "dates": ["2026-09-04", "2026-08-28"],
+        "reports": [
+            {"report_date": "2026-09-04", "title": "today"},
+            {
+                "report_date": "2026-08-28",
+                "title": "AI Daily Intelligence",
+                "preview": "OpenAI ads",
+                "briefing": {"date": "2026-08-28"},
+                "files": {"markdown": "files/2026-08-28/ai-daily-intelligence-2026-08-28.md"},
+            },
+        ],
+    }
+    blobs = {
+        "https://example.test/data/history.json": json.dumps(remote).encode("utf-8"),
+        "https://example.test/files/2026-08-28/ai-daily-intelligence-2026-08-28.md": b"# 28 Aug\n",
+    }
+    monkeypatch.setenv("ADI_MERGE_LIVE_ARCHIVE", "true")
+    added = ingest_live_archive(
+        dest,
+        base_url="https://example.test",
+        get_bytes=lambda url: blobs[url],
+    )
+    assert "2026-08-28" in added
+    history = json.loads((dest / "data" / "history.json").read_text(encoding="utf-8"))
+    assert "2026-08-28" in history["dates"]
+    assert "2026-09-04" in history["dates"]
+    assert (dest / "files" / "2026-08-28" / "ai-daily-intelligence-2026-08-28.md").read_bytes() == b"# 28 Aug\n"
 
 
 _SAMPLE_MARKDOWN = """# AI Daily Intelligence
