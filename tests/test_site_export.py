@@ -363,10 +363,10 @@ def test_export_hydrates_briefing_from_on_disk_markdown(db_session, tmp_path: Pa
 
 def test_archive_page_is_a_day_reader() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "briefing-20260904.js").read_text(encoding="utf-8")
-    css = (PROJECT_ROOT / "site" / "briefing-20260904.css").read_text(encoding="utf-8")
-    assert 'href="./briefing-20260904.css"' in html
-    assert 'src="./briefing-20260904.js"' in html
+    js = (PROJECT_ROOT / "site" / "briefing-20260904b.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260904b.css").read_text(encoding="utf-8")
+    assert 'href="./briefing-20260904b.css"' in html
+    assert 'src="./briefing-20260904b.js"' in html
     assert 'id="briefing"' in html
     assert 'id="date-strip"' in html
     assert 'id="prev-day"' in html
@@ -377,6 +377,12 @@ def test_archive_page_is_a_day_reader() -> None:
     assert 'id="watch-video"' in html
     assert 'id="watch-video-hero"' in html
     assert "Watch video" in html
+    assert 'class="label-full"' not in html
+    assert 'class="label-short"' not in html
+    assert html.count(">Listen<") == 1
+    assert html.count(">Video<") == 1
+    assert "ListenListen" not in html
+    assert "VideoVideo" not in html
     assert 'id="listen-player"' in html
     assert 'id="listen-toggle"' in html
     assert "Listen to today’s briefing" in html or "Listen to today's briefing" in html
@@ -409,8 +415,8 @@ def test_archive_page_is_a_day_reader() -> None:
 
 def test_paid_reader_opens_today_not_item_dump() -> None:
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    js = (PROJECT_ROOT / "site" / "briefing-20260904.js").read_text(encoding="utf-8")
-    css = (PROJECT_ROOT / "site" / "briefing-20260904.css").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "briefing-20260904b.js").read_text(encoding="utf-8")
+    css = (PROJECT_ROOT / "site" / "briefing-20260904b.css").read_text(encoding="utf-8")
     assert 'id="item-list"' not in html
     assert 'data-tab="items"' not in html
     assert "Today’s briefing" in html or "Today's briefing" in html or "What moved in AI today" in html
@@ -446,7 +452,7 @@ def test_export_generates_missing_pdf_from_markdown(db_session, tmp_path: Path) 
     assert report["files"]["pdf"].endswith("ai-daily-intelligence-2026-08-26.pdf")
     html = (PROJECT_ROOT / "site" / "index.html").read_text(encoding="utf-8")
     assert "Download PDF" in html
-    js = (PROJECT_ROOT / "site" / "briefing-20260904.js").read_text(encoding="utf-8")
+    js = (PROJECT_ROOT / "site" / "briefing-20260904b.js").read_text(encoding="utf-8")
     assert "files.pdf" in js
     assert "files.mp4" in js
     assert "files.audio" in js
